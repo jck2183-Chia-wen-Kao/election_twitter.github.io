@@ -6,7 +6,7 @@ navbar:
     - text: "Tweet Clean"
       href: tweet_clean.html 
     - text: "Word Cloud"
-      href: wordcloud.html  
+      href: https://tbd2117.shinyapps.io/election_twittergithub/ 
     - text: "P8105"
       href: https://p8105.com
     - icon: fa-github fa-lg
