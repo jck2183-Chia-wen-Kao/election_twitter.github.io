@@ -130,9 +130,10 @@ if(require(shiny)){
       min = 0, max = 10,
       value = 3
     ),
+    h6("*Most frequent words are common among various parameters"),
     textInput(
       "word", 
-      h4("Tweets containing specific word:"), 
+      h4("Tweets containing specific text:"), 
       value = "", 
       width = NULL, 
       placeholder = NULL)),
@@ -189,7 +190,7 @@ if(require(shiny)){
         
       }
       
-    }else {
+    } else {
       
       if (input[["Hashtag_choice"]] == "Both" & input[["Party_choice"]] == "Both") {
         
