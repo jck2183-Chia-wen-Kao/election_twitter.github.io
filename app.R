@@ -129,7 +129,14 @@ if(require(shiny)){
       h4("Number of words removed from top..."),
       min = 0, max = 10,
       value = 3
-    )),
+    ),
+    textInput(
+      "word", 
+      h4("Tweets containing specific word:"), 
+      value = "", 
+      width = NULL, 
+      placeholder = NULL)),
+    
     mainPanel(
     wordcloud2Output('wordcloud2'), width = 8
     )
@@ -139,6 +146,8 @@ if(require(shiny)){
   # Define the server code
   server <- function(input, output) {
     output$wordcloud2 <- renderWordcloud2({
+      
+    if(input[["word"]] == ""){
       
       if (input[["Hashtag_choice"]] == "Both" & input[["Party_choice"]] == "Both") {
         
@@ -179,6 +188,55 @@ if(require(shiny)){
           wordcloud2(size = 1, color = 'random-dark', ellipticity = 1)
         
       }
+      
+    }else {
+      
+      if (input[["Hashtag_choice"]] == "Both" & input[["Party_choice"]] == "Both") {
+        
+        main_tweets_usa %>%
+          filter(str_detect(tweet, input[["word"]])) %>% 
+          wordcount_df() %>% 
+          slice_tail(n = nrow(.) - input[["cut_top"]]) %>%
+          wordcloud2(size = 1, ellipticity = 1, minSize = 6)
+        
+      } else if (input[["Hashtag_choice"]] != "Both" & input[["Party_choice"]] != "Both") {
+        
+        main_tweets_usa %>% 
+          filter(
+            str_detect(tweet, input[["word"]]),
+            hashtag == input[["Hashtag_choice"]],
+            winner_party == input[["Party_choice"]]
+          ) %>% 
+          wordcount_df() %>% 
+          slice_tail(n = nrow(.) - input[["cut_top"]]) %>%
+          wordcloud2(size = 1, color = 'random-dark', ellipticity = 1)
+        
+      } else if (input[["Hashtag_choice"]] == "Both" & input[["Party_choice"]] != "Both") {
+        
+        main_tweets_usa %>% 
+          filter(
+            str_detect(tweet, input[["word"]]),
+            winner_party == input[["Party_choice"]]
+          ) %>% 
+          wordcount_df() %>% 
+          slice_tail(n = nrow(.) - input[["cut_top"]]) %>%
+          wordcloud2(size = 1, color = 'random-dark', ellipticity = 1)
+        
+      } else if (input[["Hashtag_choice"]] != "Both" & input[["Party_choice"]] == "Both") {
+        
+        main_tweets_usa %>% 
+          filter(
+            str_detect(tweet, input[["word"]]),
+            hashtag == input[["Hashtag_choice"]]
+          ) %>% 
+          wordcount_df() %>% 
+          slice_tail(n = nrow(.) - input[["cut_top"]]) %>%
+          wordcloud2(size = 1, color = 'random-dark', ellipticity = 1)
+        
+      }
+      
+    }  
+      
     })
   }
 
