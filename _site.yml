@@ -1,20 +1,16 @@
 name: "Final Project"
 output_dir: "." 
 navbar:
-  title: "Election Twitter"
+  title: "Home"
   right:
     - text: "Tweet Clean"
-      href: tweet_clean.html  
+      href: tweet_clean.html 
+    - text: "Word Cloud"
+      href: wordcloud.html  
     - text: "P8105"
       href: https://p8105.com
-    - icon: fa-envelope fa-lg
-      href: mailto:<tbd2117@columbia.com>
     - icon: fa-github fa-lg
-      href: http://github.com/tbd2117/
-    - icon: fab fa-linkedin fa-lg
-      href: https://www.linkedin.com/in/taraujomd/
-    - icon: fab fa-twitter-square fa-lg
-      href: https://twitter.com/deAraujoMD
+      href: https://github.com/aostropolets/p8105_fp
 output:
   html_document:
     theme: flatly
