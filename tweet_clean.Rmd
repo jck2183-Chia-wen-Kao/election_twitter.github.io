@@ -1,7 +1,8 @@
 ---
 title: "tweet_clean"
 output:   
-  html_document
+  html_document:
+    source: embed
 ---
 
 ```{r setup, include=FALSE}
