@@ -2,9 +2,6 @@ name: "Final Project"
 output_dir: "." 
 navbar:
   title: "Election Twitter"
-  left:
-    - text: "Home"
-      href: index.html
   right:
     - text: "WordCloud"
       href: WordCloud.html
