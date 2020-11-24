@@ -1,5 +1,5 @@
 ---
-title: "Thiago de Araujo, MD PhD"
+title: "Election x Twitter"
 output: 
   html_document:
     after_body: footer.html
