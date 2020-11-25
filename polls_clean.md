@@ -1,19 +1,7 @@
----
-title: "P Project Experiment"
-output: github_document
----
+P Project Experiment
+================
 
-```{r setup, include=FALSE}
-library(tidyverse)
-library(plotly)
-library(patchwork)
-library(dplyr)
-library(leaflet)
-library(sp)
-```
-
-```{r clean_datasets}
-
+``` r
 #Clean & Merge Polls and Region datasets 
 
 polls_df=
@@ -34,11 +22,42 @@ polls_df=
     voteshare_margin = margin,
     expvote_turnout = state_turnout) %>% 
   arrange(state, month, day)
+```
 
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_double(),
+    ##   branch = col_character(),
+    ##   model = col_character(),
+    ##   modeldate = col_character(),
+    ##   candidate_inc = col_character(),
+    ##   candidate_chal = col_character(),
+    ##   candidate_3rd = col_logical(),
+    ##   state = col_character(),
+    ##   winstate_3rd = col_logical(),
+    ##   voteshare_3rd = col_logical(),
+    ##   voteshare_3rd_hi = col_logical(),
+    ##   voteshare_3rd_lo = col_logical(),
+    ##   timestamp = col_character()
+    ## )
+
+    ## See spec(...) for full column specifications.
+
+``` r
 region_df = 
     read_csv("./datasets/states.csv") %>% 
     rename(state = State)  
+```
 
+    ## Parsed with column specification:
+    ## cols(
+    ##   State = col_character(),
+    ##   `State Code` = col_character(),
+    ##   Region = col_character(),
+    ##   Division = col_character()
+    ## )
+
+``` r
 polls_merge =
     merge(
     polls_df,
@@ -50,9 +69,7 @@ polls_merge =
   view ()
 ```
 
-
-```{r Expected_Votes}
-
+``` r
 exp_votes=
   polls_merge %>% 
   select (state, Region, month, day, expvote_turnout) %>% 
@@ -62,7 +79,11 @@ exp_votes=
     nov_turnout = mean(expvote_turnout),) %>% 
   filter(month == 11) %>% 
   view ()
+```
 
+    ## `summarise()` regrouping output by 'Region', 'state' (override with `.groups` argument)
+
+``` r
 expvote_plot1 = 
   exp_votes %>%
     filter(Region == "Midwest") %>% 
@@ -114,12 +135,15 @@ expvote_plot4 =
 ##Combine Plots
 
 expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4
+```
 
+![](polls_clean_files/figure-gfm/Expected_Votes-1.png)<!-- -->
+
+``` r
 options(scipen = 999)
 ```
 
-```{r Voteshare_Margin}
-
+``` r
 vote_margin=
   polls_merge %>% 
   select (state, Region, month, day, voteshare_margin) %>% 
@@ -129,7 +153,11 @@ vote_margin=
     month_avg = mean(voteshare_margin)) %>% 
   filter(month == 11) %>% 
   view ()
+```
 
+    ## `summarise()` regrouping output by 'Region', 'state' (override with `.groups` argument)
+
+``` r
 margin_plot1 = 
   vote_margin %>%
   filter(Region == "South") %>% 
@@ -181,12 +209,11 @@ margin_plot4 =
 ##Combine Plots 
 
 margin_plot1 + margin_plot2 + margin_plot3 + margin_plot4
-
 ```
 
+![](polls_clean_files/figure-gfm/Voteshare_Margin-1.png)<!-- -->
 
-```{r Biden_polls}
-
+``` r
 biden_df = 
   polls_merge %>% 
   select (state, Region, month, day, biden_winstate, biden_voteshare) %>% 
@@ -197,7 +224,11 @@ biden_df =
   ) %>% 
   filter(month == 11) %>% 
   view ()
-  
+```
+
+    ## `summarise()` regrouping output by 'Region', 'state' (override with `.groups` argument)
+
+``` r
 biden_state = 
    biden_df %>%
     ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
@@ -227,12 +258,9 @@ biden_vote =
         y = "Percent") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5)) 
-
 ```
 
-
-```{r Trump_polls}
-
+``` r
 trump_df=
   polls_merge %>% 
   select (state, Region, month, day, trump_winstate, trump_voteshare) %>% 
@@ -243,8 +271,11 @@ trump_df=
   ) %>% 
   filter(month == 11) %>% 
   view ()
-  
+```
 
+    ## `summarise()` regrouping output by 'Region', 'state' (override with `.groups` argument)
+
+``` r
 Trump_state = 
   trump_df %>%
     ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
@@ -267,40 +298,3 @@ Trump_vote =
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 ```
-
-```{r Raw_Votes_per_state}
-
-## Clean to number of candidate votes per state 
-cand_expvotes =
-  polls_merge %>% 
-  select (state, Region, month, day, 
-          biden_voteshare, trump_voteshare, expvote_turnout) %>% 
-  filter(month == 11) %>%
-  mutate(
-    biden_votes = biden_voteshare*expvote_turnout,
-    trump_votes = trump_voteshare*expvote_turnout
-  ) %>% 
-  select (-biden_voteshare, -trump_voteshare, -expvote_turnout) %>% 
-  group_by (Region, state, month) %>%     
-  summarize(
-    biden = mean(biden_votes),
-    trump = mean(trump_votes)) %>% 
-  pivot_longer(
-      biden:trump,
-      names_to = "candidate", 
-      values_to = "votes") %>% 
-  view ()
-
-## Number of votes for candidate by region  
-
-total_region = 
-  cand_expvotes %>%
-  group_by (Region, candidate) %>%  
-  summarize(
-    total = sum(votes))
- 
-```
-
-
-
-

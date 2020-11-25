@@ -558,6 +558,35 @@ Trump_vote =
         y = &quot;Percent&quot;) +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))</code></pre>
+<pre class="r"><code>## Clean to number of candidate votes per state 
+cand_expvotes =
+  polls_merge %&gt;% 
+  select (state, Region, month, day, 
+          biden_voteshare, trump_voteshare, expvote_turnout) %&gt;% 
+  filter(month == 11) %&gt;%
+  mutate(
+    biden_votes = biden_voteshare*expvote_turnout,
+    trump_votes = trump_voteshare*expvote_turnout
+  ) %&gt;% 
+  select (-biden_voteshare, -trump_voteshare, -expvote_turnout) %&gt;% 
+  group_by (Region, state, month) %&gt;%     
+  summarize(
+    biden = mean(biden_votes),
+    trump = mean(trump_votes)) %&gt;% 
+  pivot_longer(
+      biden:trump,
+      names_to = &quot;candidate&quot;, 
+      values_to = &quot;votes&quot;) %&gt;% 
+  view ()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39;, &#39;state&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>## Number of votes for candidate by region  
+
+total_region = 
+  cand_expvotes %&gt;%
+  group_by (Region, candidate) %&gt;%  
+  summarize(
+    total = sum(votes))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39; (override with `.groups` argument)</code></pre>
 
 
 
