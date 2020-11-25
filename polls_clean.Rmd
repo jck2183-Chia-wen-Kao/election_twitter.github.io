@@ -17,7 +17,7 @@ library(sp)
 #Clean & Merge Polls and Region datasets 
 
 polls_df=
-  read_csv("./dataset/presidential_state_toplines_2020.csv") %>%
+  read_csv("./datasets/presidential_state_toplines_2020.csv") %>%
   rename(date = modeldate) %>% 
   mutate(date = as.Date (date, format = "%m/%d/%Y"))%>% 
   separate(date, into = c("year", "month", "day")) %>%  
@@ -33,11 +33,10 @@ polls_df=
     trump_voteshare = voteshare_inc, 
     voteshare_margin = margin,
     expvote_turnout = state_turnout) %>% 
-  arrange(state, month, day) %>% 
-  view()
+  arrange(state, month, day)
 
 region_df = 
-    read_csv("./dataset/states.csv") %>% 
+    read_csv("./datasets/states.csv") %>% 
     rename(state = State)  
 
 polls_merge =

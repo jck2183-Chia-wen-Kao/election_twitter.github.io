@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>P Project Experiment</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="tweet_clean.html">Tweet Clean</a>
+</li>
+<li>
+  <a href="https://tbd2117.shinyapps.io/election_twittergithub/?_ga=2.72593939.1495376709.1606244993-1824185537.1606244993">Word Cloud</a>
+</li>
+<li>
+  <a href="https://p8105.com">P8105</a>
+</li>
+<li>
+  <a href="https://github.com/aostropolets/p8105_fp">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">P Project Experiment</h1>
+
+</div>
+
+
+<pre class="r"><code>#Clean &amp; Merge Polls and Region datasets 
+
+polls_df=
+  read_csv(&quot;./datasets/presidential_state_toplines_2020.csv&quot;) %&gt;%
+  rename(date = modeldate) %&gt;% 
+  mutate(date = as.Date (date, format = &quot;%m/%d/%Y&quot;))%&gt;% 
+  separate(date, into = c(&quot;year&quot;, &quot;month&quot;, &quot;day&quot;)) %&gt;%  
+   select(state, month, day, candidate_chal,
+          winstate_chal, voteshare_chal,
+          candidate_inc, winstate_inc, voteshare_inc, 
+          margin, state_turnout,
+          -candidate_chal, -candidate_inc) %&gt;% 
+  rename(
+    biden_winstate = winstate_chal, 
+    biden_voteshare = voteshare_chal,
+    trump_winstate = winstate_inc, 
+    trump_voteshare = voteshare_inc, 
+    voteshare_margin = margin,
+    expvote_turnout = state_turnout) %&gt;% 
+  arrange(state, month, day)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_double(),
+##   branch = col_character(),
+##   model = col_character(),
+##   modeldate = col_character(),
+##   candidate_inc = col_character(),
+##   candidate_chal = col_character(),
+##   candidate_3rd = col_logical(),
+##   state = col_character(),
+##   winstate_3rd = col_logical(),
+##   voteshare_3rd = col_logical(),
+##   voteshare_3rd_hi = col_logical(),
+##   voteshare_3rd_lo = col_logical(),
+##   timestamp = col_character()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>region_df = 
+    read_csv(&quot;./datasets/states.csv&quot;) %&gt;% 
+    rename(state = State)  </code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   State = col_character(),
+##   `State Code` = col_character(),
+##   Region = col_character(),
+##   Division = col_character()
+## )</code></pre>
+<pre class="r"><code>polls_merge =
+    merge(
+    polls_df,
+    region_df,
+    by = &quot;state&quot;) %&gt;% 
+  arrange(state, month, day) %&gt;% 
+  select(-`State Code`) %&gt;% 
+  relocate(&quot;state&quot;, &quot;Region&quot;) %&gt;% 
+  view ()</code></pre>
+<pre class="r"><code>exp_votes=
+  polls_merge %&gt;% 
+  select (state, Region, month, day, expvote_turnout) %&gt;% 
+  drop_na() %&gt;% 
+  group_by(Region, state, month) %&gt;%     
+  summarize(
+    nov_turnout = mean(expvote_turnout),) %&gt;% 
+  filter(month == 11) %&gt;% 
+  view ()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39;, &#39;state&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>expvote_plot1 = 
+  exp_votes %&gt;%
+    filter(Region == &quot;Midwest&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;steelblue&#39;) +
+      labs(
+        title = &quot;Expected Votes in the Midwest&quot;, 
+        x = &quot;State Name&quot;, 
+        y = &quot;Total Votes (Million)&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+expvote_plot2 = 
+  exp_votes %&gt;%
+    filter(Region == &quot;West&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;steelblue&#39;) +
+      labs(
+        title = &quot;Expected Votes in the West&quot;, 
+        x = &quot;State Name&quot;, 
+        y = &quot;Total Votes (Million)&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+expvote_plot3 = 
+  exp_votes %&gt;%
+    filter(Region == &quot;Northeast&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;steelblue&#39;) +
+      labs(
+        title = &quot;Expected Votes in the Northeast&quot;, 
+        x = &quot;State Name&quot;, 
+        y = &quot;Total Votes (Million)&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+expvote_plot4 = 
+  exp_votes %&gt;%
+    filter(Region == &quot;South&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;steelblue&#39;) +
+      labs(
+        title = &quot;Expected Votes in the South&quot;, 
+        x = &quot;State Name&quot;, 
+        y = &quot;Total Votes (Million)&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+##Combine Plots
+
+expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4</code></pre>
+<p><img src="polls_clean_files/figure-html/Expected_Votes-1.png" width="672" /></p>
+<pre class="r"><code>options(scipen = 999)</code></pre>
+<pre class="r"><code>vote_margin=
+  polls_merge %&gt;% 
+  select (state, Region, month, day, voteshare_margin) %&gt;% 
+  drop_na() %&gt;% 
+  group_by(Region, state, month) %&gt;%     
+  summarize(
+    month_avg = mean(voteshare_margin)) %&gt;% 
+  filter(month == 11) %&gt;% 
+  view ()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39;, &#39;state&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>margin_plot1 = 
+  vote_margin %&gt;%
+  filter(Region == &quot;South&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark green&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Margin&quot;, 
+        x = &quot;Southern States&quot;, 
+        y = &quot;Percent Difference&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+margin_plot2 = 
+  vote_margin %&gt;%
+  filter(Region == &quot;West&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark blue&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Vote Margin&quot;, 
+        x = &quot;Western States&quot;, 
+        y = &quot;Percent Difference&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+margin_plot3 = 
+  vote_margin %&gt;%
+  filter(Region == &quot;Northeast&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;purple&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Raw Vote Margin&quot;, 
+        x = &quot;Northeaster States&quot;, 
+        y = &quot;Percent Difference&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+margin_plot4 = 
+  vote_margin %&gt;%
+    filter(Region == &quot;Midwest&quot;) %&gt;% 
+    ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark red&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Vote Margin&quot;, 
+        x = &quot;Midwestern States&quot;, 
+        y = &quot;Percent Difference&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+##Combine Plots 
+
+margin_plot1 + margin_plot2 + margin_plot3 + margin_plot4</code></pre>
+<p><img src="polls_clean_files/figure-html/Voteshare_Margin-1.png" width="672" /></p>
+<pre class="r"><code>biden_df = 
+  polls_merge %&gt;% 
+  select (state, Region, month, day, biden_winstate, biden_voteshare) %&gt;% 
+  group_by(Region, state, month) %&gt;%     
+  summarize(
+    avgwinstate = mean(biden_winstate),
+    avgvoteshare = mean(biden_voteshare),
+  ) %&gt;% 
+  filter(month == 11) %&gt;% 
+  view ()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39;, &#39;state&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>biden_state = 
+   biden_df %&gt;%
+    ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge()) +
+    labs(
+        title = &quot;Biden&#39;s Chance to Win States&quot;, 
+        x = &quot;US States&quot;, 
+        y = &quot;Percent&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+biden_state = 
+  biden_df %&gt;%
+    filter(Region == &quot;Northeast&quot;) %&gt;% 
+    plot_ly(
+    x = ~state, y = ~avgwinstate, color = ~state, 
+    type = &quot;bar&quot;, colors = &quot;viridis&quot;)
+
+
+biden_vote = 
+    biden_df %&gt;%
+    ggplot(aes(reorder(state, desc(avgvoteshare)), y = avgvoteshare)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark blue&#39;) +
+    labs(
+        title = &quot;Biden&#39;s Proportion of Votes by State&quot;, 
+        x = &quot;US States&quot;, 
+        y = &quot;Percent&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5)) </code></pre>
+<pre class="r"><code>trump_df=
+  polls_merge %&gt;% 
+  select (state, Region, month, day, trump_winstate, trump_voteshare) %&gt;% 
+  group_by(Region, state, month) %&gt;%     
+  summarize(
+    avgwinstate = mean(trump_winstate),
+    avgvoteshare = mean(trump_voteshare),
+  ) %&gt;% 
+  filter(month == 11) %&gt;% 
+  view ()</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;Region&#39;, &#39;state&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>Trump_state = 
+  trump_df %&gt;%
+    ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark red&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Chance to Win States&quot;, 
+        x = &quot;US States&quot;, 
+        y = &quot;Percent&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))
+
+Trump_vote = 
+  trump_df %&gt;%
+    ggplot(aes(reorder(state, desc(avgvoteshare)), y = avgvoteshare)) +
+    geom_bar(stat = &quot;identity&quot;, position = position_dodge(), fill=&#39;dark red&#39;) +
+    labs(
+        title = &quot;Trump&#39;s Proportion of Votes by State&quot;, 
+        x = &quot;US States&quot;, 
+        y = &quot;Percent&quot;) +
+    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
+          plot.title = element_text(hjust = 0.5))</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
