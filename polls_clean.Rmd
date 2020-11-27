@@ -283,22 +283,47 @@ cand_expvotes =
   select (-biden_voteshare, -trump_voteshare, -expvote_turnout) %>% 
   group_by (Region, state, month) %>%     
   summarize(
-    biden = mean(biden_votes),
-    trump = mean(trump_votes)) %>% 
+    Biden = mean(biden_votes),
+    Trump = mean(trump_votes)) %>% 
+  mutate(
+   vote_margin = Trump-Biden) %>% 
   pivot_longer(
-      biden:trump,
+      Biden:Trump,
       names_to = "candidate", 
-      values_to = "votes") %>% 
-  view ()
+      values_to = "total_votes") 
 
 ## Number of votes for candidate by region  
 
 total_region = 
   cand_expvotes %>%
+  filter
   group_by (Region, candidate) %>%  
   summarize(
-    total = sum(votes))
- 
+    total_votes = sum(total_votes)) %>% 
+  pivot_wider(
+		names_from = candidate,
+		values_from = total_votes) 
+
+## Votes by Region
+
+reg_plot = 
+  total_region %>%
+    ggplot(aes(x = Region, y = total_votes/1000000000,
+               color = candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) +
+    labs(
+        title = "Total Votes by Region ", 
+        x = "US Region", 
+        y = "Total Votes (in Billion)") +
+    theme(plot.title = element_text(hjust = 0.5))
+
+reg_margin =
+  total_region %>%
+    ggplot(aes(x = Region, y = vote_margin,)) +
+    geom_bar(stat = "identity", position = position_dodge())
+
+
+
 ```
 
 
