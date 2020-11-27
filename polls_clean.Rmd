@@ -1,6 +1,8 @@
 ---
 title: "P Project Experiment"
-output: github_document
+output: 
+  html_document:
+    source: embed
 ---
 
 ```{r setup, include=FALSE}
