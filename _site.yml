@@ -2,7 +2,7 @@ name: "Final Project"
 output_dir: "." 
 navbar:
   title: "Home"
-  right:
+  left:
     - text: "Poll Data"
       href: polls_clean.html 
     - text: "Election Results Data"
@@ -11,10 +11,11 @@ navbar:
       href: tweet_clean.html 
     - text: "Word Cloud"
       href: https://tbd2117.shinyapps.io/election_twittergithub/?_ga=2.72593939.1495376709.1606244993-1824185537.1606244993
-    - text: "P8105"
-      href: https://p8105.com
-    - icon: fa-github fa-lg
-      href: https://github.com/aostropolets/p8105_fp
+  right:
+    - text: "Project Report"
+      href: report.html
+    - icon: fa-youtube-play fa-lg
+      href: [link to screencast]
 output:
   html_document:
     theme: flatly
