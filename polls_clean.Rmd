@@ -14,10 +14,7 @@ library(patchwork)
 
 ##Clean & Merge Polls and Region datasets 
 
-
-
 ```{r clean_datasets}
-
 
 polls_df=
   read_csv("./datasets/presidential_state_toplines_2020.csv") %>%
