@@ -114,7 +114,7 @@ if(require(shiny)){
       "Hashtag_choice",
       h4("Tweets containing..."),
       inline = TRUE,
-      choiceNames = list("#Biden / #JoeBiden", "#Trump / #DonaldTrump", "Both"),
+      choiceNames = list("#Biden / #JoeBiden", "#Trump / #DonaldTrump", "Either"),
       choiceValues = list("Biden", "Trump", "Both")
     ),
     radioButtons(
