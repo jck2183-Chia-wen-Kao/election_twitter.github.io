@@ -32,3 +32,5 @@ A brief screencast of our project can be found [here](link to screencast).
 &nbsp;
 <hr />
 <p style="text-align: center;"><a href="">Chankasaul, Jr</a> | <a href="">de Araujo, Thiago</a> | <a href="">Kao, Chia-Wen</a>| <a href="">Ostropolets, Anna</a></p>
+
+<p style="text-align: center;"> 2020 </p>
