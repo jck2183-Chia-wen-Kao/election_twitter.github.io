@@ -16,13 +16,14 @@ theme_set(theme(legend.position = "right"))
 
 ## Import data
 
-```{r, message = FALSE}
+```{r, message = FALSE, echo=F}
 vote_df = read_csv("./datasets/president_county_candidate.csv")
 state_sum = read_csv("./datasets/president_state.csv")
 region_df = 
     read_csv("./datasets/states.csv") %>% 
     rename(state = State)  
 ```
+
 ## Merge Data and Tidy up the data
 
 ```{r, message = FALSE}
