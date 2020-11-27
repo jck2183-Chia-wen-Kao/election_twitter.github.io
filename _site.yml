@@ -3,6 +3,10 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
+    - text: "Poll Data"
+      href: polls_clean.html 
+    - text: "Election Results Data"
+      href: election_result.html 
     - text: "Tweet Clean"
       href: tweet_clean.html 
     - text: "Word Cloud"
