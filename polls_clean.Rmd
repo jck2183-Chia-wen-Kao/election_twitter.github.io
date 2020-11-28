@@ -5,16 +5,15 @@ output:
     source: embed
 ---
 
-
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(plotly)
 library(patchwork)
 ```
 
-##Clean & Merge Polls and Region datasets 
+```{r clean_datasets, echo=FALSE, message=FALSE, warning=FALSE}
 
-```{r clean_datasets}
+##Clean Polls and Regional datasets 
 
 polls_df=
   read_csv("./datasets/presidential_state_toplines_2020.csv") %>%
@@ -39,6 +38,7 @@ region_df =
     read_csv("./datasets/states.csv") %>% 
     rename(state = State)  
 
+## Merge Polls and Regional Data 
 polls_merge =
     merge(
     polls_df,
@@ -51,74 +51,208 @@ polls_merge =
 ```
 
 
-```{r Expected_Votes, echo=F}
+```{r Clean_Voter_Data, echo=FALSE, message=FALSE, warning=FALSE}
+
+## Clean vote proportion and number of votes for each candidate by state
 
 exp_votes=
-  polls_merge %>% 
-  select (state, Region, month, day, expvote_turnout) %>% 
-  drop_na() %>% 
-  group_by(Region, state, month) %>%     
+  polls_merge %>%
+  select (-trump_winstate, -biden_winstate, -voteshare_margin, -Division) %>%
+  filter (month == 11) %>% 
+  rename (State = state) %>% 
+  group_by(Region, State, month) %>%     
   summarize(
-    nov_turnout = mean(expvote_turnout),) %>% 
-  filter(month == 11) %>% 
-  view ()
+    voter_turnout = mean(expvote_turnout),
+    prop_Biden = mean(biden_voteshare),
+    prop_Trump = mean(trump_voteshare)
+    ) %>% 
+  pivot_longer(
+      prop_Biden:prop_Trump,
+      names_to = "Candidate", 
+      names_prefix = "prop_",
+      values_to = "votes_proportion") %>% 
+  mutate(
+    candidate_votes = (votes_proportion/100)*voter_turnout
+    ) 
+  
+```
 
+
+Text describing Expected votes 
+
+
+
+```{r Expected_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
+
+## Below is expected voter turnout taking the mean of the first 3 days of November by State  
+
+## Midwestern States 
 expvote_plot1 = 
   exp_votes %>%
     filter(Region == "Midwest") %>% 
-    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in the Midwest", 
-        x = "State Name", 
-        y = "Total Votes (Million)") +
+        title = "Expected Votes in Midwestern States", 
+        x = "State", 
+        y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Western States 
 expvote_plot2 = 
   exp_votes %>%
     filter(Region == "West") %>% 
-    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
+    ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
+    geom_bar(stat = "identity", position = position_dodge(), 
+             fill='steelblue') +
       labs(
-        title = "Expected Votes in the West", 
-        x = "State Name", 
-        y = "Total Votes (Million)") +
+        title = "Expected Votes in Western States", 
+        x = "State", 
+        y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Northeastern States 
 expvote_plot3 = 
   exp_votes %>%
     filter(Region == "Northeast") %>% 
-    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in the Northeast", 
-        x = "State Name", 
-        y = "Total Votes (Million)") +
+        title = "Expected Votes in Northeastern States", 
+        x = "State", 
+        y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Southern States 
 expvote_plot4 = 
   exp_votes %>%
     filter(Region == "South") %>% 
-    ggplot(aes(x = reorder(state, desc(nov_turnout)), y = nov_turnout/1000000)) +
+    ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in the South", 
-        x = "State Name", 
-        y = "Total Votes (Million)") +
+        title = "Expected Votes in Southern States", 
+        x = "State", 
+        y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
-##Combine Plots
-
+## Plot of expected voter turnout for all US States 
 expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4
 
+## Decimal Places 
 options(scipen = 999)
 ```
 
-```{r Voteshare_Margin}
+Text describing Proportion of votes per candidate 
+
+
+```{r Candidate_Prop_Votes, echo=FALSE, message=FALSE, warning=FALSE}
+colors <- c("dark red", "dark blue")
+names(colors) = c("Trump", "Biden")
+
+mid_prop =
+exp_votes %>% 
+    filter(Region == "Midwest") %>% 
+    ggplot(aes(x = State, y = round(votes_proportion,2), fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "Midwest", 
+         y = "Vote Proportion") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+west_prop =
+exp_votes %>% 
+    filter(Region == "West") %>% 
+    ggplot(aes(x = State, y = round(votes_proportion,2), fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "West", 
+         y = "Vote Proportion") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+south_prop=
+exp_votes %>% 
+    filter(Region == "South") %>% 
+    ggplot(aes(x = State, y = round(votes_proportion,2), fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "South", 
+         y = "Vote Proportion") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+northeast_prop=
+exp_votes %>% 
+    filter(Region == "Northeast") %>% 
+    ggplot(aes(x = State, y = round(votes_proportion,2), fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "Northeast", 
+         y = "Vote Proportion") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+## Combine Proportion Plots 
+mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "collect")
+
+```
+
+
+Text describing raw votes by state for each candidate 
+
+```{r Candidate_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
+colors <- c("dark red", "dark blue")
+names(colors) = c("Trump", "Biden")
+
+mid_plot =
+exp_votes %>% 
+    filter(Region == "Midwest") %>% 
+    ggplot(aes(x = State, y = candidate_votes/1000000, fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "Midwest", 
+         y = "Number of Votes(M)") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+west_plot =
+exp_votes %>% 
+    filter(Region == "West") %>% 
+    ggplot(aes(x = State, y = candidate_votes/1000000, fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "West", 
+         y = "Number of Votes(M)") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+south_plot=
+exp_votes %>% 
+    filter(Region == "South") %>% 
+    ggplot(aes(x = State, y = candidate_votes/1000000, fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "South", 
+         y = "Number of Votes(M)") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+northeast_plot=
+exp_votes %>% 
+    filter(Region == "Northeast") %>% 
+    ggplot(aes(x = State, y = candidate_votes/1000000, fill = Candidate)) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(x = "Northeast", 
+         y = "Number of Votes(M)") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
+
+## Combine raw votes per state for each candidate 
+mid_plot + south_plot + west_plot + northeast_plot + plot_layout(guides = "collect")
+```
+
+
+Text describing voter margin by state for each candidate 
+
+```{r Voteshare_Margin, echo=FALSE, message=FALSE, warning=FALSE}
 
 vote_margin=
   polls_merge %>% 
@@ -127,8 +261,7 @@ vote_margin=
   group_by(Region, state, month) %>%     
   summarize(
     month_avg = mean(voteshare_margin)) %>% 
-  filter(month == 11) %>% 
-  view ()
+  filter(month == 11) 
 
 margin_plot1 = 
   vote_margin %>%
@@ -179,10 +312,45 @@ margin_plot4 =
           plot.title = element_text(hjust = 0.5))
 
 ##Combine Plots 
-
 margin_plot1 + margin_plot2 + margin_plot3 + margin_plot4
 
 ```
+
+Potential Line graph?
+Map with Plotly: Total votes, number of votes, and proportion of votes for each candidate 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ```{r Biden_polls}
@@ -242,6 +410,7 @@ trump_df=
     avgvoteshare = mean(trump_voteshare),
   ) %>% 
   filter(month == 11) %>% 
+
   view ()
   
 
@@ -267,64 +436,4 @@ Trump_vote =
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 ```
-
-```{r Raw_Votes_per_state}
-
-## Clean to number of candidate votes per state 
-cand_expvotes =
-  polls_merge %>% 
-  select (state, Region, month, day, 
-          biden_voteshare, trump_voteshare, expvote_turnout) %>% 
-  filter(month == 11) %>%
-  mutate(
-    biden_votes = biden_voteshare*expvote_turnout,
-    trump_votes = trump_voteshare*expvote_turnout
-  ) %>% 
-  select (-biden_voteshare, -trump_voteshare, -expvote_turnout) %>% 
-  group_by (Region, state, month) %>%     
-  summarize(
-    Biden = mean(biden_votes),
-    Trump = mean(trump_votes)) %>% 
-  mutate(
-   vote_margin = Trump-Biden) %>% 
-  pivot_longer(
-      Biden:Trump,
-      names_to = "candidate", 
-      values_to = "total_votes") 
-
-## Number of votes for candidate by region  
-
-total_region = 
-  cand_expvotes %>%
-  group_by (Region, candidate) %>%  
-  summarize(
-    total_votes = sum(total_votes)) %>% 
-  pivot_wider(
-		names_from = candidate,
-		values_from = total_votes) 
-
-## Votes by Region
-
-reg_plot = 
-  total_region %>%
-    ggplot(aes(x = Region, y = total_votes/1000000000,
-               color = candidate)) +
-    geom_bar(stat = "identity", position = position_dodge()) +
-    labs(
-        title = "Total Votes by Region ", 
-        x = "US Region", 
-        y = "Total Votes (in Billion)") +
-    theme(plot.title = element_text(hjust = 0.5))
-
-reg_margin =
-  total_region %>%
-    ggplot(aes(x = Region, y = vote_margin,)) +
-    geom_bar(stat = "identity", position = position_dodge())
-
-
-
-```
-
-
-
 
