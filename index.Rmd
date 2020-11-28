@@ -1,5 +1,5 @@
 ---
-title: "Election x Twitter"
+title: "2020 Election: Polls & Twitter"
 output: 
   html_document:
     after_body: footer.html
@@ -7,8 +7,8 @@ output:
 
 ### Subtitle
 
-Image / Text
-
+<center><img src='figures/electionsticker.jpg' alt='missing' style="width:70%"/>
+<figcaption><small>\@twitter</small></figcaption>
 
 ## Motivation
 
@@ -38,15 +38,15 @@ We hypothesize that social media (within the US and potentially outside of the U
 
 [**Twitter Visualization**](tweet_clean.html): 
 
-[**Twitter Word Cloud**](wc_redirect.html):
+[**Twitter Word Cloud**](wc_redirect.html): Interactive tool to explore most frequent words within tweets accordingly to user defined parameters. (_pop-up window_)
 
 [**Polls vs. Tweets Comparison**](TBD): Comparing association between polls data and tweet data with presidential outcome by state.   
 
-[**Screencast**] (link to screencast) A brief 2 minute screencast of our project can be found.
+[**Screencast**](link to screencast) A brief 2 minute screencast of our project can be found.
 
 
 &nbsp;
 <hr />
-<p style="text-align: center;"><a href="">Chankasaul, Jr</a> | <a href="">de Araujo, Thiago</a> | <a href="">Kao, Chia-Wen</a>| <a href="">Ostropolets, Anna</a></p>
+<p style="text-align: center;"><a href="">Chankasaul, Jr</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="">Kao, Chia-Wen</a>| <a href="">Ostropolets, Anna</a></p>
 
 <p style="text-align: center;"> 2020 </p>
