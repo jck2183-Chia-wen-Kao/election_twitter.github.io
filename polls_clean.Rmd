@@ -2,6 +2,8 @@
 title: "2020 Election Polls"
 output: 
   html_document:
+    code_folding: hide
+    toc: true
     source: embed
 ---
 
@@ -198,7 +200,6 @@ mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "colle
 
 ```
 
-
 Text describing raw votes by state for each candidate 
 
 ```{r Candidate_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
@@ -313,127 +314,64 @@ margin_plot4 =
 
 ##Combine Plots 
 margin_plot1 + margin_plot2 + margin_plot3 + margin_plot4
+```
+
+```{r State_Winner, message = FALSE}
+
+state_winner_df =
+    exp_votes %>% 
+    group_by(State) %>% 
+    mutate(state_winner = case_when(
+        candidate_votes == max(candidate_votes) ~ TRUE,
+        candidate_votes != max(candidate_votes) ~ FALSE)
+    ) %>% 
+  mutate(region = tolower(State)) %>% 
+  filter(state_winner == TRUE) %>% 
+  select(-month) %>%
+  distinct()
+
+usa_map = map_data("state") 
+ 
+us_election_map = 
+  left_join(usa_map, state_winner_df) 
 
 ```
 
-Potential Line graph?
-Map with Plotly: Total votes, number of votes, and proportion of votes for each candidate 
+Election Map -- More to come 
 
+```{r election_map}
 
+colors <- c("dark red", "dark blue")
+names(colors) = c("Trump", "Biden")
 
+election_map=
+  ggplot(data = us_election_map,
+       aes(x = long, y = lat,
+           group=group, fill = Candidate)) +
+    geom_polygon(color = "gray90", size = 0.1) +
+    labs(title = "Election Results across states") + 
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.position = "bottom") 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r Biden_polls}
-
-biden_df = 
-  polls_merge %>% 
-  select (state, Region, month, day, biden_winstate, biden_voteshare) %>% 
-  group_by(Region, state, month) %>%     
-  summarize(
-    avgwinstate = mean(biden_winstate),
-    avgvoteshare = mean(biden_voteshare),
-  ) %>% 
-  filter(month == 11) %>% 
-  view ()
-  
-biden_state = 
-   biden_df %>%
-    ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
-    geom_bar(stat = "identity", position = position_dodge()) +
-    labs(
-        title = "Biden's Chance to Win States", 
-        x = "US States", 
-        y = "Percent") +
-    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
-          plot.title = element_text(hjust = 0.5))
-
-biden_state = 
-  biden_df %>%
-    filter(Region == "Northeast") %>% 
-    plot_ly(
-    x = ~state, y = ~avgwinstate, color = ~state, 
-    type = "bar", colors = "viridis")
-
-
-biden_vote = 
-    biden_df %>%
-    ggplot(aes(reorder(state, desc(avgvoteshare)), y = avgvoteshare)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill='dark blue') +
-    labs(
-        title = "Biden's Proportion of Votes by State", 
-        x = "US States", 
-        y = "Percent") +
-    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
-          plot.title = element_text(hjust = 0.5)) 
-
+ggplotly(election_map)
 ```
 
+geom_count(mapping=aes(color=Counts, size=Duration))
 
-```{r Trump_polls}
+geom_text(): adds text directly to the plot
+geom_label(): draws a rectangle underneath the text, making it easier to read.
 
-trump_df=
-  polls_merge %>% 
-  select (state, Region, month, day, trump_winstate, trump_voteshare) %>% 
-  group_by(Region, state, month) %>%     
-  summarize(
-    avgwinstate = mean(trump_winstate),
-    avgvoteshare = mean(trump_voteshare),
-  ) %>% 
-  filter(month == 11) %>% 
-
-  view ()
-  
-
-Trump_state = 
-  trump_df %>%
-    ggplot(aes(reorder(state, desc(avgwinstate)), y = avgwinstate)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill='dark red') +
-    labs(
-        title = "Trump's Chance to Win States", 
-        x = "US States", 
-        y = "Percent") +
-    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
-          plot.title = element_text(hjust = 0.5))
-
-Trump_vote = 
-  trump_df %>%
-    ggplot(aes(reorder(state, desc(avgvoteshare)), y = avgvoteshare)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill='dark red') +
-    labs(
-        title = "Trump's Proportion of Votes by State", 
-        x = "US States", 
-        y = "Percent") +
-    theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
-          plot.title = element_text(hjust = 0.5))
-```
+Need Bar Plot of total votes in Each State segamented by Region
+Line graph comparing polls and election results 
+Add more to map with Plotly: Total votes, number of votes, and proportion of votes for each candidate 
+Twitter frequency or number of votes/state winner comparison for predicting candidate winner 
+Project report 
 
