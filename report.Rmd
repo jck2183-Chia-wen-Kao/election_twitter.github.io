@@ -21,7 +21,7 @@ library(httr)
 library(rgdal)
 ```
 
-#### Tweet Data
+### Tweet Data
 
 We opted to use the two datasets found [here](https://www.kaggle.com/manchunhui/us-election-2020-tweets) constructed from scraping Twitter for tweets either containing _#Biden_ (or _#JoeBiden_) or containing _#Trump_ (or _#DonaldTrump_) from Oct 15th through Nov 8th. 
 
@@ -84,12 +84,12 @@ biden_df =
 tweets_usa =     # N = 140263 tweets
   merge(biden_df, trump_df, all = TRUE) %>% 
   filter(country == "United States of America") %>% 
-  distinct(tweet, .keep_all = TRUE)   # Removed 16628 tweets containing both hashtags
+  distinct(tweet, .keep_all = TRUE)   # N = 123635 (16628 tweets removed containing both hashtags)
 ```
 
-The final dataframe `tweets_usa` have `r ncol(tweets_usa)` columns with the following variables used in this report:
+The final dataframe `tweets_usa` have `r ncol(tweets_usa)` columns with the relevant variables used in this report as follows:
 
-* `creation_year`, `creation_month`,`creation_day`, and `creation_time`. 
+* `creation_year`, `creation_month`,`creation_day`, and `creation_time`. Date and time of tweet creation.
 * `tweet`. Full tweet text.
 * `likes`. Number of likes.
 * `retweet_count`. Number of retweets.

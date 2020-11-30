@@ -398,8 +398,8 @@ div.tocify {
 </div>
 
 
-<div id="tweet-data" class="section level4">
-<h4>Tweet Data</h4>
+<div id="tweet-data" class="section level3">
+<h3>Tweet Data</h3>
 <p>We opted to use the two datasets found <a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">here</a> constructed from scraping Twitter for tweets either containing <em>#Biden</em> (or <em>#JoeBiden</em>) or containing <em>#Trump</em> (or <em>#DonaldTrump</em>) from Oct 15th through Nov 8th.</p>
 <p>Because the datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.</p>
 <pre class="r"><code>read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
@@ -454,10 +454,10 @@ biden_df =
 tweets_usa =     # N = 140263 tweets
   merge(biden_df, trump_df, all = TRUE) %&gt;% 
   filter(country == &quot;United States of America&quot;) %&gt;% 
-  distinct(tweet, .keep_all = TRUE)   # Removed 16628 tweets containing both hashtags</code></pre>
-<p>The final dataframe <code>tweets_usa</code> have 28 columns with the following variables used in this report:</p>
+  distinct(tweet, .keep_all = TRUE)   # N = 123635 (16628 tweets removed containing both hashtags)</code></pre>
+<p>The final dataframe <code>tweets_usa</code> have 28 columns with the relevant variables used in this report as follows:</p>
 <ul>
-<li><code>creation_year</code>, <code>creation_month</code>,<code>creation_day</code>, and <code>creation_time</code>.</li>
+<li><code>creation_year</code>, <code>creation_month</code>,<code>creation_day</code>, and <code>creation_time</code>. Date and time of tweet creation.</li>
 <li><code>tweet</code>. Full tweet text.</li>
 <li><code>likes</code>. Number of likes.</li>
 <li><code>retweet_count</code>. Number of retweets.</li>
