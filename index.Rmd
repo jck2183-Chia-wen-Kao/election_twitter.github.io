@@ -49,4 +49,4 @@ We hypothesize that social media (within the US and potentially outside of the U
 <hr />
 <p style="text-align: center;"><a href="">Chankasaul, Jr</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="">Kao, Chia-Wen</a>| <a href="">Ostropolets, Anna</a></p>
 
-<p style="text-align: center;"> 2020 </p>
+<p style="text-align: center; "> 2020 </p>

@@ -321,26 +321,6 @@ $(document).ready(function () {
 </div>
 
 
-<p>Making datasets less than 100MB just with <code>drop_na</code></p>
-<pre class="r"><code>read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
-  drop_na() %&gt;%
-  slice(seq(0.5 * n())) %&gt;% 
-  write.csv(&quot;./datasets/trump1.csv&quot;)
-
-read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
-  drop_na() %&gt;%
-  slice(-seq(0.5 * n())) %&gt;% 
-  write.csv(&quot;./datasets/trump2.csv&quot;)
-  
-read_csv(&quot;./datasets/hashtag_joebiden.csv&quot;) %&gt;% 
-  drop_na() %&gt;% 
-  slice(seq(0.5 * n())) %&gt;% 
-  write.csv(&quot;./datasets/biden1.csv&quot;)
-
-read_csv(&quot;./datasets/hashtag_joebiden.csv&quot;) %&gt;% 
-  drop_na() %&gt;% 
-  slice(-seq(0.5 * n())) %&gt;% 
-  write.csv(&quot;./datasets/biden2.csv&quot;)</code></pre>
 <p>Importing datasets and making dates “tidy-er”</p>
 <pre class="r"><code>trump_df = 
   merge(
@@ -411,7 +391,7 @@ geom_col(aes(x=state, y=count, fill = hashtag ), position = &quot;dodge&quot;) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = &quot;Distribution of tweets across US states&quot;)</code></pre>
 <pre><code>## `summarise()` regrouping output by &#39;state&#39; (override with `.groups` argument)</code></pre>
-<p><img src="tweet_clean_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="tweet_clean_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>tweets_usa %&gt;% 
 mutate(date = as.Date(paste(creation_month, creation_day, &#39;2020&#39;, sep = &quot;/&quot;), format  = &quot;%m/%d/%y&quot;)) %&gt;%  
 group_by (date, hashtag) %&gt;%
@@ -427,7 +407,7 @@ labs (title = &quot;Distribution of tweets over time&quot;,
         y = &quot;Number of tweets&quot;)</code></pre>
 <pre><code>## `summarise()` regrouping output by &#39;date&#39; (override with `.groups` argument)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="tweet_clean_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="tweet_clean_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)</p>
 <pre class="r"><code>#tweets_usa %&gt;%
 #select (user_followers_count) %&gt;%
@@ -443,7 +423,7 @@ geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size
   labs (title = &quot;How tweets are shared and liked depending on the number of followers&quot;, 
         x = &quot;Numer of users, thousands&quot;,
         y = &quot;Number of retweets&quot;)</code></pre>
-<p><img src="tweet_clean_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="tweet_clean_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>usa_map &lt;- map_data(&quot;state&quot;)
 
 tweet_map &lt;- tweets_usa %&gt;%
@@ -466,7 +446,7 @@ mutate(top = case_when(Biden&gt;coalesce(Trump,0) ~ &quot;Biden&quot;,
                 group = group, fill = top)) +
     geom_polygon(color = &quot;gray90&quot;, size = 0.1) +
     labs(title =&quot;Most popular tweets across states&quot;)</code></pre>
-<p><img src="tweet_clean_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="tweet_clean_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>for NYC map over boroughs + plot them over map</p>
 <pre class="r"><code>    NY &lt;-tweets_usa %&gt;% 
     filter (state_code == &#39;NY&#39; &amp; city == &#39;New York&#39;) %&gt;%

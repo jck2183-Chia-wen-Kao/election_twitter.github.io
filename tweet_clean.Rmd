@@ -19,30 +19,6 @@ library(httr)
 library(rgdal)
 ```
 
-Making datasets less than 100MB just with `drop_na`
-
-```{r, eval = FALSE}
-read_csv("./datasets/hashtag_donaldtrump.csv") %>% 
-  drop_na() %>%
-  slice(seq(0.5 * n())) %>% 
-  write.csv("./datasets/trump1.csv")
-
-read_csv("./datasets/hashtag_donaldtrump.csv") %>% 
-  drop_na() %>%
-  slice(-seq(0.5 * n())) %>% 
-  write.csv("./datasets/trump2.csv")
-  
-read_csv("./datasets/hashtag_joebiden.csv") %>% 
-  drop_na() %>% 
-  slice(seq(0.5 * n())) %>% 
-  write.csv("./datasets/biden1.csv")
-
-read_csv("./datasets/hashtag_joebiden.csv") %>% 
-  drop_na() %>% 
-  slice(-seq(0.5 * n())) %>% 
-  write.csv("./datasets/biden2.csv")
-```
-
 Importing datasets and making dates "tidy-er"
 
 ```{r, warning = FALSE, message = FALSE}
