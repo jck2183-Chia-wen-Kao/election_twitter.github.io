@@ -593,6 +593,263 @@ leaflet(map_data) %&gt;%
   addMarkers(~long, ~lat, popup = ~hashtag, data = points) %&gt;%
   addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
   setView(-75, 40.75, zoom = 10)</code></pre>
+<div id="word-clouds" class="section level3">
+<h3>Word Clouds</h3>
+<p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="https://www.shinyapps.io">shinyapp©</a>.</p>
+<p>Here is the code used to generate the app and a screenshot of the final product:</p>
+<pre class="r"><code>if (require(shiny)) {
+  
+  library(tidyverse)
+  library(flexdashboard)
+  library(shiny)
+  library(wordcloud2)
+  library(tm)
+  library(rsconnect)
+  
+  set.seed(1)
+
+  trump_df = 
+    merge(
+      read_csv(&quot;./datasets/trump1.csv&quot;),
+      read_csv(&quot;./datasets/trump2.csv&quot;),
+      all = TRUE
+    ) %&gt;%
+    select(!X1) %&gt;%
+    mutate(hashtag = &quot;Trump&quot;)
+  
+  biden_df = 
+    merge(
+      read_csv(&quot;./datasets/biden1.csv&quot;),
+      read_csv(&quot;./datasets/biden2.csv&quot;),
+      all = TRUE
+    ) %&gt;%
+    select(!X1) %&gt;%
+    mutate(hashtag = &quot;Biden&quot;)
+  
+  tweets_usa =
+    merge(biden_df, trump_df, all = TRUE) %&gt;% 
+    filter(country == &quot;United States of America&quot;)
+  
+  election_df =
+    read_csv(&quot;./datasets/president_county_candidate.csv&quot;) %&gt;% 
+    group_by(state, party) %&gt;% 
+    mutate(party_total = sum(total_votes)) %&gt;% 
+    ungroup() %&gt;% 
+    group_by(state) %&gt;%
+    mutate(state_winner = case_when(
+      party_total == max(party_total) ~ TRUE,
+      party_total != max(party_total) ~ FALSE),
+      state_total = sum(total_votes)
+    )
+  
+  state_election_df = 
+    election_df %&gt;% 
+    filter(state_winner == TRUE) %&gt;% 
+    select(state, candidate, party, party_total, state_total) %&gt;% 
+    distinct()
+  
+  main_tweets_usa = 
+    left_join(tweets_usa, state_election_df, by = &quot;state&quot;) %&gt;% 
+    rename(
+      winner_candidate = candidate,
+      winner_party = party
+    ) %&gt;% 
+    select(tweet, hashtag, winner_party)
+
+  wordcount_df = function(df) {
+    
+    if (!is.data.frame(df)) {
+      stop(&quot;Input must be a dataframe&quot;)
+    }
+    
+    df_text = 
+      df %&gt;% 
+      slice_head(n = 1000) %&gt;% 
+      select(tweet) %&gt;%
+      mutate(
+        tweet = gsub(&quot;#[[:alpha:]]*&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;@[[:alpha:]]*&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;https\\S*&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;http\\S*&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;@\\S*&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;amp&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;[\r\n]&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;[0-9]&quot;, &quot;&quot;, tweet),
+        tweet = gsub(&quot;[[:punct:]]&quot;, &quot;&quot;, tweet)
+      )
+    
+    docs_df =
+      Corpus(VectorSource(df_text)) %&gt;% 
+      tm_map(removeNumbers) %&gt;%
+      tm_map(removePunctuation) %&gt;%
+      tm_map(stripWhitespace) %&gt;% 
+      tm_map(content_transformer(tolower)) %&gt;% 
+      tm_map(removeWords, stopwords(&quot;english&quot;)) %&gt;% 
+      tm_map(removeWords, stopwords(&quot;spanish&quot;))
+    
+    words_df = 
+      TermDocumentMatrix(docs_df) %&gt;% 
+      as.matrix() %&gt;% 
+      rowSums() %&gt;% 
+      sort(decreasing = TRUE)
+    
+    word_count_df = data.frame(word = names(words_df),freq = words_df)
+    
+    return(word_count_df)
+    
+  }
+  
+  # Defining the UI
+  
+  ui =
+    fluidPage(
+    
+      titlePanel(&quot;Election Tweets Explorer&quot;),
+      
+      sidebarPanel(
+        
+      radioButtons(
+        &quot;Hashtag_choice&quot;,
+        h4(&quot;Tweets containing...&quot;),
+        inline = TRUE,
+        choiceNames = list(&quot;#Biden/#JoeBiden&quot;, &quot;#Trump/#DonaldTrump&quot;, &quot;Either&quot;),
+        choiceValues = list(&quot;Biden&quot;, &quot;Trump&quot;, &quot;Both&quot;),
+        selected = &quot;Both&quot;
+      ),
+      
+      radioButtons(
+        &quot;Party_choice&quot;,
+        h4(&quot;Tweets from states won by...&quot;),
+        inline = TRUE,
+        choiceNames = list(&quot;Democrats&quot;, &quot;Republicans&quot;, &quot;All States&quot;),
+        choiceValues = list(&quot;DEM&quot;, &quot;REP&quot;, &quot;Both&quot;),
+        selected = &quot;Both&quot;
+      ),
+      
+      sliderInput(
+        &quot;cut_top&quot;,
+        h4(&quot;Number of words removed from top...&quot;),
+        min = 0, max = 10,
+        value = 3
+      ),
+      
+      h6(&quot;*Most frequent words are common among various parameters&quot;),
+      
+      textInput(
+        &quot;word&quot;, 
+        h4(&quot;Tweets containing specific text:&quot;), 
+        value = &quot;&quot;, 
+        width = NULL, 
+        placeholder = NULL)),
+      
+      mainPanel(wordcloud2Output(&#39;wordcloud2&#39;), width = 8)
+    )
+  
+  
+  # Defining the server code
+  
+  server = 
+    function(input, output) {
+    
+      output$wordcloud2 &lt;- renderWordcloud2({
+      
+        if (input[[&quot;word&quot;]] == &quot;&quot;) {
+      
+            if (input[[&quot;Hashtag_choice&quot;]] == &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] == &quot;Both&quot;) {
+      
+                    main_tweets_usa %&gt;% 
+                      wordcount_df() %&gt;% 
+                      slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                      wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+      
+            } else if (input[[&quot;Hashtag_choice&quot;]] != &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] != &quot;Both&quot;) {
+      
+                    main_tweets_usa %&gt;% 
+                      filter(
+                        hashtag == input[[&quot;Hashtag_choice&quot;]],
+                        winner_party == input[[&quot;Party_choice&quot;]]
+                      ) %&gt;% 
+                      wordcount_df() %&gt;% 
+                      slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                      wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+      
+            } else if (input[[&quot;Hashtag_choice&quot;]] == &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] != &quot;Both&quot;) {
+        
+                       main_tweets_usa %&gt;% 
+                         filter(
+                           winner_party == input[[&quot;Party_choice&quot;]]
+                         ) %&gt;% 
+                         wordcount_df() %&gt;% 
+                         slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                         wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+        
+            } else if (input[[&quot;Hashtag_choice&quot;]] != &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] == &quot;Both&quot;) {
+             
+                        main_tweets_usa %&gt;% 
+                          filter(
+                            hashtag == input[[&quot;Hashtag_choice&quot;]]
+                          ) %&gt;% 
+                          wordcount_df() %&gt;% 
+                          slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                          wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+             
+        }
+      
+        } else {
+      
+            if (input[[&quot;Hashtag_choice&quot;]] == &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] == &quot;Both&quot;) {
+              
+                        main_tweets_usa %&gt;%
+                         filter(str_detect(tweet, input[[&quot;word&quot;]])) %&gt;% 
+                         wordcount_df() %&gt;% 
+                         slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                         wordcloud2(size = 1, ellipticity = 1, color = &#39;random-dark&#39;)
+              
+            } else if (input[[&quot;Hashtag_choice&quot;]] != &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] != &quot;Both&quot;) {
+              
+                        main_tweets_usa %&gt;% 
+                          filter(
+                            str_detect(tweet, input[[&quot;word&quot;]]),
+                            hashtag == input[[&quot;Hashtag_choice&quot;]],
+                            winner_party == input[[&quot;Party_choice&quot;]]
+                          ) %&gt;% 
+                          wordcount_df() %&gt;% 
+                          slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                          wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+              
+            } else if (input[[&quot;Hashtag_choice&quot;]] == &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] != &quot;Both&quot;) {
+              
+                         main_tweets_usa %&gt;% 
+                           filter(
+                             str_detect(tweet, input[[&quot;word&quot;]]),
+                             winner_party == input[[&quot;Party_choice&quot;]]
+                           ) %&gt;% 
+                           wordcount_df() %&gt;% 
+                           slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                           wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+              
+            } else if (input[[&quot;Hashtag_choice&quot;]] != &quot;Both&quot; &amp; input[[&quot;Party_choice&quot;]] == &quot;Both&quot;) {
+              
+                        main_tweets_usa %&gt;% 
+                          filter(
+                            str_detect(tweet, input[[&quot;word&quot;]]),
+                            hashtag == input[[&quot;Hashtag_choice&quot;]]
+                          ) %&gt;% 
+                          wordcount_df() %&gt;% 
+                          slice_tail(n = nrow(.) - input[[&quot;cut_top&quot;]]) %&gt;%
+                          wordcloud2(size = 1, color = &#39;random-dark&#39;, ellipticity = 1)
+        
+            }
+      
+          }  
+        })
+      }
+
+    shinyApp(ui = ui, server = server)
+    
+  }</code></pre>
+<p><img src="figures/wordcloud.png" /></p>
+</div>
 </div>
 
 
