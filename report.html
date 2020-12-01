@@ -503,8 +503,8 @@ state_election_df =
     winner_party = party
   )</code></pre>
 </div>
-<div id="plots" class="section level2">
-<h2>Plots</h2>
+<div id="plots" class="section level3">
+<h3>Plots</h3>
 <p>Characterizing tweets TODO : use the same colors</p>
 <pre class="r"><code>tweets_usa %&gt;%
 group_by(state, hashtag)%&gt;%
@@ -593,9 +593,10 @@ leaflet(map_data) %&gt;%
   addMarkers(~long, ~lat, popup = ~hashtag, data = points) %&gt;%
   addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
   setView(-75, 40.75, zoom = 10)</code></pre>
+</div>
 <div id="word-clouds" class="section level3">
 <h3>Word Clouds</h3>
-<p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="https://www.shinyapps.io">shinyapp©</a>.</p>
+<p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="wc_redirect.html">shinyapp©</a>.</p>
 <p>Here is the code used to generate the app and a screenshot of the final product:</p>
 <pre class="r"><code>if (require(shiny)) {
   
@@ -849,7 +850,7 @@ leaflet(map_data) %&gt;%
     
   }</code></pre>
 <p><img src="figures/wordcloud.png" /></p>
-</div>
+<p>Users can explore tweet’s most frequent words by hashtag, by twitter user account original state’s winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.</p>
 </div>
 
 

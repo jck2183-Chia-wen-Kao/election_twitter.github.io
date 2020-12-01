@@ -131,7 +131,7 @@ main_tweets_usa =
   )
 ```
 
-## Plots
+### Plots
 Characterizing tweets
 TODO : use the same colors
 
@@ -247,7 +247,7 @@ leaflet(map_data) %>%
 ### Word Clouds
 
 We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the `tm` package to clean tweet text of non-textual elements as well as stop words (both english and spanish).
-We developed a custom function `wordcount_df` that incorporates functions of this package and _tidyverse_ elements to construct dataframes with a `word` and a `freq` column. This dataframe is the raw material for the `wordcloud2` package. It has several functionalities to create word clouds and with the _renderwordcloud2_ function it can be incorporated into a [shinyapp©](https://www.shinyapps.io).
+We developed a custom function `wordcount_df` that incorporates functions of this package and _tidyverse_ elements to construct dataframes with a `word` and a `freq` column. This dataframe is the raw material for the `wordcloud2` package. It has several functionalities to create word clouds and with the _renderwordcloud2_ function it can be incorporated into a [shinyapp©](wc_redirect.html).
 
 Here is the code used to generate the app and a screenshot of the final product:
 ```{r app, eval = FALSE}
@@ -505,3 +505,5 @@ if (require(shiny)) {
 ```
 
 ![](figures/wordcloud.png)
+
+Users can explore tweet's most frequent words by hashtag, by twitter user account original state's winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.

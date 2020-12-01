@@ -113,7 +113,7 @@ if (require(shiny)) {
         "Hashtag_choice",
         h4("Tweets containing..."),
         inline = TRUE,
-        choiceNames = list("#Biden/#JoeBiden", "#Trump/#DonaldTrump", "Either"),
+        choiceNames = list("#JoeBiden", "#DonaldTrump", "Either"),
         choiceValues = list("Biden", "Trump", "Both"),
         selected = "Both"
       ),
@@ -134,7 +134,8 @@ if (require(shiny)) {
         value = 3
       ),
       
-      h6("*Most frequent words are common among various parameters"),
+      h6("*The most frequent words are common among various parameters making word clouds similar. 
+         You may want to remove words from the top to observe more sensitive differences among tweets."),
       
       textInput(
         "word", 
