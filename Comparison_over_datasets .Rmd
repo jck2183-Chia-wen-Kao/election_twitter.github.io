@@ -8,7 +8,7 @@ output:
     source: embed
 ---
 
-```{r setup, include=TRUE, cache = FALSE}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly) 
 ```
@@ -17,7 +17,7 @@ library(plotly)
 
 ### 2020 Presidential Election Results
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 vote_df = read_csv("./datasets/president_county_candidate.csv")
 state_sum = read_csv("./datasets/president_state.csv")
 region_df = 
@@ -26,7 +26,7 @@ region_df =
 ```
 
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 election_winner_df =
    read_csv("./datasets/president_county_candidate.csv") %>% 
     group_by(state, party) %>% 
@@ -47,7 +47,7 @@ winner_region =
 ```
 
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning=FALSE}
 election_map_df =
     election_winner_df %>% 
     filter(state_winner == TRUE) %>% 
@@ -61,7 +61,7 @@ usa_election_map = left_join(usa_map, election_map_df)
 ```
 
 
-```{r}
+```{r, warning= FALSE}
 colors <- c("red", "blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
@@ -128,7 +128,7 @@ tweets_usa =
 ```
 
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 usa_map <- map_data("state")
 
 tweet_map <- tweets_usa %>%

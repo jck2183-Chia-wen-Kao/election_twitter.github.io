@@ -11,6 +11,8 @@ navbar:
       href: tweet_clean.html 
     - text: "Word Cloud"
       href: wc_redirect.html
+    - text: "Comparison over datasets"
+      href: comparison_over_datasets.html
   right:
     - text: "Project Report"
       href: report.html
