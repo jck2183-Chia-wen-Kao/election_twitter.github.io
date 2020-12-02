@@ -12,7 +12,7 @@ navbar:
     - text: "Word Cloud"
       href: wc_redirect.html
     - text: "Comparison over datasets"
-      href: comparison_over_datasets.html
+      href: Comparison_over_datasets.html
   right:
     - text: "Project Report"
       href: report.html

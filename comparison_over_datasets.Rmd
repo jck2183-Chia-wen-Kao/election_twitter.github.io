@@ -62,7 +62,7 @@ usa_election_map = left_join(usa_map, election_map_df)
 
 
 ```{r, warning= FALSE}
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 election_result_map =
@@ -150,7 +150,7 @@ states_tweet_map <- left_join(usa_map, tweet_map) %>%
     "Biden" = "Joe Biden"
   ))
 
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 tweet_result_map = 
@@ -270,7 +270,7 @@ us_election_map =
 
 ```{r election_map}
 
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 election_map=
