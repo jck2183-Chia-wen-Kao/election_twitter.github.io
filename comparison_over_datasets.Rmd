@@ -295,3 +295,85 @@ election_map=
 
 ggplotly(election_map , tooltip = "text")
 ```
+
+## Three different data comparison
+
+```{r}
+us_election_df =
+  us_election_map %>% 
+  rename(state = State) 
+
+comparison_df =  
+  merge(usa_election_map, 
+        states_tweet_map) %>%
+  merge(us_election_df) %>% 
+  select(state, voter_turnout, Candidate, 
+         votes_proportion, votes_proportion, 
+         party_total,top, candidate, state_total)
+```
+## Difference between poll and election result
+```{r}
+comparison_df %>% 
+  select(state, voter_turnout, Candidate, 
+         candidate, state_total) %>% 
+  rename(poll_winner = Candidate, 
+         election_winner = candidate) %>% 
+  filter(poll_winner != election_winner) %>% 
+  group_by(state) %>% 
+  mutate(poll_vs_result = voter_turnout - state_total) %>% 
+  select(-c(voter_turnout, state_total)) %>% 
+  unique() %>% 
+  knitr::kable()
+```
+From the computation, we can see that the poll mis-anticipated the winner of the election and the voter turnout 100-200 thousand in North Carolina and Florida respectively. Even though Donald Trump won these 2 states, we can see that the votes he got actually shrank compared to anticipation.
+
+## Difference between poll and election result in proportion
+```{r}
+comparison_df %>% 
+  select(state, votes_proportion, Candidate, 
+         party_total,candidate, state_total) %>% 
+  rename(poll_winner = Candidate, 
+         election_winner = candidate) %>% 
+  filter(poll_winner != election_winner) %>% 
+  group_by(state) %>% 
+  mutate(votes_proportion = round(votes_proportion, 2)) %>% 
+  mutate(prop_vote = round(party_total/state_total, 4) * 100, 
+         poll_vs_result =  votes_proportion - prop_vote) %>% 
+  select(-c(party_total, state_total)) %>% 
+  unique() %>% 
+  knitr::kable()
+```
+In proportion, we can see that the poll anticipated that Joe Biden would win North Carolina with 50.53% votes, and Florida with 50.82 votes. In fact, however, Donald Trump won North Carolina with 49.93% votes and Florida with 51.22% votes. 
+
+## Difference between Tweet and Election Result
+
+```{r}
+comparison_df %>% 
+  select(state,candidate, top) %>% 
+  rename(election_winner = candidate, 
+         top_tweet = top) %>% 
+  filter(top_tweet != election_winner) %>% 
+  group_by(state) %>% 
+  unique() %>% 
+  knitr::kable()
+```
+
+We found there are 27 states with tweets that are different with the election result. Perhaps the tweets relating to specific candidate are not necessarily positive but negative. We can explore the tweets with the word cloud app we built and obtain more insights. 
+ 
+## Difference among Tweet, Poll, and Election Result
+
+```{r}
+comparison_df %>% 
+  select(state, Candidate,candidate, top) %>% 
+  rename(poll_winner = Candidate, 
+         election_winner = candidate, 
+         top_tweet = top) %>% 
+  filter(poll_winner != election_winner |
+           top_tweet != election_winner |
+           poll_winner != top_tweet) %>% 
+  group_by(state) %>% 
+  unique() %>% 
+  knitr::kable()
+```
+
+To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.     
