@@ -108,7 +108,7 @@ geom_col(aes(x=state, y=count, color = hashtag ), position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = "Distribution of tweets across US states")
 ```
-Distribution of tweets for Trump and Beiden over time
+Distribution of tweets for Trump and Biden over time
 
 ```{r dis-time, message = FALSE}
 tweets_usa %>% 

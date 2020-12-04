@@ -7,13 +7,17 @@ output:
     code_folding: hide
 ---
 
-```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly)
 library(patchwork)
 ```
 
-```{r clean_datasets, echo=FALSE, message=FALSE, warning=FALSE}
+# Data Import and Cleaning 
+
+Polls dataset merged with US region prior to selecting key varaibles such as the candidate's probability of winning the state, proportion of votes by candidate per state, total voter turnout per state and vote margin for the incumbent. The raw votes per state and number of votes per region were calculated for the two candidates. 
+
+```{r clean_datasets, message=FALSE, warning=FALSE}
 
 ##Clean Polls and Regional datasets 
 polls_df=
@@ -50,13 +54,15 @@ polls_merge =
   relocate("state", "Region")
 ```
 
+***
 
-## Expected Voter Turnout by State 
+# Total Voter Turnout  
 
-Voter turnout was expected to be in record numbers across the country for the 2020 Presidential Election. The bar graph below displays the expected votes (in millions)
-by geographical region. 
+## *Raw State Level Votes*
 
-```{r Clean_Voter_Data, echo=FALSE, message=FALSE, warning=FALSE}
+Voter turnout was expected to be in record numbers across the country for the 2020 Presidential Election ([2020 Voter Turnout](https://www.cnn.com/2020/10/26/politics/2020-election-turnout-eligible-voters/index.html. The bar graph below displays the expected votes (in millions))) by state. 
+
+```{r Clean_Voter_Data, message=FALSE, warning=FALSE}
 
 ## Clean vote proportion and number of votes for each candidate by state
 exp_votes=
@@ -92,8 +98,7 @@ expvote_plot1 =
     ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in Midwestern States", 
-        x = "State", 
+        x = "Midwestern States", 
         y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
@@ -106,8 +111,7 @@ expvote_plot2 =
     geom_bar(stat = "identity", position = position_dodge(), 
              fill='steelblue') +
       labs(
-        title = "Expected Votes in Western States", 
-        x = "State", 
+        x = "Western States", 
         y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
@@ -119,8 +123,7 @@ expvote_plot3 =
     ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in Northeastern States", 
-        x = "State", 
+        x = "Northeastern States", 
         y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
@@ -132,21 +135,56 @@ expvote_plot4 =
     ggplot(aes(x = reorder(State, desc(voter_turnout)), y = voter_turnout/1000000)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='steelblue') +
       labs(
-        title = "Expected Votes in Southern States", 
-        x = "State", 
+        x = "Southern State", 
         y = "Total Votes (M)") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
 ## Plot of expected voter turnout for all US States 
 expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4
+```
 
+## *Regional Vote Proportions*
 
+Through plotly barplot, we display the proportion of votes by region. 
+
+```{r Total_regional, echo=FALSE, message=FALSE, warning=FALSE}
+
+## Colors by State 
+colors <- c("dark red", "dark blue")
+names(colors) = c("Trump", "Biden")
+
+votes_byregion =
+  exp_votes %>% 
+  group_by(Region, Candidate) %>% 
+  mutate(
+    region_votes = sum(candidate_votes),
+    region_total = sum(voter_turnout), 
+    region_prop = round(region_votes/region_total, 2)
+    ) %>% 
+    ggplot(aes(x = Region, y = region_prop, fill = Candidate,
+                text = paste("Region: ", Region , 
+                 "</br></br>Proportion ", region_prop,
+                 "</br>Votes: ", round(region_total, 0),
+                 "</br>Candidate: ", Candidate))) +
+    geom_bar(stat = "identity", position = position_dodge()) + 
+    labs(title = "Proportion of Votes in Four Main Regions", 
+         x = "Region", 
+         y = "Vote Proportion") + 
+    scale_fill_manual(values = colors) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+```{r regional_plot}
+## Plotly bar graph of total votes in the 4 regions 
+ggplotly(votes_byregion, tooltip = "text") 
 ```
 
 ***
 
-## Projected Percentage of Votes by Candidate   
+# Breakdown of Votes by Candidate 
+
+## *Projected Proportion of Votes*
 
 The proprotion of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state, which will be compared to the final election results. 
 
@@ -154,6 +192,9 @@ The proprotion of votes for each candidate in the 2020 Presidential Race was exp
 colors <- c("dark red", "dark blue")
 names(colors) = c("Trump", "Biden")
 
+## Below is expected proportion of votes taking the mean of the first 3 days of November by State  
+
+## Midwest 
 mid_prop =
 exp_votes %>% 
     filter(Region == "Midwest") %>% 
@@ -163,7 +204,7 @@ exp_votes %>%
          y = "Vote Proportion") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## West 
 west_prop =
 exp_votes %>% 
     filter(Region == "West") %>% 
@@ -173,7 +214,7 @@ exp_votes %>%
          y = "Vote Proportion") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## South 
 south_prop=
 exp_votes %>% 
     filter(Region == "South") %>% 
@@ -183,7 +224,7 @@ exp_votes %>%
          y = "Vote Proportion") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## Northeast  
 northeast_prop=
 exp_votes %>% 
     filter(Region == "Northeast") %>% 
@@ -194,18 +235,21 @@ exp_votes %>%
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
 
-## Combine Proportion Plots 
+## Plot of voting proportion for candidates for all US States 
 mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "collect")
 ```
 
-## Expected Raw Votes by Candidate    
+## *Expected Raw Votes*
 
-This bar graph is to provide additional information for voting breakdown of the candidates between The expected number  of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state. 
+The bar graph below show the voting breakdown by state. 
 
 ```{r Candidate_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
+
+## Colors to state by candidate 
 colors <- c("dark red", "dark blue")
 names(colors) = c("Trump", "Biden")
 
+## Midwestern States 
 mid_plot =
 exp_votes %>% 
     filter(Region == "Midwest") %>% 
@@ -215,7 +259,7 @@ exp_votes %>%
          y = "Number of Votes(M)") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## Western States 
 west_plot =
 exp_votes %>% 
     filter(Region == "West") %>% 
@@ -225,7 +269,7 @@ exp_votes %>%
          y = "Number of Votes(M)") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## Southern States 
 south_plot=
 exp_votes %>% 
     filter(Region == "South") %>% 
@@ -235,7 +279,7 @@ exp_votes %>%
          y = "Number of Votes(M)") + 
     scale_fill_manual(values = colors) +
     theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) 
-
+## Northeast States 
 northeast_plot=
 exp_votes %>% 
     filter(Region == "Northeast") %>% 
@@ -250,11 +294,15 @@ exp_votes %>%
 mid_plot + south_plot + west_plot + northeast_plot + plot_layout(guides = "collect")
 ```
 
+***
 
-Text describing voter margin by state for each candidate 
+# Voting Margin for the Incumbent
+
+This graph forecasts the voting margin for the incumbent by region for the 2020 Presidential Race. 
 
 ```{r Voteshare_Margin, echo=FALSE, message=FALSE, warning=FALSE}
 
+## Clean voting margin
 vote_margin=
   polls_merge %>% 
   select (state, Region, month, day, voteshare_margin) %>% 
@@ -264,60 +312,67 @@ vote_margin=
     month_avg = mean(voteshare_margin)) %>% 
   filter(month == 11) 
 
+## Southern States 
 margin_plot1 = 
   vote_margin %>%
   filter(Region == "South") %>% 
     ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='dark green') +
     labs(
-        title = "Trump's Margin", 
         x = "Southern States", 
-        y = "Percent Difference") +
+        y = "Percent Change") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Western States 
 margin_plot2 = 
   vote_margin %>%
   filter(Region == "West") %>% 
     ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='dark blue') +
     labs(
-        title = "Trump's Vote Margin", 
         x = "Western States", 
-        y = "Percent Difference") +
+        y = "Percent Change") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Northeastern States 
 margin_plot3 = 
   vote_margin %>%
   filter(Region == "Northeast") %>% 
     ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='purple') +
     labs(
-        title = "Trump's Raw Vote Margin", 
-        x = "Northeaster States", 
-        y = "Percent Difference") +
+        x = "Northeastern States", 
+        y = "Percent Change") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
+## Western States 
 margin_plot4 = 
   vote_margin %>%
     filter(Region == "Midwest") %>% 
     ggplot(aes(x = reorder(state, desc(month_avg)), y = month_avg)) +
     geom_bar(stat = "identity", position = position_dodge(), fill='dark red') +
     labs(
-        title = "Trump's Vote Margin", 
         x = "Midwestern States", 
-        y = "Percent Difference") +
+        y = "Percent Change") +
     theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1),
           plot.title = element_text(hjust = 0.5))
 
-##Combine Plots 
+##Combine Plots for voter margin by state 
 margin_plot1 + margin_plot2 + margin_plot3 + margin_plot4
 ```
 
-```{r State_Winner, message = FALSE}
+***
 
+# Map: Predicting State Winner 
+
+This interactive map was created using ggplotly to display candidate expected  to win each state including their voting proportion and  raw raw number of votes. 
+
+```{r State_Winner, echo = FALSE, message = FALSE}
+
+## Filter to identify state winner based on the raw number of votes per state 
 state_winner_df =
     exp_votes %>% 
     group_by(State) %>% 
@@ -330,20 +385,18 @@ state_winner_df =
   select(-month) %>%
   distinct()
 
+## Add US map 
 usa_map = map_data("state") 
  
+## Combined US map with polls dataset
 us_election_map = 
   left_join(usa_map, state_winner_df) 
 
 ```
 
+```{r election_map, echo = FALSE, warning = FALSE, message = FALSE}
 
-
-
-Election Map 
-
-```{r election_map}
-
+## Election map indicating state, state winner, voting proportion, and raw votes
 colors <- c("dark red", "dark blue")
 names(colors) = c("Trump", "Biden")
 
@@ -353,7 +406,7 @@ election_map=
            group = group, fill = Candidate,
             text = paste("State: ", State, 
                   "</br></br>Winning Candidate: ", Candidate, 
-                 "</br>Votes: ", round(candidate_votes, ),
+                 "</br>Votes: ", round(candidate_votes, 0),
                  "</br>Percentage of Votes: ", round(votes_proportion, 2)))) +
     geom_polygon(color = "gray90", size = 0.1) +
     labs(title = "Election Results across states") + 
@@ -367,14 +420,16 @@ election_map=
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(), 
         legend.position = "bottom") 
+
+## Plotly using map above 
+ggplotly(election_map, tooltip = "text") %>% 
+  layout(autosize = F, width = 680 , height = 408)
 ```
 
-```{r Election_Map_Plotly}
-ggplotly(election_map, tooltip = "text")
-```
+***
 
-Need Bar Plot of total votes in Each State segamented by Region
+# Justification and Interpretation
 
-Twitter frequency or number of votes/state winner comparison for predicting candidate winner 
-Project report 
+Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don't win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key [battleground states](https://www.cnbc.com/2020/11/02/2020-election-polls-biden-leads-trump-in-six-swing-states.html): Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden's projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the "Big Four" due to their high number of electoral votes. Ultimately, President Trump's chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states. 
 
+***
