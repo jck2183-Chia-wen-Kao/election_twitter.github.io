@@ -1,10 +1,10 @@
 ---
-title: "2020 Election Polls"
+title: "**2020 Presidential Polling**"
 output: 
   html_document:
-    code_folding: hide
     toc: true
-    source: embed
+    toc_float: true
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
@@ -53,6 +53,11 @@ polls_merge =
 ```
 
 
+## Expected Voter Turnout by State 
+
+Voter turnout was expected to be in record numbers across the country for the 2020 Presidential Election. The bar graph below displays the expected votes (in millions)
+by geographical region. 
+
 ```{r Clean_Voter_Data, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## Clean vote proportion and number of votes for each candidate by state
@@ -78,11 +83,6 @@ exp_votes=
     ) 
   
 ```
-
-
-Text describing Expected votes 
-
-
 
 ```{r Expected_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -148,8 +148,11 @@ expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4
 options(scipen = 999)
 ```
 
-Text describing Proportion of votes per candidate 
+***
 
+## Projected Percentage of Votes by Candidate   
+
+The proprotion of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state, which will be compared to the final election results. 
 
 ```{r Candidate_Prop_Votes, echo=FALSE, message=FALSE, warning=FALSE}
 colors <- c("dark red", "dark blue")
@@ -200,7 +203,9 @@ mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "colle
 
 ```
 
-Text describing raw votes by state for each candidate 
+## Expected Raw Votes by Candidate    
+
+This bar graph is to provide additional information for The expected number  of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state. 
 
 ```{r Candidate_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
 colors <- c("dark red", "dark blue")
@@ -347,7 +352,11 @@ names(colors) = c("Trump", "Biden")
 election_map=
   ggplot(data = us_election_map,
        aes(x = long, y = lat,
-           group=group, fill = Candidate)) +
+           group = group, fill = Candidate,
+            text = paste("State: ", State, 
+                  "</br></br>Winning Candidate: ", Candidate, 
+                 "</br>Votes: ", candidate_votes, 
+                 "</br>Percentage of Votes: ", round(votes_proportion, 2)))) +
     geom_polygon(color = "gray90", size = 0.1) +
     labs(title = "Election Results across states") + 
     scale_fill_manual(values = colors) +
@@ -361,13 +370,14 @@ election_map=
         axis.ticks.y = element_blank(), 
         legend.position = "bottom") 
 
-ggplotly(election_map)
+
+        
+
 ```
 
-geom_count(mapping=aes(color=Counts, size=Duration))
-
-geom_text(): adds text directly to the plot
-geom_label(): draws a rectangle underneath the text, making it easier to read.
+```{r Election_Map_Plotly}
+ggplotly(election_map, tooltip = "text")
+```
 
 Need Bar Plot of total votes in Each State segamented by Region
 Line graph comparing polls and election results 
