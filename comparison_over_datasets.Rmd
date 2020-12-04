@@ -15,7 +15,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-## Result Comparison for the 2020 Presidential Election {.tabset}
+## *Result Comparison for the 2020 Presidential Election* {.tabset}
 
 ### Results
 
@@ -76,7 +76,8 @@ ggplot(data = usa_election_map,
         axis.ticks.x = element_blank(), 
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
+        axis.ticks.y = element_blank(),
+        legend.title = element_blank(),
         legend.position = "bottom") 
 
 ggplotly(election_result_map, tooltip = "text") %>% 
@@ -187,7 +188,8 @@ election_map=
         axis.ticks.x = element_blank(), 
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
+        axis.ticks.y = element_blank(),
+        legend.title = element_blank(),
         legend.position = "bottom") 
 
 ggplotly(election_map , tooltip = "text") %>% 
@@ -269,7 +271,8 @@ tweet_result_map =
         axis.ticks.x = element_blank(), 
         axis.title.y = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
+        axis.ticks.y = element_blank(),
+        legend.title = element_blank(),
         legend.position = "bottom") 
     
 
@@ -277,9 +280,7 @@ ggplotly(tweet_result_map, tooltip = "text") %>%
     layout(autosize = F, width = 680 , height = 408)
 ```
 
-
-
-## Three different data comparison
+# Three different data comparison
 
 ```{r}
 us_election_df =
@@ -294,7 +295,9 @@ comparison_df =
          votes_proportion, votes_proportion, 
          party_total,top, candidate, state_total)
 ```
-## Difference between poll and election result
+
+## *Difference between poll and election result*
+
 ```{r}
 comparison_df %>% 
   select(state, voter_turnout, Candidate, 
@@ -311,7 +314,8 @@ comparison_df %>%
 ```
 From the computation, we can see that the poll mis-anticipated the winner of the election and the voter turnout 100-200 thousand in North Carolina and Florida respectively. Even though Donald Trump won these 2 states, we can see that the votes he got actually shrank compared to anticipation.
 
-## Difference between poll and election result in proportion
+## *Difference between poll and election result in proportion*
+
 ```{r}
 comparison_df %>% 
   select(state, votes_proportion, Candidate, 
@@ -331,7 +335,7 @@ comparison_df %>%
 ```
 In proportion, we can see that the poll anticipated that Joe Biden would win North Carolina with 50.53% votes, and Florida with 50.82 votes. In fact, however, Donald Trump won North Carolina with 49.93% votes and Florida with 51.22% votes. 
 
-## Difference between Tweet and Election Result
+## *Difference between Tweet and Election Result*
 
 ```{r}
 comparison_df %>% 
@@ -347,7 +351,7 @@ comparison_df %>%
 
 We found there are 27 states with tweets that are different with the election result. Perhaps the tweets relating to specific candidate are not necessarily positive but negative. We can explore the tweets with the word cloud app we built and obtain more insights. 
  
-## Difference among Tweet, Poll, and Election Result
+## *Difference among Tweet, Poll, and Election Result*
 
 ```{r}
 comparison_df %>% 
@@ -364,4 +368,8 @@ comparison_df %>%
   kable_material(c("striped", "hover"))
 ```
 
-To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.     
+To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.  
+
+# Conclusion or Interpretation
+
+text

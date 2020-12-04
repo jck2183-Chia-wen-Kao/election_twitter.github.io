@@ -15,7 +15,9 @@ library(plotly)
 theme_set(theme(legend.position = "right"))
 ```
 
-### Import data
+# Data import and cleaning
+
+Merge the election result data with the region of the US, select and variables that contains numbers of votes and summarize them by states. This way, we can also calculate the votes proportion that two candidates got in each states in the election.
 
 ```{r, message = FALSE}
 vote_df = read_csv("./datasets/president_county_candidate.csv")
@@ -23,13 +25,7 @@ state_sum = read_csv("./datasets/president_state.csv")
 region_df = 
     read_csv("./datasets/states.csv") %>% 
     rename(state = State)   
-```
 
-### Merge Data and Tidy up the data
-
-Merge the election result data with the region of the US, select and variables that contains numbers of votes and summarize them by states. This way, we can also calculate the votes proportion that two candidates got in each states in the election.
-
-```{r, message = FALSE}
 election_df =
     merge(
     read_csv("./datasets/president_county_candidate.csv"),
@@ -54,8 +50,10 @@ election_by_region =
   mutate(prop_votes = round(state_votes / state_subtotal,2)) 
 ```
 
+***
+# Title
 
-### Plot the proportion of each candidate by states
+## *Plot the proportion of each candidate by states*
 
 By the bar plot of two candidates in each state segmented by four main regions, we can see that Joe Biden has won the Northeast and most states in the West. In contrast, Donald Trump has won most states in the Midwest and the South.  
 
@@ -109,7 +107,8 @@ par( mfrow = c(2,2) )
 plot_1 + plot_2 + plot_3 + plot_4 + plot_layout(guides = "collect") 
 ```
 
-### Plot Four Main Regions Votes and Compare with the Total Votes  
+## *Plot Four Main Regions Votes and Compare with the Total Votes*
+
 By barplot plotly, we can see that the two candidates' votes distribution across four regions. Joe Biden won the West and the Northeast by significant lead, while Donald Trump won the Midwest and the South by little proportion.
 
 ```{r, message = FALSE, echo=FALSE, results = "hide"}
@@ -139,7 +138,7 @@ election_by_region %>%
 ggplotly(main_plot, tooltip = "text")  
 ```
 
-### Barplot for each states by 4 regions specifying winner 
+## *Barplot for each states by 4 regions specifying winner*
 
 We also want to examine the total votes and mark them with the significant leading party color in the states segmented by regions.
 
@@ -220,7 +219,7 @@ Northeast_votes_p =
 Midwest_votes_p + West_votes_p + South_votes_p + Northeast_votes_p + plot_layout(guides = "collect")
 ```
 
-### Tidy Data with Map information.
+## *Tidy Data with Map information*
 
 Tidy the data with the US map information to plot the winning candidates in each state on the US map.
 
@@ -237,7 +236,7 @@ usa_map = map_data("state")
 usa_election_map = left_join(usa_map, election_map_df)
 ```
 
-### Plot the map with the election result.
+## *Plot the map with the election result*
 
 Sum up the tidy data to plot the election results on the map. Meanwhile, we also made a plotly with hover information indicating the winning candidate, state name, the votes and the winning proportion the winning candidate got.
 
@@ -274,6 +273,6 @@ ggplotly(election_result_map, tooltip = "text") %>%
 
 ```
 
-### *Conclusion*:
+# Conclusion
 
 We can see that most of the results align with the poll anticipation, but Donald Trump, with a small proportion, won North Carolina and Florida. In fact, except for North Carolina and Florida, Joe Biden has won the other battleground states: Arizona, Georgia,Michigan, Minnesota, Nevada, New Hampshire,  Pennsylvania, and Wisconsin. Among these battleground states,  Florida, Michigan, Pennsylvania, and Wisconsin are regarded as "Big Four" which are most likely to decide the electoral college. Among the "Big Four", Joe Biden has won three of the states, which may consider as a key component for him to win the election.
