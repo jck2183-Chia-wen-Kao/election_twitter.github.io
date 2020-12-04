@@ -85,7 +85,7 @@ state_election_df =
   select(state, candidate, party, party_total, state_total) %>% 
   distinct()
   
-Joining tweet data and election data
+#Joining tweet data and election data
 
 main_tweets_usa = 
   left_join(tweets_usa, state_election_df, by = "state") %>% 
@@ -112,7 +112,7 @@ Distribution of tweets for Trump and Beiden over time
 ```{r}
 tweets_usa %>% 
 mutate(date = as.Date(paste(creation_month, creation_day, '2020', sep = "/"), format  = "%m/%d/%y")) %>%  
-group_by (date, hashtag) %>%
+group_by(date, hashtag) %>%
 summarise(count = n())  %>%
 ggplot(aes(x=date,y=count,color = hashtag)) +
 geom_smooth(method = "lm") +
