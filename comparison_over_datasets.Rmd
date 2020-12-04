@@ -1,9 +1,6 @@
 ---
 title: "Comparison over three datasets"
-<<<<<<< HEAD
 author: "Ostropolets, Anna(ao2671), Chankasaul, JR(ac4635), Kao, Chia-wen(jck2183), de Araujo, Thiago(tbd2117)"
-=======
->>>>>>> 001d6a0d944c1bbe14ed89d19aa435141cdff71a
 output: 
   html_document:
     code_folding: hide
