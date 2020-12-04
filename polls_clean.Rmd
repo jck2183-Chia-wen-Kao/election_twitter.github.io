@@ -369,10 +369,6 @@ election_map=
         axis.text.y = element_blank(),
         axis.ticks.y = element_blank(), 
         legend.position = "bottom") 
-
-
-        
-
 ```
 
 ```{r Election_Map_Plotly}
@@ -380,7 +376,6 @@ ggplotly(election_map, tooltip = "text")
 ```
 
 Need Bar Plot of total votes in Each State segamented by Region
-Line graph comparing polls and election results 
 Add more to map with Plotly: Total votes, number of votes, and proportion of votes for each candidate 
 Twitter frequency or number of votes/state winner comparison for predicting candidate winner 
 Project report 
