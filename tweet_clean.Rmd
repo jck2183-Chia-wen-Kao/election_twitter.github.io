@@ -23,7 +23,7 @@ library(rgdal)
 
 ## Data import and cleaning
 
-Data import.Merge Trump and Biden tweets, separating dates (creation, join) into day, month and year and assigning a hashtag.
+Data import. Merge Trump and Biden tweets, separating dates (creation, join) into day, month and year and assigning a hashtag.
 
 ```{r data, eval = TRUE,  echo=FALSE, message=FALSE, warning=FALSE}
 trump_df = 
@@ -98,7 +98,7 @@ main_tweets_usa =
 
 ## Creating plots to characterize tweets
 
-Distibution of tweets for Biden and Trump across states
+### Distibution of tweets for Biden and Trump across states
 ```{r distr, message = FALSE}
 tweets_usa %>%
 group_by(state, hashtag)%>%
@@ -108,7 +108,12 @@ geom_col(aes(x=state, y=count, color = hashtag ), position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = "Distribution of tweets across US states")
 ```
+<<<<<<< HEAD
 Distribution of tweets for Trump and Biden over time
+=======
+
+### Distribution of tweets for Trump and Beiden over time
+>>>>>>> 8c3dbd7d6b83006b4a82f74d1705085cb5b14d96
 
 ```{r dis-time, message = FALSE}
 tweets_usa %>% 
@@ -130,7 +135,7 @@ labs (title = "Distribution of tweets over time",
 We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)
 
 
-Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
+### Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
 ```{r like, message = FALSE}
 tweets_usa %>%
 group_by(hashtag)%>%
@@ -146,7 +151,7 @@ geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size
  
 We see that the users with a lot of followers tweet about Trump but those tweets are not liked or re-shared. On the other hand, there are popular tweets related to Trup with a lot of likes and re-tweets,
 
-Plotting US states with the most popular tweets by the candidate
+### Plot US states with the most popular tweets by the candidate
 
 ```{r map, message = FALSE, warning = FALSE}
 
@@ -176,7 +181,7 @@ states_tweet_map <- left_join(usa_map, tweet_map)
   
 ```
 
-Distribution of tweets for NYC boroughs 
+### Distribution of tweets for NYC boroughs 
 ```{r nyc, message = FALSE, warning = FALSE}
 NY <-tweets_usa %>% 
 filter (state_code == 'NY' & city == 'New York') %>%

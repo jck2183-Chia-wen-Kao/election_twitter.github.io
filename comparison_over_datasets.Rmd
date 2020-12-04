@@ -1,5 +1,9 @@
 ---
 title: "Comparison over three datasets"
+<<<<<<< HEAD
+=======
+author: "Ostropolets, Anna(ao2671), Chankasaul, JR(ac4635), Kao, Chia-wen(jck2183), de Araujo, Thiago(tbd2117)"
+>>>>>>> 8c3dbd7d6b83006b4a82f74d1705085cb5b14d96
 output: 
   html_document:
     code_folding: hide
@@ -12,6 +16,10 @@ library(tidyverse)
 library(plotly) 
 library(knitr)
 library(kableExtra)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8c3dbd7d6b83006b4a82f74d1705085cb5b14d96
 ```
 
 ## Result Comparison {.tabset}
@@ -182,7 +190,7 @@ us_election_map =
 
 ```
 
-```{r election_map}
+```{r election_map, warning= FALSE}
 
 colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
@@ -330,6 +338,10 @@ comparison_df %>%
   unique() %>% 
   knitr::kable() %>% 
   kable_material(c("striped", "hover"))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8c3dbd7d6b83006b4a82f74d1705085cb5b14d96
 ```
 From the computation, we can see that the poll mis-anticipated the winner of the election and the voter turnout 100-200 thousand in North Carolina and Florida respectively. Even though Donald Trump won these 2 states, we can see that the votes he got actually shrank compared to anticipation.
 
@@ -348,7 +360,7 @@ comparison_df %>%
   select(-c(party_total, state_total)) %>% 
   unique() %>% 
   knitr::kable() %>% 
-   kable_material(c("striped", "hover"))
+  kable_material(c("striped", "hover"))
 
 ```
 In proportion, we can see that the poll anticipated that Joe Biden would win North Carolina with 50.53% votes, and Florida with 50.82 votes. In fact, however, Donald Trump won North Carolina with 49.93% votes and Florida with 51.22% votes. 
