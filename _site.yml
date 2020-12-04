@@ -11,7 +11,7 @@ navbar:
       href: election_result.html 
     - text: "Comparison over datasets"
       href: comparison_over_datasets.html
-    - text: "Word Cloud"
+    - text: "Tweet Word Cloud"
       href: wc_redirect.html
   right:
     - text: "Project Report"

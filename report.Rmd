@@ -49,7 +49,7 @@ read_csv("./datasets/hashtag_joebiden.csv") %>%
   write.csv("./datasets/biden2.csv")
 ```
 
-Then, data was imported, merged, and cleaned, especially date of creation of the tweet, for further analysis. We further limited our analysis to tweets from users registered within the U.S. and with only one of the cadidates hashtags (i.e.: we excluded tweets containing both #Trump/#DonaldTrump and #Biden/#joeBiden).
+Then, data was imported, merged, and cleaned, especially date of creation of the tweet, for further analysis. We further limited our analysis to tweets from users registered within the U.S. and with only one of the cadidates hashtags (i.e.: we excluded tweets containing both #Trump/#DonaldTrump and #Biden/#JoeBiden).
 
 ```{r tweet_import, warning = FALSE, message = FALSE}
 #Trump / #DonaldTrump tweets
@@ -507,3 +507,6 @@ if (require(shiny)) {
 ![](figures/wordcloud.png)
 
 Users can explore tweet's most frequent words by hashtag, by twitter user account original state's winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.
+
+### Discussion
+
