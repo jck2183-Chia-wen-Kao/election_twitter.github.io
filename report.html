@@ -412,18 +412,13 @@ div.tocify {
 </div>
 
 
-<div id="motivation" class="section level1">
-<h1>Motivation</h1>
-<p>Questions to consider: Provide an overview of the project goals and motivation;</p>
+<div id="motivation-and-related-work" class="section level1">
+<h1>Motivation and Related Work</h1>
+<p>Questions to consider: Provide an overview of the project goals and motivation; Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
 <p>US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions (<a href="https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/">US PresidentialElection Polls Failure</a>). Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models.</p>
 <p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704">Can Twitter Data Forecast Presidential Elections?</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
 <p>We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
-<div id="related-work" class="section level2">
-<h2><em>Related work</em></h2>
-<p>Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
-<p>Sources!</p>
 <hr />
-</div>
 </div>
 <div id="initial-questions" class="section level1">
 <h1>Initial questions</h1>
@@ -431,7 +426,7 @@ div.tocify {
 <p>In this project, we will:</p>
 <ul>
 <li><p>Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a choropleth map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 election outcome. We will do the same with the polls.</p></li>
-<li><p>Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, emoji) and election results.</p></li>
+<li><p>Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, likes) and election results.</p></li>
 </ul>
 <p>Suggested Plot/Charts at Proposal:</p>
 <ol style="list-style-type: decimal">
@@ -456,6 +451,7 @@ div.tocify {
 <div id="data-sources" class="section level1">
 <h1>Data Sources</h1>
 <p>Questions to consider: scraping method, cleaning, etc.</p>
+<p>We used several datasets available online in this project. The data wrangling process, and dataframes created are described along with each section of the exploratory analysis and visualizations performed. Here is a list of the datasets used for this project:</p>
 <div id="polls-dataset" class="section level2">
 <h2><em>2020 Polls Dataset</em></h2>
 <p><a href="https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020">2020 Election Forecast</a></p>
@@ -464,17 +460,17 @@ div.tocify {
 <div id="election-results-dataset" class="section level2">
 <h2><em>2020 Election Results Dataset</em></h2>
 <p><a href="https://www.kaggle.com/unanimad/us-election-2020">2020 Election</a></p>
-<p>Insert cleaning, scraping, methods here</p>
+<p>This dataset contains county- and state-level data from 2020 US Election.</p>
 </div>
 <div id="us-regional-dataset" class="section level2">
 <h2><em>US Regional Dataset</em></h2>
 <p><a href="https://www.kaggle.com/omer2040/usa-states-to-region">US States by Region</a></p>
-<p>Insert cleaning, scraping, methods here</p>
+<p>This dataset contains region information for each state.</p>
 </div>
-<div id="us-election-twitter-dataset" class="section level2">
-<h2><em>2020 US Election Twitter Dataset</em></h2>
+<div id="us-election-twitter-datasets" class="section level2">
+<h2><em>2020 US Election Twitter Datasets</em></h2>
 <p><a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">US Election Twitter</a></p>
-<p>Insert cleaning, scraping, methods here</p>
+<p>Two datasets constructed from scraping Twitter for tweets either containing <em>#Biden</em> (or <em>#JoeBiden</em>) or containing <em>#Trump</em> (or <em>#DonaldTrump</em>) from Oct 15th through Nov 8th.</p>
 <hr />
 </div>
 </div>
@@ -507,8 +503,7 @@ div.tocify {
 <h2><em>2020 Election Tweet Data &amp; Visualisation</em></h2>
 <div id="data-wrangling-2" class="section level3">
 <h3>Data Wrangling</h3>
-<p>We opted to use the two datasets found <a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">here</a> constructed from scraping Twitter for tweets either containing <em>#Biden</em> (or <em>#JoeBiden</em>) or containing <em>#Trump</em> (or <em>#DonaldTrump</em>) from Oct 15th through Nov 8th.</p>
-<p>Because the datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.</p>
+<p>Because the <em>2020 Eelection Twitter</em> datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.</p>
 <pre class="r"><code>read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
   drop_na() %&gt;%
   slice(seq(0.5 * n())) %&gt;% 
@@ -573,7 +568,7 @@ tweets_usa =     # N = 140263 tweets
 <li><code>city</code>, <code>state</code>, and <code>state_code</code>. City and state from user location.</li>
 <li><code>hashtag</code>. Whether tweet contains #Biden or #Trump.</li>
 </ul>
-<p>We added state election-related variables generated by the 2020 election results dataset found <a href="https://www.kaggle.com/unanimad/us-election-2020">here</a> to the <code>tweets_usa</code> dataframe. The final dataframe <code>main_tweets_usa</code> used to construct word clouds - see <em>Additional Analysis</em> section below - has the following extra variables:</p>
+<p>We added state election-related variables from the <em>2020 election results</em> dataset to the <code>tweets_usa</code> dataframe. The final dataframe <code>main_tweets_usa</code> used to construct word clouds - see <em>Additional Analysis</em> section below - has the following extra variables:</p>
 <ul>
 <li><code>winner_party</code> and <code>winner_candidate</code>. Party and candidate who won the election in each state.</li>
 <li><code>party_total</code>. Total number of votes for the party.</li>
