@@ -16,7 +16,6 @@ library(patchwork)
 ```{r clean_datasets, echo=FALSE, message=FALSE, warning=FALSE}
 
 ##Clean Polls and Regional datasets 
-
 polls_df=
   read_csv("./datasets/presidential_state_toplines_2020.csv") %>%
   rename(date = modeldate) %>% 
@@ -48,8 +47,7 @@ polls_merge =
     by = "state") %>% 
   arrange(state, month, day) %>% 
   select(-`State Code`) %>% 
-  relocate("state", "Region") %>% 
-  view ()
+  relocate("state", "Region")
 ```
 
 
@@ -61,7 +59,6 @@ by geographical region.
 ```{r Clean_Voter_Data, echo=FALSE, message=FALSE, warning=FALSE}
 
 ## Clean vote proportion and number of votes for each candidate by state
-
 exp_votes=
   polls_merge %>%
   select (-trump_winstate, -biden_winstate, -voteshare_margin, -Division) %>%
@@ -144,8 +141,7 @@ expvote_plot4 =
 ## Plot of expected voter turnout for all US States 
 expvote_plot1 + expvote_plot2 + expvote_plot3 + expvote_plot4
 
-## Decimal Places 
-options(scipen = 999)
+
 ```
 
 ***
@@ -200,7 +196,6 @@ exp_votes %>%
 
 ## Combine Proportion Plots 
 mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "collect")
-
 ```
 
 ## Expected Raw Votes by Candidate    
@@ -342,7 +337,10 @@ us_election_map =
 
 ```
 
-Election Map -- More to come 
+
+
+
+Election Map 
 
 ```{r election_map}
 
@@ -355,7 +353,7 @@ election_map=
            group = group, fill = Candidate,
             text = paste("State: ", State, 
                   "</br></br>Winning Candidate: ", Candidate, 
-                 "</br>Votes: ", candidate_votes, 
+                 "</br>Votes: ", round(candidate_votes, ),
                  "</br>Percentage of Votes: ", round(votes_proportion, 2)))) +
     geom_polygon(color = "gray90", size = 0.1) +
     labs(title = "Election Results across states") + 
@@ -376,7 +374,7 @@ ggplotly(election_map, tooltip = "text")
 ```
 
 Need Bar Plot of total votes in Each State segamented by Region
-Add more to map with Plotly: Total votes, number of votes, and proportion of votes for each candidate 
+
 Twitter frequency or number of votes/state winner comparison for predicting candidate winner 
 Project report 
 
