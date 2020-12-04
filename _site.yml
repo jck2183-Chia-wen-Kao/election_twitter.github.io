@@ -17,7 +17,7 @@ navbar:
     - text: "Project Report"
       href: report.html
     - icon: fa-youtube-play fa-lg
-      href: [link to screencast]
+      href: https://youtu.be/ZKCDHL3uTjc
 output:
   html_document:
     theme: flatly
