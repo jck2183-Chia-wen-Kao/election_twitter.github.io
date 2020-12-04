@@ -401,11 +401,85 @@ div.tocify {
 </div>
 
 
-<div id="polls-description-of-dataset" class="section level2">
-<h2>Polls Description of Dataset</h2>
+<div id="motivation" class="section level1">
+<h1>Motivation:</h1>
+<p>Questions to consider: Provide an overview of the project goals and motivation;</p>
+<p>US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions (<a href="https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/">US PresidentialElection Polls Failure</a>). Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models.</p>
+<p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704">Can Twitter Data Forecast Presidential Elections?</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
+<p>We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
+<div id="related-work" class="section level2">
+<h2><em>Related work</em></h2>
+<p>Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
+<p>Sources!</p>
+<hr />
+</div>
+</div>
+<div id="initial-questions" class="section level1">
+<h1>Initial questions:</h1>
+<p>Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?</p>
+<p>In this project, we will:</p>
+<ul>
+<li><p>Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a choropleth map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 election outcome. We will do the same with the polls.</p></li>
+<li><p>Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, emoji) and election results.</p></li>
+</ul>
+<p>Suggested Plot/Charts at Proposal:</p>
+<ol style="list-style-type: decimal">
+<li>Distribution of #Biden/#Trump tweets by state;<br />
+</li>
+<li>US polls prediction of winning candidate by state<br />
+</li>
+<li>Graph of Current Votes by state for US Election Results<br />
+</li>
+<li>Interactive visualisization of tweets features and content and their distribution by state</li>
+</ol>
+<p>Projected Challenges during Proposal:</p>
+<ol style="list-style-type: decimal">
+<li>Cleaning up tweets free-text or identifying meaningful variables in free text</li>
+<li>Processing the poll data to allow polls/tweets comparison</li>
+<li>Identifying proper model for correlation</li>
+<li>Building an interactive visualization embedded into a web site</li>
+<li>Handling large volume of data</li>
+</ol>
+<hr />
+</div>
+<div id="data-sources" class="section level1">
+<h1>Data Sources</h1>
+<p>Questions to consider: scraping method, cleaning, etc.</p>
+<div id="polls-dataset" class="section level2">
+<h2><em>2020 Polls Dataset</em></h2>
+<p><a href="https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020">2020 Election Forecast</a></p>
 <p>Polls were summarized by taking the mean of the expected votes per candidate in the 3 days leading up to the election (November 1-3) prior to displaying data visualization.</p>
-<div id="tweet-data" class="section level3">
-<h3>Tweet Data</h3>
+</div>
+<div id="election-results-dataset" class="section level2">
+<h2><em>2020 Election Results Dataset</em></h2>
+<p><a href="https://www.kaggle.com/unanimad/us-election-2020">2020 Election</a></p>
+<p>Insert cleaning, scraping, methods here</p>
+</div>
+<div id="us-regional-dataset" class="section level2">
+<h2><em>US Regional Dataset</em></h2>
+<p><a href="https://www.kaggle.com/omer2040/usa-states-to-region">US States by Region</a></p>
+<p>Insert cleaning, scraping, methods here</p>
+</div>
+<div id="us-election-twitter-dataset" class="section level2">
+<h2><em>2020 US Election Twitter Dataset</em></h2>
+<p><a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">US Election Twitter</a></p>
+<p>Insert cleaning, scraping, methods here</p>
+<hr />
+</div>
+</div>
+<div id="exploratory-analysis" class="section level1">
+<h1>Exploratory analysis:</h1>
+<p>Things to consider: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.</p>
+<div id="polls-visualisation" class="section level2">
+<h2><em>2020 Polls Visualisation</em></h2>
+<p>Insert text here</p>
+</div>
+<div id="election-visualisation" class="section level2">
+<h2><em>2020 Election Visualisation</em></h2>
+<p>Insert text here</p>
+</div>
+<div id="election-tweet-data-visualisation" class="section level2">
+<h2><em>2020 Election Tweet Data &amp; Visualisation</em></h2>
 <p>We opted to use the two datasets found <a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">here</a> constructed from scraping Twitter for tweets either containing <em>#Biden</em> (or <em>#JoeBiden</em>) or containing <em>#Trump</em> (or <em>#DonaldTrump</em>) from Oct 15th through Nov 8th.</p>
 <p>Because the datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.</p>
 <pre class="r"><code>read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
@@ -497,10 +571,7 @@ state_election_df =
     winner_candidate = candidate,
     winner_party = party
   )</code></pre>
-</div>
-<div id="plots" class="section level3">
-<h3>Plots</h3>
-<p>Characterizing tweets TODO : use the same colors</p>
+<p>We then explored the data to characterize the distribution of tweets across different locations and time to see if there were any patterns or trends. We first plot the distribution of Biden and Trump tweets across states.</p>
 <pre class="r"><code>tweets_usa %&gt;%
 group_by(state, hashtag)%&gt;%
 summarise(count = n()) %&gt;%  
@@ -509,7 +580,8 @@ geom_col(aes(x=state, y=count, fill = hashtag ), position = &quot;dodge&quot;) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = &quot;Distribution of tweets across US states&quot;)</code></pre>
 <pre><code>## `summarise()` regrouping output by &#39;state&#39; (override with `.groups` argument)</code></pre>
-<p><img src="report_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="report_files/figure-html/unnamed-chunk-3-1.png" width="672" /> We observe abnormal distribution of tweets density across states with California and New York being the most active states with more than 15,000 tweets during October-November. That aligns with our prior expectations. Other active states included Florida and Texas, which was unexpected. Overall, more urban states tended to be more active on discussing candidates. Almost in each state Trump gained more attention with Ohio being the only exception.</p>
+<p>We then looked at the distribution of tweets across time and attempted to estimate if there is a significant difference in hashtag use over time between the two candidates.</p>
 <pre class="r"><code>tweets_usa %&gt;% 
 mutate(date = as.Date(paste(creation_month, creation_day, &#39;2020&#39;, sep = &quot;/&quot;), format  = &quot;%m/%d/%y&quot;)) %&gt;%  
 group_by (date, hashtag) %&gt;%
@@ -526,7 +598,8 @@ labs (title = &quot;Distribution of tweets over time&quot;,
 <pre><code>## `summarise()` regrouping output by &#39;date&#39; (override with `.groups` argument)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="report_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)</p>
+<p>We saw that there is an increase in tweets over time with a peak two days aafter the election day when the preliminary results were revealed. Biden was mentioned less frequently at each time point except for Novemeber 4. Although the difference wasn’t statistically significant, we observed several outliers with unusually high rate of tweets with #Trump hashtag (October 16 and October 23).</p>
+<p>We saw that Trump was mentioned more often. But who talked about him? As the next step, we wanted to look at the correlation between user popularity (authority) and candidates this user mentions. As a proxy for user’s popularity we selected the number of followers. to characterize tweets we multiplied the number of likes per tweet with a number of re-shares to reflect on how much attention a tweet gained. We plotted the data with number of user’s followers on X axis and number of re-shares on Y axis. Each dot represented a tweet and its size correlated with the number of likes.</p>
 <pre class="r"><code>#tweets_usa %&gt;%
 #select (user_followers_count) %&gt;%
 #  arrange(desc(user_followers_count))
@@ -542,6 +615,8 @@ geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size
         x = &quot;Numer of users, thousands&quot;,
         y = &quot;Number of retweets&quot;)</code></pre>
 <p><img src="report_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>We observed that the users with a lot of followers tweeted about Trump more than about Biden. On the other hand, those tweets were not popular - they were not liked or re-shared. On the other hand, there are popular tweets related to Biden with a lot of likes and re-tweets (in the middle of the plot). Regardless of the number of followers or re-tweets, messages about Trump are significantly less liked.</p>
+<p>Interestingly enough, we saw that California not only talked about Trump more, but also re-shared and liked tweets with Trump more (regardless of the tone of those tweets). New York, on the other hand, liked and shared tweets primarily about Biden. In fact, no strong correlation between tweet behavior and electorate attitude can be observed.</p>
 <pre class="r"><code>usa_map &lt;- map_data(&quot;state&quot;)
 
 tweet_map &lt;- tweets_usa %&gt;%
@@ -565,7 +640,7 @@ mutate(top = case_when(Biden&gt;coalesce(Trump,0) ~ &quot;Biden&quot;,
     geom_polygon(color = &quot;gray90&quot;, size = 0.1) +
     labs(title =&quot;Most popular tweets across states&quot;)</code></pre>
 <p><img src="report_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>for NYC map over boroughs + plot them over map</p>
+<p>Given that New York was among the most active states, we wanted to look at the popular tweets in different boroughs. Unfortunately, the data only provided rough estimate of user location. Nevertheless, Bronx, Brooklyn and a part of Queens talked about Trump more.</p>
 <pre class="r"><code>    NY &lt;-tweets_usa %&gt;% 
     filter (state_code == &#39;NY&#39; &amp; city == &#39;New York&#39;) %&gt;%
     filter (likes&gt;10 &amp; retweet_count&gt;10) %&gt;%
@@ -588,9 +663,14 @@ leaflet(map_data) %&gt;%
   addMarkers(~long, ~lat, popup = ~hashtag, data = points) %&gt;%
   addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
   setView(-75, 40.75, zoom = 10)</code></pre>
+<hr />
 </div>
-<div id="word-clouds" class="section level3">
-<h3>Word Clouds</h3>
+</div>
+<div id="additional-analysis" class="section level1">
+<h1>Additional analysis:</h1>
+<p>Things to consider: If you undertake formal statistical analyses, describe these in detail</p>
+<div id="word-clouds" class="section level2">
+<h2><em>Word Clouds</em></h2>
 <p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="wc_redirect.html">shinyapp©</a>.</p>
 <p>Here is the code used to generate the app and a screenshot of the final product:</p>
 <pre class="r"><code>if (require(shiny)) {
@@ -846,10 +926,12 @@ leaflet(map_data) %&gt;%
   }</code></pre>
 <p><img src="figures/wordcloud.png" /></p>
 <p>Users can explore tweet’s most frequent words by hashtag, by twitter user account original state’s winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.</p>
+<hr />
 </div>
-<div id="discussion" class="section level3">
-<h3>Discussion</h3>
 </div>
+<div id="discussion" class="section level1">
+<h1>Discussion:</h1>
+<p>Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?</p>
 </div>
 
 

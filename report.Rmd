@@ -22,34 +22,85 @@ library(rgdal)
 ```
 
 
-# Motivation: Provide an overview of the project goals and motivation.
+# Motivation: 
+Questions to consider: Provide an overview of the project goals and motivation; 
 
-# Related work: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
+US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions ([US PresidentialElection Polls Failure](https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/)). 
+Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models. 
 
-# Initial questions: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
+On the other hand, the evolution of social media has been tied to political behavior such as voting ([Twitter as Indicator for Political Behavior](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449)). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior ([Can Twitter Data Forecast Presidential Elections?](https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704)). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.
 
-# Data: Source, scraping method, cleaning, etc.
+We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.    
 
-## *Raw State Level Votes*
+## *Related work*
+Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
 
+Sources!
 
-# Exploratory analysis: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+***
 
-# Additional analysis: If you undertake formal statistical analyses, describe these in detail
+# Initial questions: 
+Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
 
+In this project, we will:
 
+* Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a choropleth map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 election outcome. We will do the same with the polls. 
 
-## * 
+* Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, emoji) and election results.
 
-Discussion: What were your findings? Are they what you expect? What insights into the data can you make?
+Suggested Plot/Charts at Proposal:  
 
+1) Distribution of #Biden/#Trump tweets by state;  
+2) US polls prediction of winning candidate by state   
+3) Graph of Current Votes by state for US Election Results  
+4) Interactive visualisization of tweets features and content and their distribution by state
 
-## Polls Description of Dataset 
+Projected Challenges during Proposal: 
+
+1) Cleaning up tweets free-text or identifying meaningful variables in free text
+2) Processing the poll data to allow polls/tweets comparison
+2) Identifying proper model for correlation 
+3) Building an interactive visualization embedded into a web site
+4) Handling large volume of data
+
+***
+
+# Data Sources
+Questions to consider: scraping method, cleaning, etc.
+
+## *2020 Polls Dataset* 
+[2020 Election Forecast](https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020)
+
 Polls were summarized by taking the mean of the expected votes per candidate in the 3 days leading up to the election (November 1-3) prior to displaying data visualization. 
 
+## *2020 Election Results Dataset* 
+[2020 Election](https://www.kaggle.com/unanimad/us-election-2020)
+
+Insert cleaning, scraping, methods here 
+
+## *US Regional Dataset* 
+[US States by Region](https://www.kaggle.com/omer2040/usa-states-to-region)
+
+Insert cleaning, scraping, methods here 
+
+## *2020 US Election Twitter Dataset* 
+[US Election Twitter](https://www.kaggle.com/manchunhui/us-election-2020-tweets)
+
+Insert cleaning, scraping, methods here 
+
+***
+
+# Exploratory analysis:
+Things to consider: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
+
+## *2020 Polls Visualisation* 
+Insert text here 
+
+## *2020 Election Visualisation* 
+Insert text here 
 
 
-### Tweet Data
+## *2020 Election Tweet Data & Visualisation* 
 
 We opted to use the two datasets found [here](https://www.kaggle.com/manchunhui/us-election-2020-tweets) constructed from scraping Twitter for tweets either containing _#Biden_ (or _#JoeBiden_) or containing _#Trump_ (or _#DonaldTrump_) from Oct 15th through Nov 8th. 
 
@@ -281,7 +332,12 @@ leaflet(map_data) %>%
 
 ```
 
-### Word Clouds
+*** 
+
+# Additional analysis:
+Things to consider: If you undertake formal statistical analyses, describe these in detail
+
+## *Word Clouds*
 
 We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the `tm` package to clean tweet text of non-textual elements as well as stop words (both english and spanish).
 We developed a custom function `wordcount_df` that incorporates functions of this package and _tidyverse_ elements to construct dataframes with a `word` and a `freq` column. This dataframe is the raw material for the `wordcloud2` package. It has several functionalities to create word clouds and with the _renderwordcloud2_ function it can be incorporated into a [shinyapp©](wc_redirect.html).
@@ -545,5 +601,8 @@ if (require(shiny)) {
 
 Users can explore tweet's most frequent words by hashtag, by twitter user account original state's winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.
 
-### Discussion
+***
+
+# Discussion: 
+Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?
 
