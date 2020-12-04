@@ -1,9 +1,10 @@
 ---
-title: "Comparison over three datasets"
+title: "Comparing Findings"
 output: 
   html_document:
+    toc: true
+    toc_float: true
     code_folding: hide
-    keep_md: true
     source: embed
 ---
 
@@ -14,9 +15,9 @@ library(knitr)
 library(kableExtra)
 ```
 
-## Result Comparison {.tabset}
+## Result Comparison for the 2020 Presidential Election {.tabset}
 
-### 2020 Presidential Election Results
+### Results
 
 ```{r, message = FALSE, warning=FALSE}
 vote_df = read_csv("./datasets/president_county_candidate.csv")
@@ -24,10 +25,7 @@ state_sum = read_csv("./datasets/president_state.csv")
 region_df = 
     read_csv("./datasets/states.csv") %>% 
     rename(state = State)  
-```
 
-
-```{r, message = FALSE, warning=FALSE}
 election_winner_df =
    read_csv("./datasets/president_county_candidate.csv") %>% 
     group_by(state, party) %>% 
@@ -45,10 +43,7 @@ winner_region =
     filter(state_winner == TRUE) %>% 
     select(state, candidate, state_total, Region) %>% 
     distinct()
-```
 
-
-```{r, message = FALSE, warning=FALSE}
 election_map_df =
     election_winner_df %>% 
     filter(state_winner == TRUE) %>% 
@@ -59,10 +54,7 @@ election_map_df =
 usa_map = map_data("state") 
 
 usa_election_map = left_join(usa_map, election_map_df)
-```
 
-
-```{r, warning= FALSE}
 colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
@@ -91,7 +83,7 @@ ggplotly(election_result_map, tooltip = "text") %>%
     layout(autosize = F, width = 680 , height = 408)
 ```
 
-### Poll regarding 2020 Presidential Election 
+### Polls
 
 ```{r clean_datasets, message=FALSE, warning=FALSE}
 
@@ -129,9 +121,6 @@ polls_merge =
   arrange(state, month, day) %>% 
   select(-`State Code`) %>% 
   relocate("state", "Region") 
-```
-
-```{r Clean_Voter_Data, message=FALSE, warning=FALSE}
 
 ## Clean vote proportion and number of votes for each candidate by state
 
@@ -155,9 +144,6 @@ exp_votes=
     candidate_votes = (votes_proportion/100)*voter_turnout
     ) 
   
-```
-
-```{r State_Winner, message = FALSE}
 
 state_winner_df =
     exp_votes %>% 
@@ -180,9 +166,6 @@ us_election_map =
     "Biden" = "Joe Biden"
   ))
 
-```
-
-```{r election_map, warning= FALSE}
 
 colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
@@ -212,7 +195,7 @@ ggplotly(election_map , tooltip = "text") %>%
 ```
 
 
-### Tweets regarding 2020 Presidential Election 
+### Tweets 
 
 
 ```{r, message=FALSE, warning= FALSE}
@@ -241,16 +224,11 @@ biden_df =
   separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
   separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
   mutate(hashtag = "Biden")
-```
 
-```{r, message=FALSE}
 tweets_usa =
   merge(biden_df, trump_df, all = TRUE) %>% 
   filter(country == "United States of America")
-```
 
-
-```{r, message=FALSE, warning=FALSE}
 usa_map <- map_data("state")
 
 tweet_map <- tweets_usa %>%

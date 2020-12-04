@@ -2,8 +2,9 @@
 title: "**2020 US Election Results**"
 output: 
   html_document:
+    toc: true
+    toc_float: true
     code_folding: hide
-    keep_md: true
     source: embed
 ---
 
