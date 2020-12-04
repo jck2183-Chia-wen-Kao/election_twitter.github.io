@@ -1,5 +1,5 @@
 ---
-title: "2020 Election: Polls & Twitter"
+title: "2020 Election: Polls & Tweets"
 output: 
   html_document:
     after_body: footer.html
