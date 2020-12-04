@@ -113,7 +113,7 @@ Distribution of tweets for Trump and Beiden over time
 ```{r dis-time, message = FALSE}
 tweets_usa %>% 
 mutate(date = as.Date(paste(creation_month, creation_day, '2020', sep = "/"), format  = "%m/%d/%y")) %>%  
-group_by (date, hashtag) %>%
+group_by(date, hashtag) %>%
 summarise(count = n())  %>%
 ggplot(aes(x=date,y=count,color = hashtag)) +
 geom_smooth(method = "lm") +
