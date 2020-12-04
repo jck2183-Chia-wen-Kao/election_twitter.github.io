@@ -26,19 +26,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-
-<style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -412,16 +401,16 @@ div.tocify {
 </div>
 
 
-<div id="motivation-and-related-work" class="section level1">
-<h1>Motivation and Related Work</h1>
+<div id="motivation-and-related-work" class="section level2">
+<h2>Motivation and Related Work</h2>
 <p>Questions to consider: Provide an overview of the project goals and motivation; Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
 <p>US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions (<a href="https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/">US PresidentialElection Polls Failure</a>). Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models.</p>
 <p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704">Can Twitter Data Forecast Presidential Elections?</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
 <p>We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
 <hr />
 </div>
-<div id="initial-questions" class="section level1">
-<h1>Initial questions</h1>
+<div id="initial-questions" class="section level2">
+<h2>Initial questions</h2>
 <p>Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?</p>
 <p>In this project, we will:</p>
 <ul>
@@ -448,61 +437,61 @@ div.tocify {
 </ol>
 <hr />
 </div>
-<div id="data-sources" class="section level1">
-<h1>Data Sources</h1>
+<div id="data-sources" class="section level2">
+<h2>Data Sources</h2>
 <p>Questions to consider: scraping method, cleaning, etc.</p>
 <p>We used several datasets available online in this project. The data wrangling process, and dataframes created are described along with each section of the exploratory analysis and visualizations performed. Here is a list of the datasets used for this project:</p>
-<div id="polls-dataset" class="section level2">
-<h2><em>2020 Polls Dataset</em></h2>
+<div id="polls-dataset" class="section level3">
+<h3><em>2020 Polls Dataset</em></h3>
 <p><a href="https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020">2020 Election Forecast</a></p>
 <p>Polls were summarized by taking the mean of the expected votes per candidate in the 3 days leading up to the election (November 1-3) prior to displaying data visualization.</p>
 </div>
-<div id="election-results-dataset" class="section level2">
-<h2><em>2020 Election Results Dataset</em></h2>
+<div id="election-results-dataset" class="section level3">
+<h3><em>2020 Election Results Dataset</em></h3>
 <p><a href="https://www.kaggle.com/unanimad/us-election-2020">2020 Election</a></p>
 <p>This dataset contains county- and state-level data from 2020 US Election.</p>
 </div>
-<div id="us-regional-dataset" class="section level2">
-<h2><em>US Regional Dataset</em></h2>
+<div id="us-regional-dataset" class="section level3">
+<h3><em>US Regional Dataset</em></h3>
 <p><a href="https://www.kaggle.com/omer2040/usa-states-to-region">US States by Region</a></p>
 <p>This dataset contains region information for each state.</p>
 </div>
-<div id="us-election-twitter-datasets" class="section level2">
-<h2><em>2020 US Election Twitter Datasets</em></h2>
+<div id="us-election-twitter-datasets" class="section level3">
+<h3><em>2020 US Election Twitter Datasets</em></h3>
 <p><a href="https://www.kaggle.com/manchunhui/us-election-2020-tweets">US Election Twitter</a></p>
 <p>Two datasets constructed from scraping Twitter for tweets either containing <em>#Biden</em> (or <em>#JoeBiden</em>) or containing <em>#Trump</em> (or <em>#DonaldTrump</em>) from Oct 15th through Nov 8th.</p>
 <hr />
 </div>
 </div>
-<div id="exploratory-analysis" class="section level1">
-<h1>Exploratory analysis</h1>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory analysis</h2>
 <p>Things to consider: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.</p>
-<div id="polls-visualisation" class="section level2">
-<h2><em>2020 Polls Visualisation</em></h2>
-<div id="data-wrangling" class="section level3">
-<h3>Data Wrangling</h3>
+<div id="polls-visualisation" class="section level3">
+<h3><em>2020 Polls Visualisation</em></h3>
+<div id="data-wrangling" class="section level4">
+<h4>Data Wrangling</h4>
 <p>Insert text here</p>
 </div>
-<div id="exploratory-analysis-1" class="section level3">
-<h3>Exploratory Analysis</h3>
-<p>Insert text here</p>
-</div>
-</div>
-<div id="election-visualisation" class="section level2">
-<h2><em>2020 Election Visualisation</em></h2>
-<div id="data-wrangling-1" class="section level3">
-<h3>Data Wrangling</h3>
-<p>Insert text here</p>
-</div>
-<div id="exploratory-analysis-2" class="section level3">
-<h3>Exploratory Analysis</h3>
+<div id="exploratory-analysis-1" class="section level4">
+<h4>Exploratory Analysis</h4>
 <p>Insert text here</p>
 </div>
 </div>
-<div id="election-tweet-data-visualisation" class="section level2">
-<h2><em>2020 Election Tweet Data &amp; Visualisation</em></h2>
-<div id="data-wrangling-2" class="section level3">
-<h3>Data Wrangling</h3>
+<div id="election-visualisation" class="section level3">
+<h3><em>2020 Election Visualisation</em></h3>
+<div id="data-wrangling-1" class="section level4">
+<h4>Data Wrangling</h4>
+<p>Insert text here</p>
+</div>
+<div id="exploratory-analysis-2" class="section level4">
+<h4>Exploratory Analysis</h4>
+<p>Insert text here</p>
+</div>
+</div>
+<div id="election-tweet-data-visualisation" class="section level3">
+<h3><em>2020 Election Tweet Data &amp; Visualisation</em></h3>
+<div id="data-wrangling-2" class="section level4">
+<h4>Data Wrangling</h4>
 <p>Because the <em>2020 Eelection Twitter</em> datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.</p>
 <pre class="r"><code>read_csv(&quot;./datasets/hashtag_donaldtrump.csv&quot;) %&gt;% 
   drop_na() %&gt;%
@@ -598,6 +587,7 @@ main_tweets_usa =
     winner_candidate = candidate,
     winner_party = party
   )</code></pre>
+</div>
 </div>
 <div id="exploratory-analysis-3" class="section level3">
 <h3>Exploratory Analysis</h3>
@@ -698,12 +688,11 @@ leaflet(map_data) %&gt;%
 <hr />
 </div>
 </div>
-</div>
-<div id="additional-analysis" class="section level1">
-<h1>Additional Analysis</h1>
+<div id="additional-analysis" class="section level2">
+<h2>Additional Analysis</h2>
 <p>Things to consider: If you undertake formal statistical analyses, describe these in detail</p>
-<div id="tweet-word-clouds" class="section level2">
-<h2><em>Tweet Word Clouds</em></h2>
+<div id="tweet-word-clouds" class="section level3">
+<h3><em>Tweet Word Clouds</em></h3>
 <p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="wc_redirect.html">shinyapp©</a>.</p>
 <p>Here is the code used to generate the app and a screenshot of the final product:</p>
 <pre class="r"><code>if (require(shiny)) {
@@ -962,8 +951,8 @@ leaflet(map_data) %&gt;%
 <hr />
 </div>
 </div>
-<div id="discussion" class="section level1">
-<h1>Discussion</h1>
+<div id="discussion" class="section level2">
+<h2>Discussion</h2>
 <p>Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?</p>
 <p><strong>Polling</strong>. Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don’t win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key battleground states: Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden’s projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the “Big Four” due to their high number of electoral votes. Ultimately, President Trump’s chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states.</p>
 <p><strong>Tweets</strong>. We obeserved in our <em>election tweets</em> exploration an uneven distribution of tweets density across states with California and New York being the most active states.This aligns with our prior expectations that overall, more urban states tend to be more active on discussing candidates. In most states (all but Ohio) Trump gained more attention. This is confirmed with our tweet word cloud exploration tool where independent of user defined parameters, the word <em>Trump</em> ranks top in terms of frequency within tweet text.</p>
@@ -972,6 +961,15 @@ leaflet(map_data) %&gt;%
 <p>Conversely, when looking solely at most prevalent hashtag (#Biden vs. #Trump), it was almost inverse to the actual state election results. We found that in 27 states the most tweeted candidate disagreed with the winner in that state. This might indicate that tweets relating to specific candidate are not necessarily positive but negative. A more granular analysis of the polarity of the tweet text could be achieved with analysis of word meanings and sentence formation. Based on a count analysis, tweets are not helpful in correlating with election results.</p>
 <p><strong>Limitations</strong>. We encountered several limitations throughout the development of the project. We were handling large volume of data that were being updated daily which forced us to define a end date for tweet analysis. This fact required us to slice our datasets to save on computation power and avoid that our website would take too long to render. As predicted, working with string variables, was challenging and our work was limited by the lack of experience of our team on working with this type of data. In that sense, our main limitation was the lack of in-depth analysis of actual tweet text content. In order to realistically access behavior and electorate attitude, and potentially investigate correlations and construct predictive models, a thorough sentiment analysis should be performed using machine learning tools.</p>
 <p><strong>Conclusion</strong>. Based on analysis performed among these three datasets, and in light of the limitations discussed, poll data far outperformed tweet data in terms of the 2020 presidential election.</p>
+<hr />
+ 
+<hr />
+<p style="text-align: center;">
+<a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a>
+</p>
+<p style="text-align: center; ">
+2020
+</p>
 </div>
 
 
@@ -985,7 +983,7 @@ leaflet(map_data) %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

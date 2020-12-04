@@ -3,7 +3,7 @@ title: "Comparing Findings"
 output: 
   html_document:
     toc: true
-    toc_float: true
+    toc_float: True
     code_folding: hide
     source: embed
 ---
@@ -371,3 +371,13 @@ comparison_df %>%
 ```
 
 To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.
+
+
+
+***
+
+&nbsp;
+<hr />
+<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
+
+<p style="text-align: center; "> 2020 </p>

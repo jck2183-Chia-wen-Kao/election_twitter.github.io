@@ -56,8 +56,11 @@ We hypothesize that social media can be beneficial in identifying electoral beha
 [**Screencast**](link to screencast) A brief 2 minute screencast of our project can be found.
 
 
+
+***
+
 &nbsp;
 <hr />
-<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://jck2183-chia-wen-kao.github.io/jck2183_hw4.github.io/about.html">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
+<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
 
 <p style="text-align: center; "> 2020 </p>

@@ -51,7 +51,7 @@ election_by_region =
 ```
 
 ***
-# Title
+# Votes proportion in Each State segmented by Region
 
 ## *Plot the proportion of each candidate by states*
 
@@ -138,6 +138,10 @@ election_by_region %>%
 ggplotly(main_plot, tooltip = "text")  
 ```
 
+***
+
+# Breakdown of Votes by Winner
+
 ## *Barplot for each states by 4 regions specifying winner*
 
 We also want to examine the total votes and mark them with the significant leading party color in the states segmented by regions.
@@ -219,6 +223,10 @@ Northeast_votes_p =
 Midwest_votes_p + West_votes_p + South_votes_p + Northeast_votes_p + plot_layout(guides = "collect")
 ```
 
+***
+
+# Map: Displying State Winner
+
 ## *Tidy Data with Map information*
 
 Tidy the data with the US map information to plot the winning candidates in each state on the US map.
@@ -267,6 +275,8 @@ ggplot(data = usa_election_map,
 election_result_map
 ```
 
+## *Plotly to increase interactivity*
+
 ```{r, warning= FALSE, message = FALSE}
 ggplotly(election_result_map, tooltip = "text") %>% 
   layout(autosize = F, width = 680 , height = 408)
@@ -276,3 +286,12 @@ ggplotly(election_result_map, tooltip = "text") %>%
 # Conclusion
 
 We can see that most of the results align with the poll anticipation, but Donald Trump, with a small proportion, won North Carolina and Florida. In fact, except for North Carolina and Florida, Joe Biden has won the other battleground states: Arizona, Georgia,Michigan, Minnesota, Nevada, New Hampshire,  Pennsylvania, and Wisconsin. Among these battleground states,  Florida, Michigan, Pennsylvania, and Wisconsin are regarded as "Big Four" which are most likely to decide the electoral college. Among the "Big Four", Joe Biden has won three of the states, which may consider as a key component for him to win the election.
+
+
+***
+
+&nbsp;
+<hr />
+<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
+
+<p style="text-align: center; "> 2020 </p>

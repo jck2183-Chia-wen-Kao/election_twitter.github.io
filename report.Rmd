@@ -3,7 +3,7 @@ title: "Project Report"
 output:   
   html_document:
     toc: true
-    toc_float: true
+    toc_float: True
     code_folding: hide
 ---
 
@@ -25,7 +25,8 @@ names(colors) = c("Trump", "Biden")
 ```
 
 
-# Motivation and Related Work
+
+## Motivation and Related Work
 Questions to consider: Provide an overview of the project goals and motivation; 
 Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
 
@@ -38,7 +39,7 @@ We hypothesize that social media can be beneficial in identifying electoral beha
 
 ***
 
-# Initial questions 
+## Initial questions 
 Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
 
 In this project, we will:
@@ -64,55 +65,55 @@ Projected Challenges during Proposal:
 
 ***
 
-# Data Sources
+## Data Sources
 Questions to consider: scraping method, cleaning, etc.
 
 We used several datasets available online in this project. The data wrangling process, and dataframes created are described along with each section of the exploratory analysis and visualizations performed. Here is a list of the datasets used for this project:
 
-## *2020 Polls Dataset* 
+###  *2020 Polls Dataset* 
 [2020 Election Forecast](https://github.com/fivethirtyeight/data/tree/master/election-forecasts-2020)
 
 Polls were summarized by taking the mean of the expected votes per candidate in the 3 days leading up to the election (November 1-3) prior to displaying data visualization. 
 
-## *2020 Election Results Dataset* 
+###  *2020 Election Results Dataset* 
 [2020 Election](https://www.kaggle.com/unanimad/us-election-2020)
 
 This dataset contains county- and state-level data from 2020 US Election.
 
-## *US Regional Dataset* 
+###  *US Regional Dataset* 
 [US States by Region](https://www.kaggle.com/omer2040/usa-states-to-region)
 
 This dataset contains  region information for each state.
 
-## *2020 US Election Twitter Datasets* 
+### *2020 US Election Twitter Datasets* 
 [US Election Twitter](https://www.kaggle.com/manchunhui/us-election-2020-tweets)
 
 Two datasets constructed from scraping Twitter for tweets either containing _#Biden_ (or _#JoeBiden_) or containing _#Trump_ (or _#DonaldTrump_) from Oct 15th through Nov 8th.
  
 ***
 
-# Exploratory analysis
+## Exploratory analysis
 Things to consider: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
 
-## *2020 Polls Visualisation* 
+###  *2020 Polls Visualisation* 
 
-### Data Wrangling
+#### Data Wrangling
 Insert text here 
 
-### Exploratory Analysis
+#### Exploratory Analysis
 Insert text here 
 
-## *2020 Election Visualisation* 
+### *2020 Election Visualisation* 
 
-### Data Wrangling
+####  Data Wrangling
 Insert text here 
 
-### Exploratory Analysis
+#### Exploratory Analysis
 Insert text here 
 
-## *2020 Election Tweet Data & Visualisation* 
+### *2020 Election Tweet Data & Visualisation* 
 
-### Data Wrangling
+#### Data Wrangling
 
 Because the _2020 Eelection Twitter_ datasets were large we droped missing data and divided each dataset into two subsets to be able to store them within our repository.
 
@@ -351,10 +352,10 @@ leaflet(map_data) %>%
 
 *** 
 
-# Additional Analysis
+## Additional Analysis
 Things to consider: If you undertake formal statistical analyses, describe these in detail
 
-## *Tweet Word Clouds*
+### *Tweet Word Clouds*
 
 We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the `tm` package to clean tweet text of non-textual elements as well as stop words (both english and spanish).
 We developed a custom function `wordcount_df` that incorporates functions of this package and _tidyverse_ elements to construct dataframes with a `word` and a `freq` column. This dataframe is the raw material for the `wordcloud2` package. It has several functionalities to create word clouds and with the _renderwordcloud2_ function it can be incorporated into a [shinyapp©](wc_redirect.html).
@@ -620,7 +621,7 @@ Users can explore tweet's most frequent words by hashtag, by twitter user accoun
 
 ***
 
-# Discussion
+## Discussion
 Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?
 
 **Polling**. Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don’t win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key battleground states: Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden’s projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the “Big Four” due to their high number of electoral votes. Ultimately, President Trump’s chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states.
@@ -636,3 +637,12 @@ Conversely, when looking solely at most prevalent hashtag (#Biden vs. #Trump), i
 **Limitations**. We encountered several limitations throughout the development of the project. We were handling large volume of data that were being updated daily which forced us to define a end date for tweet analysis. This fact required us to slice our datasets to save on computation power and avoid that our website would take too long to render. As predicted, working with string variables, was challenging and our work was limited by the lack of experience of our team on working with this type of data. In that sense, our main limitation was the lack of in-depth analysis of actual tweet text content. In order to realistically access behavior and electorate attitude, and potentially investigate correlations and construct predictive models, a thorough sentiment analysis should be performed using machine learning tools.
 
 **Conclusion**. Based on analysis performed among these three datasets, and in light of the limitations discussed, poll data far outperformed tweet data in terms of the 2020 presidential election.  
+
+
+***
+
+&nbsp;
+<hr />
+<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
+
+<p style="text-align: center; "> 2020 </p>

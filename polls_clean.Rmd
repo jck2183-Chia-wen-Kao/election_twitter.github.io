@@ -434,3 +434,9 @@ ggplotly(election_map, tooltip = "text") %>%
 Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don't win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key [battleground states](https://www.cnbc.com/2020/11/02/2020-election-polls-biden-leads-trump-in-six-swing-states.html): Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden's projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the "Big Four" due to their high number of electoral votes. Ultimately, President Trump's chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states. 
 
 ***
+
+&nbsp;
+<hr />
+<p style="text-align: center;"><a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://github.com/jck2183-Chia-wen-Kao">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a></p>
+
+<p style="text-align: center; "> 2020 </p>
