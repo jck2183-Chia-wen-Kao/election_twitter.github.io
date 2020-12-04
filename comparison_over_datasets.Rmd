@@ -17,73 +17,6 @@ library(kableExtra)
 
 ## *Result Comparison for the 2020 Presidential Election* {.tabset}
 
-### Results
-
-```{r, message = FALSE, warning=FALSE}
-vote_df = read_csv("./datasets/president_county_candidate.csv")
-state_sum = read_csv("./datasets/president_state.csv")
-region_df = 
-    read_csv("./datasets/states.csv") %>% 
-    rename(state = State)  
-
-election_winner_df =
-   read_csv("./datasets/president_county_candidate.csv") %>% 
-    group_by(state, party) %>% 
-    mutate(party_total = sum(total_votes)) %>% 
-    ungroup() %>% 
-    group_by(state) %>%
-    mutate(state_winner = case_when(
-        party_total == max(party_total) ~ TRUE,
-        party_total != max(party_total) ~ FALSE),
-        state_total = sum(total_votes)
-    )
-
-winner_region =
-    left_join(election_winner_df, region_df) %>% 
-    filter(state_winner == TRUE) %>% 
-    select(state, candidate, state_total, Region) %>% 
-    distinct()
-
-election_map_df =
-    election_winner_df %>% 
-    filter(state_winner == TRUE) %>% 
-    mutate(region = tolower(state)) %>% 
-    select(state, candidate, party_total, state_total, region) %>% 
-    distinct()
-
-usa_map = map_data("state") 
-
-usa_election_map = left_join(usa_map, election_map_df)
-
-colors <- c("dark red", "dark blue")
-names(colors) = c("Donald Trump", "Joe Biden")
-
-election_result_map =
-ggplot(data = usa_election_map,
-       aes(x = long, y = lat,
-           group = group, fill = candidate, 
-           text = paste("State: ", state , 
-                 "</br></br>Candidate: ", candidate, 
-                 "</br>Votes: ", party_total, 
-                 "</br>Winning Proportion: ", round(party_total/state_total, 4)*100))) +
-    geom_polygon(color = "gray90", size = 0.1) +
-    labs(title = "Election Results across states") + 
-    scale_fill_manual(values = colors) +
-    theme_void() +
-    theme(
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(), 
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        legend.title = element_blank(),
-        legend.position = "bottom") 
-
-ggplotly(election_result_map, tooltip = "text") %>% 
-    layout(autosize = F, width = 680 , height = 408)
-```
-
 ### Polls
 
 ```{r clean_datasets, message=FALSE, warning=FALSE}
@@ -279,6 +212,75 @@ tweet_result_map =
 ggplotly(tweet_result_map, tooltip = "text") %>% 
     layout(autosize = F, width = 680 , height = 408)
 ```
+
+### Results
+
+```{r, message = FALSE, warning=FALSE}
+vote_df = read_csv("./datasets/president_county_candidate.csv")
+state_sum = read_csv("./datasets/president_state.csv")
+region_df = 
+    read_csv("./datasets/states.csv") %>% 
+    rename(state = State)  
+
+election_winner_df =
+   read_csv("./datasets/president_county_candidate.csv") %>% 
+    group_by(state, party) %>% 
+    mutate(party_total = sum(total_votes)) %>% 
+    ungroup() %>% 
+    group_by(state) %>%
+    mutate(state_winner = case_when(
+        party_total == max(party_total) ~ TRUE,
+        party_total != max(party_total) ~ FALSE),
+        state_total = sum(total_votes)
+    )
+
+winner_region =
+    left_join(election_winner_df, region_df) %>% 
+    filter(state_winner == TRUE) %>% 
+    select(state, candidate, state_total, Region) %>% 
+    distinct()
+
+election_map_df =
+    election_winner_df %>% 
+    filter(state_winner == TRUE) %>% 
+    mutate(region = tolower(state)) %>% 
+    select(state, candidate, party_total, state_total, region) %>% 
+    distinct()
+
+usa_map = map_data("state") 
+
+usa_election_map = left_join(usa_map, election_map_df)
+
+colors <- c("dark red", "dark blue")
+names(colors) = c("Donald Trump", "Joe Biden")
+
+election_result_map =
+ggplot(data = usa_election_map,
+       aes(x = long, y = lat,
+           group = group, fill = candidate, 
+           text = paste("State: ", state , 
+                 "</br></br>Candidate: ", candidate, 
+                 "</br>Votes: ", party_total, 
+                 "</br>Winning Proportion: ", round(party_total/state_total, 4)*100))) +
+    geom_polygon(color = "gray90", size = 0.1) +
+    labs(title = "Election Results across states") + 
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        legend.title = element_blank(),
+        legend.position = "bottom") 
+
+ggplotly(election_result_map, tooltip = "text") %>% 
+    layout(autosize = F, width = 680 , height = 408)
+```
+
+***
 
 # Three different data comparison
 

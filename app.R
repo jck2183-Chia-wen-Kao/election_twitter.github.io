@@ -65,7 +65,7 @@ if (require(shiny)) {
     
     df_text = 
       df %>% 
-      slice_head(n = 1000) %>% 
+      slice_sample(n = 3000) %>% 
       select(tweet) %>%
       mutate(
         tweet = gsub("#[[:alpha:]]*", "", tweet),
