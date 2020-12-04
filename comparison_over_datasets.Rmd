@@ -370,8 +370,4 @@ comparison_df %>%
   kable_material(c("striped", "hover"))
 ```
 
-To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.  
-
-# Conclusion or Interpretation
-
-text
+To sum up the different among three datasets, poll still performed better than the popular tweets analysis. Maybe it is because we haven't learned how to let the machine distinguish the meaning of words. Once the machine can distinguish the meaning of the words, it perhaps can provide more insights into the election.
