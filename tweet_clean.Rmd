@@ -1,7 +1,9 @@
 ---
-title: "tweet_clean"
+title: "Twitter data exploratory analysis"
 output:   
   html_document:
+    code_folding: hide
+    toc: true  
     source: embed
 ---
 
@@ -23,7 +25,7 @@ library(rgdal)
 
 Data import.Merge Trump and Biden tweets, separating dates (creation, join) into day, month and year and assigning a hashtag.
 
-```{r, eval = TRUE}
+```{r data, eval = TRUE,  echo=FALSE, message=FALSE, warning=FALSE}
 trump_df = 
   merge(
     read_csv("./datasets/trump1.csv"),
@@ -55,8 +57,7 @@ Description of the datasets:
 the datasets include date of tweet (y,m,d), tweet id, text of tweet, number of likes and re-shares, user id, number of followers for that user and location  of tweet (city, country, state and latitude with longitude).
 
 
-
-```{r}
+```{r proceessing,  echo=FALSE, message=FALSE, warning=FALSE}
 # Joining dfs and subsetting for US
 tweets = 
   merge(biden_df, trump_df, all = TRUE)
@@ -85,7 +86,7 @@ state_election_df =
   select(state, candidate, party, party_total, state_total) %>% 
   distinct()
   
-Joining tweet data and election data
+#Joining tweet data and election data
 
 main_tweets_usa = 
   left_join(tweets_usa, state_election_df, by = "state") %>% 
@@ -98,7 +99,7 @@ main_tweets_usa =
 ## Creating plots to characterize tweets
 
 Distibution of tweets for Biden and Trump across states
-```{r}
+```{r distr, message = FALSE}
 tweets_usa %>%
 group_by(state, hashtag)%>%
 summarise(count = n()) %>%  
@@ -109,7 +110,7 @@ geom_col(aes(x=state, y=count, color = hashtag ), position = "dodge") +
 ```
 Distribution of tweets for Trump and Beiden over time
 
-```{r}
+```{r dis-time, message = FALSE}
 tweets_usa %>% 
 mutate(date = as.Date(paste(creation_month, creation_day, '2020', sep = "/"), format  = "%m/%d/%y")) %>%  
 group_by (date, hashtag) %>%
@@ -130,7 +131,7 @@ We see that there is an increase in tweets over time with Biden having less twee
 
 
 Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
-```{r}
+```{r like, message = FALSE}
 tweets_usa %>%
 group_by(hashtag)%>%
 filter (retweet_count>0 & likes>0) %>%
@@ -147,7 +148,7 @@ We see that the users with a lot of followers tweet about Trump but those tweets
 
 Plotting US states with the most popular tweets by the candidate
 
-```{r}
+```{r map, message = FALSE, warning = FALSE}
 
 usa_map <- map_data("state")
 
@@ -176,7 +177,7 @@ states_tweet_map <- left_join(usa_map, tweet_map)
 ```
 
 Distribution of tweets for NYC boroughs 
-```{r}
+```{r nyc, message = FALSE, warning = FALSE}
 NY <-tweets_usa %>% 
 filter (state_code == 'NY' & city == 'New York') %>%
 filter (likes>10 & retweet_count>10) %>%
