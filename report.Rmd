@@ -25,7 +25,6 @@ names(colors) = c("Trump", "Biden")
 ```
 
 
-
 ## Motivation and Related Work
 Questions to consider: Provide an overview of the project goals and motivation; 
 Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
@@ -36,6 +35,10 @@ Pollsters suggest that the evidence of the 2016 and 2020 elections will improve 
 On the other hand, the evolution of social media has been tied to political behavior such as voting ([Twitter as Indicator for Political Behavior](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449)). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior ([Can Twitter Data Forecast Presidential Elections?](https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704)). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.
 
 We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.    
+
+President Trump's huge upset in the 2016 election had the general public quest
+
+
 
 ***
 
@@ -98,10 +101,65 @@ Things to consider: Visualizations, summaries, and exploratory statistical analy
 ###  *2020 Polls Visualisation* 
 
 #### Data Wrangling
-Insert text here 
+
+The polls dataset containing the final state-level toplines on each day was downloaded as a .csv file and imported into R. The following variables of interest were selected into our dataframe for merging, exploratory analysis and data visualization:
+
+* `state`. Name of the state
+* `modeldate`. Date of the model run
+* `winstate_inc`. Chance the incumbent will win the state
+* `winstate_chal`. Chance the challenger will win the state
+* `voteshare_inc`. Forecasted vote share for the incumbent
+* `voteshare_chal`.	Forecasted vote share for the challenger
+* `margin`. Forecasted margin for the incumbent
+* `state_turnout`. Forecasted state-level voter turnout based on past turnout, estimates of population growth, polls about whether voters are more or less enthusiastic about the election than usual and other factors in each state. 
+
+The `voteshare` and `winstate` variables to indicate Biden or Trump and converted the date variable converted into 3 columns: month, day and year. The polls dataset was merged with US regional dataset on the `state` variable prior to calculating each candidate's raw votes in each state by multplying the proportion of votes by the state's expected total voter turn out. To simplify the dataset, we took the mean of the first 3 days of November (1-3) for all the numeric variables to use in various plots and data visualizations. All other months were excluded for the polls dataset for exploratory analysis. 
 
 #### Exploratory Analysis
-Insert text here 
+
+We used the polls dataset to explore the projected voter turnout by state and region as well as the breakdown of votes by candidate. President Trump victory in the 2016 election drew attention to the validity of polls and general polling performance. Voter turnout was explored at the state and US regional level because of the expected high voter turnout in the 2020 Presidential Election. A total regional proportion of votes for each candidate was used to show 
+
+
+We had originally planned to look at each candidate but it became difficult to find major campaign events for low polling candidates. We also decided to look into the relationship between the number of endorsements per candidate and their current polling performance after reading additional research on how well the number of endorsements predicts nomination to the general election. It is hard to determine whether these events were truly the reason for a drop or gain in polling percent because other factors such as debate performance, candidate fatigue and advertising and therefore our analysis is purely exploratory.
+
+
+
+
+
+Through plotly barplot, we display the proportion of votes by region. 
+
+The proprotion of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state, which will be compared to the final election results. 
+
+The bar graph below show the voting breakdown by state. 
+
+This graph forecasts the voting margin for the incumbent by region for the 2020 Presidential Race. 
+
+This interactive map was created using ggplotly to display candidate expected  to win each state including their voting proportion and  raw raw number of votes. 
+
+Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don't win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key [battleground states](https://www.cnbc.com/2020/11/02/2020-election-polls-biden-leads-trump-in-six-swing-states.html): Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden's projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the "Big Four" due to their high number of electoral votes. Ultimately, President Trump's chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states. 
+
+
+
+
+
+We also discussed several approaches to the exploratory analysis of debate factors affecting polling performance. Originally, we chose an approach in which we would compile debate indicators across debates one through four and examine their association with candidates’ polling percent change over that time period. However, we realized that many other factors besides debate-related variables were likely to affect polling numbers over that period of time. We ultimately decided to focus on the fourth debate because we believe the percent change in polling numbers directly before and after a single debate is more likely to reflect debate performance.
+
+Although we believe focusing on one debate is valuable, we anticipated that it may be difficult to observe meaningful trends due to the small sample size. Additionally, we understand that certain debate-related factors that influence voting behavior may be less quantifiable than variables such as airtime and Trump mentions. We therefore chose to explore Google Search behavior as a secondary indicator of the impact that debate performance has on public perceptions of Democratic presidential candidates. We decided to choose key events from each debate to look at using Google Search behavior in the days immediately following the debates. These events were as follows: Kamala Harris’ comments toward Joe Biden in the first debate about his previous opposition to school busing programs, Bernie Sanders’ memorable comment that he “wrote the damn bill” in the second debate, Beto O’Rourke’s comment of “hell yes” to gun buy-back programs in the third debate, and Andrew Yang and Kamala Harris bringing up Universal Basic Income and reproductive rights, respectively, in the fourth debate. We also decided to compare Yang and Harris after the fourth debate to further compare their debate performances. We initially thought about instead looking at the 24 hours preceding and following the debates. However, we realized that a longer timeframe would give us a better understanding of behavior changes by allowing us to see if they were sustained over time so we looked at daily data for the week preceding and following each debate. Analysis was very exploratory in nature, and search volume was visualized using spaghetti plots.
+
+Finally, there is significant interest in which democratic candidate will eventually go head to head with President Trump in the 2020 presidential election, so we explored polling results in two key states, IA and PA. The list of candidates was limited to the four polling highest in the states who are still in the race: Biden, Sanders, Warren, and Buttigieg. It became difficult to assess polling for candidates in Pennsylvania as opposed to Iowa, as polling data for several candidates was not as varied, which means the spread of polling results was not easily visualizable. This may be due to voters not having as clear of a picture of who will be a realistic contender that late in the race, as Pennsylvania’s primary will happen in April, as opposed to Iowa’s early February caucus. In addition to looking at Google Search behavior following debates at the national level, we also explored how searches for these top candidates varied (or didn’t) between the two states over the course of this year to see if voters exhibited a strong interest or preference in any particular candidate and if these fluctuations coincided with key events like debates.
+
+
+
+
+
+Challenges 
+- over time trend because there were marginal changes 
+- difficulty to plot 50 states over time on a single plot because it's so busy
+-polls plus (five-thirty eigh data )
+
+
+
+
 
 ### *2020 Election Visualisation* 
 
