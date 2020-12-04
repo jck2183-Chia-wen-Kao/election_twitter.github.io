@@ -15,6 +15,7 @@ library(plotly)
 theme_set(theme(legend.position = "right"))
 ```
 
+
 # Data import and cleaning
 
 Merge the election result data with the region of the US, select and variables that contains numbers of votes and summarize them by states. This way, we can also calculate the votes proportion that two candidates got in each states in the election.
