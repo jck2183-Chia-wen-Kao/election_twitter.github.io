@@ -1,6 +1,6 @@
 ---
 title: "US election result"
-author: "jck2183"
+author: "Kao, Chia-wen(jck2183)"
 output: 
   html_document:
     code_folding: hide
@@ -55,7 +55,7 @@ election_by_region =
 ## Plot the proportion of each candidate by states
 
 ```{r}
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 plot_1 =
@@ -104,7 +104,7 @@ par( mfrow = c(2,2) )
 plot_1 + plot_2 + plot_3 + plot_4 + plot_layout(guides = "collect") 
 ```
 
-```{r, message = FALSE, echo=F}
+```{r, message = FALSE, echo=FALSE}
 main_plot =
 election_by_region %>% 
   group_by(Region, candidate) %>% 
@@ -136,11 +136,12 @@ ggplotly(main_plot, tooltip = "text")
 ```{r}
 options(scipen = 999)
 
+
 total_votes_p1 =
     election_by_region %>% 
     filter(Region == "Midwest") %>% 
     ggplot(aes(x = state, y = state_subtotal/1000000)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill = "red") +
+    geom_bar(stat = "identity", position = position_dodge(), fill = "dark red") +
     labs( 
         x = "Midwest", 
         y = "Total Votes (M)"
@@ -151,7 +152,7 @@ total_votes_p2 =
     election_by_region %>% 
     filter(Region == "South") %>% 
     ggplot(aes(x = state, y = state_subtotal/1000000)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill = "blue") +
+    geom_bar(stat = "identity", position = position_dodge(), fill = "dark blue") +
     labs(
         x = "South", 
         y = "Total Votes (M)"
@@ -162,7 +163,7 @@ total_votes_p3 =
     election_by_region %>% 
     filter(Region == "West") %>% 
     ggplot(aes(x = state, y = state_subtotal/1000000)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill = "red") +
+    geom_bar(stat = "identity", position = position_dodge(), fill = "dark red") +
     labs(
         x = "West", 
         y = "Total Votes (M)"
@@ -173,7 +174,7 @@ total_votes_p4 =
     election_by_region %>% 
     filter(Region == "Northeast") %>% 
     ggplot(aes(x = state, y = state_subtotal/1000000)) +
-    geom_bar(stat = "identity", position = position_dodge(), fill = "blue") +
+    geom_bar(stat = "identity", position = position_dodge(), fill = "dark blue") +
     labs(
         x = "Northeast", 
         y = "Total Votes (M)"
@@ -208,7 +209,7 @@ winner_region =
 ## Barplot for each states by 4 regions specifying winner 
 
 ```{r}
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 Midwest_votes_p =
@@ -280,7 +281,7 @@ usa_election_map = left_join(usa_map, election_map_df)
 ## Plot the map with the election result.
 
 ```{r}
-colors <- c("red", "blue")
+colors <- c("dark red", "dark blue")
 names(colors) = c("Donald Trump", "Joe Biden")
 
 election_result_map =

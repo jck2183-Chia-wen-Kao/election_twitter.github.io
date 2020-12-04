@@ -1,6 +1,6 @@
 ---
 title: "Comparison over three datasets"
-author: "ao2671, ac4635, jck2183, tbd2117"
+author: "Ostropolets, Anna(ao2671), Chankasaul, JR(ac4635), Kao, Chia-wen(jck2183), de Araujo, Thiago(tbd2117)"
 output: 
   html_document:
     code_folding: hide
