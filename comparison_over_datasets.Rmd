@@ -11,6 +11,7 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(plotly) 
+library(knitr)
 ```
 
 ## Result Comparison {.tabset}
@@ -72,7 +73,7 @@ ggplot(data = usa_election_map,
            text = paste("State: ", state , 
                  "</br></br>Candidate: ", candidate, 
                  "</br>Votes: ", party_total, 
-                 "</br>Winning Proportion: ", round(party_total/state_total, 2)))) +
+                 "</br>Winning Proportion: ", round(party_total/state_total, 4)*100))) +
     geom_polygon(color = "gray90", size = 0.1) +
     labs(title = "Election Results across states") + 
     scale_fill_manual(values = colors) +
@@ -86,7 +87,8 @@ ggplot(data = usa_election_map,
         axis.ticks.y = element_blank(), 
         legend.position = "bottom") 
 
-ggplotly(election_result_map, tooltip = "text")
+ggplotly(election_result_map, tooltip = "text") %>% 
+    layout(autosize = F, width = 680 , height = 408)
 ```
 
 ### Poll regarding 2020 Presidential Election 
@@ -191,7 +193,7 @@ election_map=
            group=group, fill = Candidate, 
            text = paste("State: ", State , 
                  "</br></br>Candidate: ", Candidate, 
-                 "</br>Expected Votes Proportion: ", votes_proportion))) +
+                 "</br>Expected Votes Proportion: ", round(votes_proportion, 2)))) +
     geom_polygon(color = "gray90", size = 0.1) +
     labs(title = "Anticipated Election Results across states") + 
     scale_fill_manual(values = colors) +
@@ -205,7 +207,8 @@ election_map=
         axis.ticks.y = element_blank(), 
         legend.position = "bottom") 
 
-ggplotly(election_map , tooltip = "text")
+ggplotly(election_map , tooltip = "text") %>% 
+    layout(autosize = F, width = 680 , height = 408)
 ```
 
 
@@ -292,7 +295,8 @@ tweet_result_map =
         legend.position = "bottom") 
     
 
-ggplotly(tweet_result_map, tooltip = "text")    
+ggplotly(tweet_result_map, tooltip = "text") %>% 
+    layout(autosize = F, width = 680 , height = 408)
 ```
 
 
@@ -324,7 +328,7 @@ comparison_df %>%
   mutate(poll_vs_result = voter_turnout - state_total) %>% 
   select(-c(voter_turnout, state_total)) %>% 
   unique() %>% 
-  knitr::kable()
+  kable() 
 ```
 From the computation, we can see that the poll mis-anticipated the winner of the election and the voter turnout 100-200 thousand in North Carolina and Florida respectively. Even though Donald Trump won these 2 states, we can see that the votes he got actually shrank compared to anticipation.
 

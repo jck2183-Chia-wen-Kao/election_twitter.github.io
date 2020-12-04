@@ -366,7 +366,7 @@ div.tocify {
   <a href="comparison_over_datasets.html">Comparison over datasets</a>
 </li>
 <li>
-  <a href="wc_redirect.html">Word Cloud</a>
+  <a href="wc_redirect.html">Tweet Word Cloud</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -424,7 +424,7 @@ read_csv(&quot;./datasets/hashtag_joebiden.csv&quot;) %&gt;%
   drop_na() %&gt;% 
   slice(-seq(0.5 * n())) %&gt;% 
   write.csv(&quot;./datasets/biden2.csv&quot;)</code></pre>
-<p>Then, data was imported, merged, and cleaned, especially date of creation of the tweet, for further analysis. We further limited our analysis to tweets from users registered within the U.S. and with only one of the cadidates hashtags (i.e.: we excluded tweets containing both #Trump/#DonaldTrump and #Biden/#joeBiden).</p>
+<p>Then, data was imported, merged, and cleaned, especially date of creation of the tweet, for further analysis. We further limited our analysis to tweets from users registered within the U.S. and with only one of the cadidates hashtags (i.e.: we excluded tweets containing both #Trump/#DonaldTrump and #Biden/#JoeBiden).</p>
 <pre class="r"><code>#Trump / #DonaldTrump tweets
 trump_df = 
   merge(
@@ -843,6 +843,9 @@ leaflet(map_data) %&gt;%
   }</code></pre>
 <p><img src="figures/wordcloud.png" /></p>
 <p>Users can explore tweet’s most frequent words by hashtag, by twitter user account original state’s winner party, or by specific text present within the tweet. Because the most frequent words are common among various selected parameters, we opted to allow users to remove a certain number of words from the top of the list. By doing so, it is possible to observe more sensitive differences among tweets.</p>
+</div>
+<div id="discussion" class="section level3">
+<h3>Discussion</h3>
 </div>
 
 
