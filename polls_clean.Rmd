@@ -205,7 +205,7 @@ mid_prop + south_prop + west_prop + northeast_prop + plot_layout(guides = "colle
 
 ## Expected Raw Votes by Candidate    
 
-This bar graph is to provide additional information for The expected number  of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state. 
+This bar graph is to provide additional information for voting breakdown of the candidates between The expected number  of votes for each candidate in the 2020 Presidential Race was expected to be marginly thin. The bar graph below show the voting breakdown by state. 
 
 ```{r Candidate_Total_Votes, echo=FALSE, message=FALSE, warning=FALSE}
 colors <- c("dark red", "dark blue")
