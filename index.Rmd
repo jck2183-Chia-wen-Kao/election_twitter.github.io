@@ -53,7 +53,7 @@ We hypothesize that social media can be beneficial in identifying electoral beha
 
 [**Project Report**](report.html): An overview of project aims, data cleaning, visualization/analyses, and discussion.  
 
-[**Screencast**](link to screencast) A brief 2 minute screencast of our project can be found.
+[**Screencast**](https://youtu.be/ZKCDHL3uTjc) A brief 2 minute screencast of our project can be found.
 
 
 
