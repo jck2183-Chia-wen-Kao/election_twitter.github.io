@@ -131,9 +131,8 @@ main_tweets_usa =
   )
 ```
 
-### Plots
-Characterizing tweets
-TODO : use the same colors
+We then explored the data to characterize the distribution of tweets across different locations and time to see if there were any patterns or trends.
+We first plot the distribution of Biden and Trump tweets across states.
 
 ```{r}
 tweets_usa %>%
@@ -144,7 +143,10 @@ geom_col(aes(x=state, y=count, fill = hashtag ), position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = "Distribution of tweets across US states")
 ```
+We observe abnormal distribution of tweets density across states with California and New York being the most active states with more than 15,000 tweets during October-November. That aligns with our prior expectations. Other active states included Florida and Texas, which was unexpected. Overall, more urban states tended to be more active on discussing candidates.
+Almost in each state Trump gained more attention with Ohio being the only exception.
 
+We then looked at the distribution of tweets across time and attempted to estimate if there is a significant difference in hashtag use over time between the two candidates.
 
 ```{r}
 tweets_usa %>% 
@@ -162,8 +164,11 @@ labs (title = "Distribution of tweets over time",
         y = "Number of tweets")
 ```
 
-We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)
+We saw that there is an increase in tweets over time with a peak two days aafter the election day when the preliminary results were revealed. Biden was mentioned less frequently at each time point except for Novemeber 4. Although the difference wasn't statistically significant, we observed several outliers with unusually high rate of tweets with #Trump hashtag (October 16 and October 23).
 
+
+We saw that Trump was mentioned more often. But who talked about him? As the next step, we wanted to look at the correlation between user popularity (authority) and candidates this user mentions. As a proxy for user's popularity we selected the number of followers. to characterize tweets we multiplied the number of likes per tweet with a number of re-shares to reflect on how much attention a tweet gained.
+We plotted the data with number of user's followers on X axis and number of re-shares on Y axis. Each dot represented a tweet and its size correlated with the number of likes. 
 
 ```{r}
 
@@ -184,7 +189,11 @@ geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size
 ```
  
 
+We observed that the users with a lot of followers tweeted about Trump more than about Biden. On the other hand, those tweets were not popular - they were not liked or re-shared. On the other hand, there are popular tweets related to Biden with a lot of likes and re-tweets (in the middle of the plot). Regardless of the number of followers or re-tweets, messages about Trump are significantly less liked.
 
+
+
+Interestingly enough, we saw that California not only talked about Trump more, but also re-shared and liked tweets with Trump more (regardless of the tone of those tweets). New York, on the other hand, liked and shared tweets primarily about Biden. In fact, no strong correlation between tweet behavior and electorate attitude can be observed.
 
 ```{r}
 
@@ -215,9 +224,9 @@ states_tweet_map <- left_join(usa_map, tweet_map)
 ```
 
 
+Given that New York was among the most active states, we wanted to look at the popular tweets in different boroughs. Unfortunately, the data only provided rough estimate of user location.
+Nevertheless, Bronx, Brooklyn and a part of Queens talked about Trump more.
 
-
-for NYC map over boroughs + plot them over map 
 ```{r, eval = FALSE}
     NY <-tweets_usa %>% 
     filter (state_code == 'NY' & city == 'New York') %>%
