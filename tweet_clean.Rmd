@@ -1,16 +1,16 @@
 ---
-title: "Twitter data exploratory analysis"
+title: "**Twitter Data Exploratory Analysis**"
 output:   
   html_document:
+    toc: true
+    toc_float: true
     code_folding: hide
-    toc: true  
-    source: embed
 ---
 
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(maps)
-library(tigris)
+#library(tigris)
 library(dplyr)
 library(leaflet)
 library(sp)
@@ -19,11 +19,16 @@ library(maptools)
 library(broom)
 library(httr)
 library(rgdal)
+
+## Colors by candidate 
+colors = c("dark red", "dark blue")
+names(colors) = c("Trump", "Biden")
 ```
 
-## Data import and cleaning
+# Data import and cleaning
 
-Data import. Merge Trump and Biden tweets, separating dates (creation, join) into day, month and year and assigning a hashtag.
+_Election Tweet_ data was imported, merged, and cleaned - check our [report](report.html) for details. We limited our analysis to tweets from users registered within the U.S. and with only one of the cadidates hashtags (i.e.: we excluded tweets containing both #Trump/#DonaldTrump and #Biden/#JoeBiden).
+
 
 ```{r data, eval = TRUE,  echo=FALSE, message=FALSE, warning=FALSE}
 trump_df = 
@@ -51,18 +56,8 @@ biden_df =
   separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
   separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
   mutate(hashtag = "Biden")
-```
 
-Description of the datasets:
-the datasets include date of tweet (y,m,d), tweet id, text of tweet, number of likes and re-shares, user id, number of followers for that user and location  of tweet (city, country, state and latitude with longitude).
-
-
-```{r proceessing,  echo=FALSE, message=FALSE, warning=FALSE}
-# Joining dfs and subsetting for US
-tweets = 
-  merge(biden_df, trump_df, all = TRUE)
-
-# Subset with USA tweets only
+# Joining dfs and subsetting with USA tweets only
 tweets_usa =
   merge(biden_df, trump_df, all = TRUE) %>% 
   filter(country == "United States of America")
@@ -96,24 +91,24 @@ main_tweets_usa =
   )
 ```
 
-## Creating plots to characterize tweets
+***
 
-### Distibution of tweets for Biden and Trump across states
+# Exploring _Election Tweet_ Data
+
+## *Distibution of #Biden and #Trump tweets across states*
+
 ```{r distr, message = FALSE}
 tweets_usa %>%
 group_by(state, hashtag)%>%
 summarise(count = n()) %>%  
 ggplot() +
-geom_col(aes(x=state, y=count, color = hashtag ), position = "dodge") +
+geom_col(aes(x=state, y=count, fill = hashtag ), position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  labs (title = "Distribution of tweets across US states")
+#  labs (title = "Distribution of tweets across US states") +
+  scale_fill_manual(values = colors)
 ```
-<<<<<<< HEAD
-Distribution of tweets for Trump and Biden over time
-=======
 
-### Distribution of tweets for Trump and Beiden over time
->>>>>>> 8c3dbd7d6b83006b4a82f74d1705085cb5b14d96
+## *Distribution of #Trump and #Beiden tweets over time*
 
 ```{r dis-time, message = FALSE}
 tweets_usa %>% 
@@ -127,31 +122,36 @@ geom_vline(xintercept = as.Date("2020-11-02")) +
 annotate("text", x = as.Date("2020-11-02"), y = 6000, angle = 90, label = "Election", vjust = 1.2, parse = TRUE) +  
 theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
 scale_x_date(date_breaks = '1 day') +
-labs (title = "Distribution of tweets over time", 
+labs (#title = "Distribution of tweets over time", 
         x = "Day",
-        y = "Number of tweets")
+        y = "Number of tweets") +
+scale_color_manual(values = colors)
 ```
 
-We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)
+We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant).
 
 
-### Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
+## *Tweet Popularity*
+
+Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
+
 ```{r like, message = FALSE}
 tweets_usa %>%
-group_by(hashtag)%>%
-filter (retweet_count>0 & likes>0) %>%
-filter (user_followers_count<=3750110) %>%# filter outliers  
+group_by(hashtag) %>%
+filter(retweet_count > 0 & likes > 0) %>%
+filter(user_followers_count <= 3750110) %>% # filter outliers  
 mutate(user_followers_count = user_followers_count/1000) %>%
 ggplot() +
-geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size = likes  )) +
-  labs (title = "How tweets are shared and liked depending on the number of followers", 
+geom_point(aes(x = user_followers_count , y = retweet_count, color = hashtag, size = likes  )) +
+  labs(#title = "How tweets are shared and liked depending on the number of followers", 
         x = "Numer of users, thousands",
-        y = "Number of retweets")
+        y = "Number of retweets") +
+scale_color_manual(values = colors)
 ```
  
 We see that the users with a lot of followers tweet about Trump but those tweets are not liked or re-shared. On the other hand, there are popular tweets related to Trup with a lot of likes and re-tweets,
 
-### Plot US states with the most popular tweets by the candidate
+## *Plot US states with the most frequent cadidate hashtag tweets by the candidate*
 
 ```{r map, message = FALSE, warning = FALSE}
 
@@ -177,12 +177,14 @@ states_tweet_map <- left_join(usa_map, tweet_map)
             aes(x = long, y = lat,
                 group = group, fill = top)) +
     geom_polygon(color = "gray90", size = 0.1) +
-    labs(title ="Most popular tweets across states")
+#    labs(title = "Most popular tweets across states") +
+    scale_fill_manual(values = colors)
   
 ```
 
-### Distribution of tweets for NYC boroughs 
-```{r nyc, message = FALSE, warning = FALSE}
+## *Distribution of tweets for NYC boroughs*
+
+```{r nyc, message = FALSE, warning = FALSE, eval = FALSE}
 NY <-tweets_usa %>% 
 filter (state_code == 'NY' & city == 'New York') %>%
 filter (likes>10 & retweet_count>10) %>%
