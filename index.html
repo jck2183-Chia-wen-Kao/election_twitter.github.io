@@ -22,8 +22,19 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -277,16 +288,20 @@ $(document).ready(function () {
   <a href="polls_clean.html">Poll Data</a>
 </li>
 <li>
-  <a href="election_result.html">Election Results Data</a>
-</li>
-<li>
   <a href="tweet_clean.html">Twitter Data</a>
 </li>
 <li>
-  <a href="wc_redirect.html">Word Cloud</a>
+  <a href="election_result.html">Election Results Data</a>
 </li>
 <li>
+<<<<<<< HEAD
   <a href="comparison_over_datasets-.html">Comparison over datasets</a>
+=======
+  <a href="comparison_over_datasets.html">Comparison over datasets</a>
+</li>
+<li>
+  <a href="wc_redirect.html">Tweet Word Cloud</a>
+>>>>>>> 2ae1db8d314d278a935d777400b07ed94c0622a3
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -335,8 +350,8 @@ source: twitter
 <div id="motivation" class="section level2">
 <h2>Motivation</h2>
 <p>US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions (<a href="https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/">US PresidentialElection Polls Failure</a>). Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models.</p>
-<p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (Can Twitter Data Forecast Presidential Elections?) (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704" class="uri">https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
-<p>We hypothesize that social media (within the US and potentially outside of the US) can be beneficial in identifying elelectoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
+<p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704">Can Twitter Data Forecast Presidential Elections?</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
+<p>We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
 </div>
 <div id="data-sources" class="section level2">
 <h2>Data Sources</h2>
@@ -346,17 +361,17 @@ source: twitter
 </div>
 <div id="website-overview" class="section level2">
 <h2>Website Overview</h2>
-<p><a href="report.html"><strong>Project Report</strong></a>: An overview of project aims, data cleaning, visualization/analyses, and discussion.</p>
-<p><a href="polls_clean.html"><strong>Polls Visualizations</strong></a>: Various plots and graphs to visualize trends in voting trends by state.</p>
-<p><a href="election_result.html"><strong>Election Results Visualisation</strong></a>:</p>
-<p><a href="tweet_clean.html"><strong>Twitter Visualization</strong></a>:</p>
-<p><a href="wc_redirect.html"><strong>Twitter Word Cloud</strong></a>: Interactive tool to explore most frequent words within tweets accordingly to user defined parameters. (<em>pop-up window</em>)</p>
+<p><a href="polls_clean.html"><strong>Polls Visualizations</strong></a>: Various plots and graphs to visualize trends in voting by state.</p>
+<p><a href="tweet_clean.html"><strong>Twitter Visualization</strong></a>: Various plots and graphs of tweet-related data</p>
+<p><a href="election_result.html"><strong>Election Results Visualisation</strong></a>: Various plots and graphs of election results by region and state.</p>
 <p><a href="TBD"><strong>Polls vs. Tweets Comparison</strong></a>: Comparing association between polls data and tweet data with presidential outcome by state.</p>
+<p><a href="wc_redirect.html"><strong>Tweet Word Cloud</strong></a>: Interactive tool to explore most frequent words within tweets accordingly to user defined parameters. (<em>pop-up window</em>)</p>
+<p><a href="report.html"><strong>Project Report</strong></a>: An overview of project aims, data cleaning, visualization/analyses, and discussion.</p>
 <p><a href="link%20to%20screencast"><strong>Screencast</strong></a> A brief 2 minute screencast of our project can be found.</p>
  
 <hr />
 <p style="text-align: center;">
-<a href="">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://jck2183-chia-wen-kao.github.io/jck2183_hw4.github.io/about.html">Kao, Chia-Wen</a>| <a href="">Ostropolets, Anna</a>
+<a href="https://github.com/achansak94">Chankasaul, JR</a> | <a href="https://tbd2117.github.io">de Araujo, Thiago</a> | <a href="https://jck2183-chia-wen-kao.github.io/jck2183_hw4.github.io/about.html">Kao, Chia-Wen</a>| <a href="https://github.com/aostropolets">Ostropolets, Anna</a>
 </p>
 <p style="text-align: center; ">
 2020
@@ -372,7 +387,7 @@ source: twitter
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

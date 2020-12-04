@@ -1,6 +1,9 @@
 ---
 title: "Comparison over three datasets"
-author: "ao2671, ac4635, jck2183, tbd2117"
+<<<<<<< HEAD
+author: "Ostropolets, Anna(ao2671), Chankasaul, JR(ac4635), Kao, Chia-wen(jck2183), de Araujo, Thiago(tbd2117)"
+=======
+>>>>>>> 001d6a0d944c1bbe14ed89d19aa435141cdff71a
 output: 
   html_document:
     code_folding: hide
@@ -88,94 +91,6 @@ ggplot(data = usa_election_map,
 
 ggplotly(election_result_map, tooltip = "text")
 ```
-
-
-### Tweets regarding 2020 Presidential Election 
-
-
-```{r, message=FALSE, warning= FALSE}
-trump_df = 
-  merge(
-    read_csv("./datasets/trump1.csv"),
-    read_csv("./datasets/trump2.csv"),
-    all = TRUE
-  ) %>%
-  select(!X1) %>% 
-  separate(created_at, into = c("creation_date", "creation_time"), sep = " ") %>% 
-  separate(creation_date, into = c("creation_year", "creation_month", "creation_day"), sep = "-") %>% 
-  separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
-  separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
-  mutate(hashtag = "Trump")
-
-biden_df = 
-  merge(
-    read_csv("./datasets/biden1.csv"),
-    read_csv("./datasets/biden2.csv"),
-    all = TRUE
-  ) %>%
-  select(!X1) %>%  
-  separate(created_at, into = c("creation_date", "creation_time"), sep = " ") %>% 
-  separate(creation_date, into = c("creation_year", "creation_month", "creation_day"), sep = "-") %>% 
-  separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
-  separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
-  mutate(hashtag = "Biden")
-```
-
-```{r, message=FALSE}
-tweets_usa =
-  merge(biden_df, trump_df, all = TRUE) %>% 
-  filter(country == "United States of America")
-```
-
-
-```{r, message=FALSE, warning=FALSE}
-usa_map <- map_data("state")
-
-tweet_map <- tweets_usa %>%
-group_by(state, hashtag) %>%
-summarise(count = n(),
-          likes = sum(likes)) %>%  
-mutate (likes_tweets = likes*count,
-        region = tolower(state)) %>%
-select (region, hashtag, likes_tweets)  %>%
-pivot_wider(names_from = "hashtag",
-            values_from = "likes_tweets")  %>%
-mutate(top = case_when(Biden>coalesce(Trump,0) ~ "Biden",
-                       Trump>Biden ~ "Trump"))
-
-
-states_tweet_map <- left_join(usa_map, tweet_map) %>% 
-  mutate( top = recode( top, 
-    "Trump" = "Donald Trump", 
-    "Biden" = "Joe Biden"
-  ))
-
-colors <- c("dark red", "dark blue")
-names(colors) = c("Donald Trump", "Joe Biden")
-
-tweet_result_map = 
-  ggplot(data = states_tweet_map,
-            aes(x = long, y = lat,
-                group = group, fill = top, 
-                text = paste("State: ", state , 
-                 "</br></br>Candidate: ", top ))) +
-    geom_polygon(color = "gray90", size = 0.1) +
-    labs(title = "Tweets Results across states") + 
-    scale_fill_manual(values = colors) +
-    theme_void() +
-    theme(
-        axis.title.x = element_blank(),
-        axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(), 
-        axis.title.y = element_blank(),
-        axis.text.y = element_blank(),
-        axis.ticks.y = element_blank(), 
-        legend.position = "bottom") 
-    
-
-ggplotly(tweet_result_map, tooltip = "text")    
-```
-
 
 ### Poll regarding 2020 Presidential Election 
 
@@ -295,6 +210,95 @@ election_map=
 
 ggplotly(election_map , tooltip = "text")
 ```
+
+
+### Tweets regarding 2020 Presidential Election 
+
+
+```{r, message=FALSE, warning= FALSE}
+trump_df = 
+  merge(
+    read_csv("./datasets/trump1.csv"),
+    read_csv("./datasets/trump2.csv"),
+    all = TRUE
+  ) %>%
+  select(!X1) %>% 
+  separate(created_at, into = c("creation_date", "creation_time"), sep = " ") %>% 
+  separate(creation_date, into = c("creation_year", "creation_month", "creation_day"), sep = "-") %>% 
+  separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
+  separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
+  mutate(hashtag = "Trump")
+
+biden_df = 
+  merge(
+    read_csv("./datasets/biden1.csv"),
+    read_csv("./datasets/biden2.csv"),
+    all = TRUE
+  ) %>%
+  select(!X1) %>%  
+  separate(created_at, into = c("creation_date", "creation_time"), sep = " ") %>% 
+  separate(creation_date, into = c("creation_year", "creation_month", "creation_day"), sep = "-") %>% 
+  separate(user_join_date, into = c("join_date", "join_time"), sep = " ") %>% 
+  separate(join_date, into = c("join_year", "join_month", "join_day"), sep = "-") %>% 
+  mutate(hashtag = "Biden")
+```
+
+```{r, message=FALSE}
+tweets_usa =
+  merge(biden_df, trump_df, all = TRUE) %>% 
+  filter(country == "United States of America")
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+usa_map <- map_data("state")
+
+tweet_map <- tweets_usa %>%
+group_by(state, hashtag) %>%
+summarise(count = n(),
+          likes = sum(likes)) %>%  
+mutate (likes_tweets = likes*count,
+        region = tolower(state)) %>%
+select (region, hashtag, likes_tweets)  %>%
+pivot_wider(names_from = "hashtag",
+            values_from = "likes_tweets")  %>%
+mutate(top = case_when(Biden>coalesce(Trump,0) ~ "Biden",
+                       Trump>Biden ~ "Trump"))
+
+
+states_tweet_map <- left_join(usa_map, tweet_map) %>% 
+  mutate( top = recode( top, 
+    "Trump" = "Donald Trump", 
+    "Biden" = "Joe Biden"
+  ))
+
+colors <- c("dark red", "dark blue")
+names(colors) = c("Donald Trump", "Joe Biden")
+
+tweet_result_map = 
+  ggplot(data = states_tweet_map,
+            aes(x = long, y = lat,
+                group = group, fill = top, 
+                text = paste("State: ", state , 
+                 "</br></br>Candidate: ", top ))) +
+    geom_polygon(color = "gray90", size = 0.1) +
+    labs(title = "Tweets Results across states") + 
+    scale_fill_manual(values = colors) +
+    theme_void() +
+    theme(
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(), 
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(), 
+        legend.position = "bottom") 
+    
+
+ggplotly(tweet_result_map, tooltip = "text")    
+```
+
+
 
 ## Three different data comparison
 

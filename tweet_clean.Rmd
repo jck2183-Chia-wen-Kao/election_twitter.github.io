@@ -1,14 +1,16 @@
 ---
-title: "tweet_clean"
+title: "Twitter data exploratory analysis"
 output:   
   html_document:
+    code_folding: hide
+    toc: true  
     source: embed
 ---
 
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(maps)
-#library(tigris)
+library(tigris)
 library(dplyr)
 library(leaflet)
 library(sp)
@@ -19,9 +21,11 @@ library(httr)
 library(rgdal)
 ```
 
-Importing datasets and making dates "tidy-er"
+## Data import and cleaning
 
-```{r, warning = FALSE, message = FALSE}
+Data import.Merge Trump and Biden tweets, separating dates (creation, join) into day, month and year and assigning a hashtag.
+
+```{r data, eval = TRUE,  echo=FALSE, message=FALSE, warning=FALSE}
 trump_df = 
   merge(
     read_csv("./datasets/trump1.csv"),
@@ -49,23 +53,21 @@ biden_df =
   mutate(hashtag = "Biden")
 ```
 
-Description of the dfs:
-date of tweet (y,m,d), tweet_id (may be issues with column format), tweet, # of likes, reshares, user, followers, location (city, country, state, lat-long)
+Description of the datasets:
+the datasets include date of tweet (y,m,d), tweet id, text of tweet, number of likes and re-shares, user id, number of followers for that user and location  of tweet (city, country, state and latitude with longitude).
 
-Joining dfs and subsetting for US
 
-```{r}
-# tweets = merge(biden_df, trump_df, all = TRUE)
+```{r proceessing,  echo=FALSE, message=FALSE, warning=FALSE}
+# Joining dfs and subsetting for US
+tweets = 
+  merge(biden_df, trump_df, all = TRUE)
 
 # Subset with USA tweets only
 tweets_usa =
   merge(biden_df, trump_df, all = TRUE) %>% 
   filter(country == "United States of America")
-```
-
-Election stuff
-
-```{r, message = FALSE}
+  
+ # Importing election data
 election_df =
   read_csv("./datasets/president_county_candidate.csv") %>% 
   group_by(state, party) %>% 
@@ -83,11 +85,9 @@ state_election_df =
   filter(state_winner == TRUE) %>% 
   select(state, candidate, party, party_total, state_total) %>% 
   distinct()
-```
+  
+#Joining tweet data and election data
 
-joining df
-
-```{r}
 main_tweets_usa = 
   left_join(tweets_usa, state_election_df, by = "state") %>% 
   rename(
@@ -96,22 +96,21 @@ main_tweets_usa =
   )
 ```
 
-## Plots
-Characterizing tweets
-TODO : use the same colors
+## Creating plots to characterize tweets
 
-```{r}
+Distibution of tweets for Biden and Trump across states
+```{r distr, message = FALSE}
 tweets_usa %>%
 group_by(state, hashtag)%>%
 summarise(count = n()) %>%  
 ggplot() +
-geom_col(aes(x=state, y=count, fill = hashtag ), position = "dodge") +
+geom_col(aes(x=state, y=count, color = hashtag ), position = "dodge") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   labs (title = "Distribution of tweets across US states")
 ```
+Distribution of tweets for Trump and Beiden over time
 
-
-```{r}
+```{r dis-time, message = FALSE}
 tweets_usa %>% 
 mutate(date = as.Date(paste(creation_month, creation_day, '2020', sep = "/"), format  = "%m/%d/%y")) %>%  
 group_by (date, hashtag) %>%
@@ -120,6 +119,7 @@ ggplot(aes(x=date,y=count,color = hashtag)) +
 geom_smooth(method = "lm") +
 geom_point(aes(x=date, y=count, color = hashtag)) +
 geom_vline(xintercept = as.Date("2020-11-02")) +
+annotate("text", x = as.Date("2020-11-02"), y = 6000, angle = 90, label = "Election", vjust = 1.2, parse = TRUE) +  
 theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
 scale_x_date(date_breaks = '1 day') +
 labs (title = "Distribution of tweets over time", 
@@ -130,12 +130,8 @@ labs (title = "Distribution of tweets over time",
 We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant)
 
 
-```{r}
-
-#tweets_usa %>%
-#select (user_followers_count) %>%
-#  arrange(desc(user_followers_count))
-
+Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
+```{r like, message = FALSE}
 tweets_usa %>%
 group_by(hashtag)%>%
 filter (retweet_count>0 & likes>0) %>%
@@ -148,10 +144,11 @@ geom_point(aes(x= user_followers_count , y= retweet_count, color = hashtag, size
         y = "Number of retweets")
 ```
  
+We see that the users with a lot of followers tweet about Trump but those tweets are not liked or re-shared. On the other hand, there are popular tweets related to Trup with a lot of likes and re-tweets,
 
+Plotting US states with the most popular tweets by the candidate
 
-
-```{r}
+```{r map, message = FALSE, warning = FALSE}
 
 usa_map <- map_data("state")
 
@@ -179,15 +176,12 @@ states_tweet_map <- left_join(usa_map, tweet_map)
   
 ```
 
-
-
-
-for NYC map over boroughs + plot them over map 
-```{r, eval = FALSE}
-    NY <-tweets_usa %>% 
-    filter (state_code == 'NY' & city == 'New York') %>%
-    filter (likes>10 & retweet_count>10) %>%
-    select (lat, long, hashtag, likes, retweet_count)
+Distribution of tweets for NYC boroughs 
+```{r nyc, message = FALSE, warning = FALSE}
+NY <-tweets_usa %>% 
+filter (state_code == 'NY' & city == 'New York') %>%
+filter (likes>10 & retweet_count>10) %>%
+select (lat, long, hashtag, likes, retweet_count)
 
 r <- GET('http://data.beta.nyc//dataset/0ff93d2d-90ba-457c-9f7e-39e47bf2ac5f/resource/35dd04fb-81b3-479b-a074-a27a37888ce7/download/d085e2f8d0b54d4590b1e7d1f35594c1pediacitiesnycneighborhoods.geojson')
 nyc_neighborhoods <- readOGR(content(r,'text'), 'OGRGeoJSON', verbose = F)
@@ -204,7 +198,6 @@ leaflet(map_data) %>%
   addTiles() %>% 
   addPolygons(popup = ~hashtag) %>% 
   addMarkers(~long, ~lat, popup = ~hashtag, data = points) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  setView(-75, 40.75, zoom = 10)
+  addProviderTiles("CartoDB.Positron") 
 
 ```

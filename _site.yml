@@ -5,14 +5,14 @@ navbar:
   left:
     - text: "Poll Data"
       href: polls_clean.html 
-    - text: "Election Results Data"
-      href: election_result.html 
     - text: "Twitter Data"
       href: tweet_clean.html 
-    - text: "Word Cloud"
-      href: wc_redirect.html
+    - text: "Election Results Data"
+      href: election_result.html 
     - text: "Comparison over datasets"
-      href: comparison_over_datasets-.html
+      href: comparison_over_datasets.html
+    - text: "Tweet Word Cloud"
+      href: wc_redirect.html
   right:
     - text: "Project Report"
       href: report.html
