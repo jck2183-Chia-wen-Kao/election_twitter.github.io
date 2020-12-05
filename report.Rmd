@@ -10,7 +10,7 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(maps)
-#library(tigris)
+library(tigris)
 library(dplyr)
 library(leaflet)
 library(sp)
@@ -337,7 +337,7 @@ states_tweet_map <- left_join(usa_map, tweet_map)
 Given that New York was among the most active states, we wanted to look at the popular tweets in different boroughs. Unfortunately, the data only provided rough estimate of user location.
 Nevertheless, Bronx, Brooklyn and a part of Queens talked about Trump more.
 
-```{r, message = FALSE, warning = FALSE, eval = FALSE}
+```{r, message = FALSE, warning = FALSE}
     NY <-tweets_usa %>% 
     filter (state_code == 'NY' & city == 'New York') %>%
     filter (likes>10 & retweet_count>10) %>%

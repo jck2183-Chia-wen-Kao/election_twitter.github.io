@@ -11,7 +11,7 @@ output:
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(maps)
-#library(tigris)
+library(tigris)
 library(dplyr)
 library(leaflet)
 library(sp)
@@ -185,7 +185,7 @@ states_tweet_map <- left_join(usa_map, tweet_map)
 
 ## *Distribution of tweets for NYC boroughs*
 
-```{r nyc, message = FALSE, warning = FALSE, eval = FALSE}
+```{r nyc, message = FALSE, warning = FALSE}
 NY <-tweets_usa %>% 
 filter (state_code == 'NY' & city == 'New York') %>%
 filter (likes>10 & retweet_count>10) %>%
