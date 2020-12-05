@@ -47,7 +47,7 @@ We hypothesize that social media can be beneficial in identifying electoral beha
 
 [**Election Results Visualisation**](election_result.html): Various plots and graphs of election results by region and state.
 
-[**Polls vs. Tweets Comparison**](TBD): Comparing association between polls data and tweet data with presidential outcome by state.   
+[**Polls vs. Tweets Comparison**](comparison_over_datasets.html): Comparing association between polls data and tweet data with presidential outcome by state.   
 
 [**Tweet Word Cloud**](wc_redirect.html): Interactive tool to explore most frequent words within tweets accordingly to user defined parameters. (_pop-up window_)
 
@@ -55,7 +55,9 @@ We hypothesize that social media can be beneficial in identifying electoral beha
 
 [**Screencast**](https://youtu.be/ZKCDHL3uTjc) A brief 2 minute screencast of our project can be found.
 
+## Source code
 
+The project is implemented in R and is stored in the [**Github repository**](https://github.com/tbd2117/election_twitter.github.io).
 
 ***
 
