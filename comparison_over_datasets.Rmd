@@ -351,7 +351,7 @@ comparison_df %>%
   kable_material(c("striped", "hover"))
 ```
 
-We found there are 27 states with tweets that are different with the election result. Perhaps the tweets relating to specific candidate are not necessarily positive but negative. We can explore the tweets with the word cloud app we built and obtain more insights. 
+We found there are 27 states with tweets that are different with the election result. Perhaps the tweets relating to specific candidate are not necessarily positive, but negative. We can explore the tweets with the word cloud app we built and obtain more insights. 
  
 ## *Difference among Tweet, Poll, and Election Result*
 

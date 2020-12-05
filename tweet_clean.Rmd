@@ -109,7 +109,7 @@ geom_col(aes(x=state, y=count, fill = hashtag ), position = "dodge") +
   scale_fill_manual(values = colors)
 ```
 
-## *Distribution of #Trump and #Beiden tweets over time*
+## *Distribution of #Trump and #Biden tweets over time*
 
 ```{r dis-time, message = FALSE}
 tweets_usa %>% 
@@ -131,7 +131,6 @@ scale_color_manual(values = colors)
 
 We see that there is an increase in tweets over time with Biden having less tweets overall (albeit not statistically significant).
 
-
 ## *Tweet Popularity*
 
 Plot of likes and re-shares of tweets for Biden and Trump based on user significance (number of followers)
@@ -150,9 +149,9 @@ geom_point(aes(x = user_followers_count , y = retweet_count, color = hashtag, si
 scale_color_manual(values = colors)
 ```
  
-We see that the users with a lot of followers tweet about Trump but those tweets are not liked or re-shared. On the other hand, there are popular tweets related to Trup with a lot of likes and re-tweets,
+We see that the users with a lot of followers tweet about Trump but those tweets are not liked or re-shared. On the other hand, there are popular tweets related to Trump with a lot of likes and re-tweets.
 
-## *Plot US states with the most frequent cadidate hashtag tweets by the candidate*
+## *Plot US states with the most frequent candidate hashtag tweets by the candidate*
 
 ```{r map, message = FALSE, warning = FALSE}
 

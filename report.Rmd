@@ -55,7 +55,7 @@ Challenges:
 
 1) Cleaning up tweets free-text or identifying meaningful variables in free text
 2) Processing the poll data to allow polls/tweets comparison
-2) Identifying proper model for correlation 
+3) Identifying proper model for correlation (completed through exploratory analysis)
 3) Building an interactive visualization embedded into a web site
 4) Handling large volume of data
 
@@ -64,7 +64,6 @@ While we were able to stick to our original plan, we constructed an interactive 
 ***
 
 ## Data Sources
-Questions to consider: scraping method, cleaning, etc.
 
 We used several datasets available online in this project. The data wrangling process, and dataframes created are described along with each section of the exploratory analysis and visualizations performed. Here is a list of the datasets used for this project:
 
@@ -91,7 +90,6 @@ Two datasets constructed from scraping Twitter for tweets either containing _#Bi
 ***
 
 ## Exploratory analysis
-Things to consider: Visualizations, summaries, and exploratory statistical analyses. Justify the steps you took, and show any major changes to your ideas.
 
 ###  *2020 Polls Visualisation* 
 
@@ -113,6 +111,9 @@ The `voteshare` and `winstate` variables to indicate Biden or Trump and converte
 #### Exploratory Analysis
 
 We used the polls dataset to explore the projected voter turnout by state and region as well as the breakdown of votes by candidate. President Trump victory in the 2016 election drew attention to the validity of polls and general polling performance. Voter turnout was explored at the state and US regional level because of the expected high voter turnout in the 2020 Presidential Election. A regional proportion of votes for each candidate was displayed to see who would win the popular vote in each region and contrast it to the twitter data frequency. Joe Biden was expected to win the popular vote in the Midwest, Northeast, and Western regions. Vote proportions and raw votes at the state-level gave a better understanding of the voting breakdown, especially in the key [battleground states](https://www.cnbc.com/2020/11/02/2020-election-polls-biden-leads-trump-in-six-swing-states.html): Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. The Voting Margin for the Incumbent by region showed that President Trump's strength for the election is in the Midwestern states, while his weakness is in the Northeastern states, where he is expected to get swept and lose all the electoral votes. The interactive map shows the candidate who won the state (by color) including the number of votes and proportion of votes to better visualize the expected results come election day. Donald Trump was expected to win a majority of the states in the Midwest, which is clearly reflected in the map. Joe Biden was expected to win states in the North and those along the West coast.  
+
+<image src = "polls_clean_files/pollsfigure.png" style = "width:75%">
+
 
 An unexpected challenge for this dataset was trying to plot that changes in vote share and win state probablility over time due to the clutterness of the dataset. Additionally, the polls data marginaly changed over time for most states and each candidate, therefore we decided to aggregate only the reported polls data in November, right before the election. There were also difficulties with mapping and plotting all 50 states, therefore we decided to breakdown the polling data by region to make the plots easier to visualize and interpret. Lastly, this dataset was collected from FiveThirtyEight and may have limitations because it is data from one polling site. 
 
@@ -657,7 +658,7 @@ Users can explore tweet's most frequent words by hashtag, by twitter user accoun
 
 **Tweets**. We obeserved in our _election tweets_ exploration an uneven distribution of tweets density across states with California and New York being the most active states.This aligns with our prior expectations that overall, more urban states tend to be more active on discussing candidates. In most states (all but Ohio) Trump gained more attention. This is confirmed with our tweet word cloud exploration tool where independent of user defined parameters, the word _Trump_ ranks top in terms of frequency within tweet text.
 
-Looking at the distribution of tweets across time, we saw that there is an increase in tweets over time with a peak two days after the election day when the preliminary results were revealed. Biden was mentioned less frequently at each time point except for November 4 (SOME NEWS ABOUT SOMETHING THAT COULD JUSTIFY THAT). Interestingly, we observed several outliers with unusually high rate of tweets with #Trump hashtag on October 16 and October 23 - both after Presidential debates. Also, our findings suggest that the popular users (with a lot of followers) tweeted more about Trump than about Biden. On the other hand, those tweets were not as liked or as re-shared as tweets containing #Biden. Regardless of the number of followers or re-tweets, messages about Trump are significantly less liked. Interestingly enough, we saw that California not only talked about Trump more, but also re-shared and liked tweets with Trump more (regardless of the tone of those tweets). New York, on the other hand, liked and shared tweets primarily about Biden. This supports the idea that social media is tied to political behavior and that twitter can be an important adjunct to better understand communication patterns and political preferences of individuals.
+Looking at the distribution of tweets across time, we saw that there is an increase in tweets over time with a peak two days after the election day when the preliminary results were revealed. Biden was mentioned less frequently at each time point except for November 4. Interestingly, we observed several outliers with unusually high rate of tweets with #Trump hashtag on October 16 and October 23 - both after Presidential debates. Also, our findings suggest that the popular users (with a lot of followers) tweeted more about Trump than about Biden. On the other hand, those tweets were not as liked or as re-shared as tweets containing #Biden. Regardless of the number of followers or re-tweets, messages about Trump are significantly less liked. Interestingly enough, we saw that California not only talked about Trump more, but also re-shared and liked tweets with Trump more (regardless of the tone of those tweets). New York, on the other hand, liked and shared tweets primarily about Biden. This supports the idea that social media is tied to political behavior and that twitter can be an important adjunct to better understand communication patterns and political preferences of individuals.
 
 **Election  Result Comparison**. Our findings  for the election results align with the poll anticipation, except for North Carolina and Florida, where Donald Trump won with a small proportion. In fact, except for North Carolina and Florida, Joe Biden has won the other battleground states: Arizona, Georgia,Michigan, Minnesota, Nevada, New Hampshire,  Pennsylvania, and Wisconsin. Among these battleground states,  Florida, Michigan, Pennsylvania, and Wisconsin are regarded as "Big Four" which are most likely to decide the electoral college. Among the "Big Four", Joe Biden has won three of the states, which may consider as a key component for him to win the election.
 

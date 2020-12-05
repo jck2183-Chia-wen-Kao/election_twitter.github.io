@@ -18,7 +18,7 @@ theme_set(theme(legend.position = "right"))
 
 # Data import and cleaning
 
-Merge the election result data with the region of the US, select and variables that contains numbers of votes and summarize them by states. This way, we can also calculate the votes proportion that two candidates got in each states in the election.
+Merge the election result data with the region of the US, select variables that contains numbers of votes and summarize them by states. This way, we can also calculate the votes proportion that two candidates got in each states in the election.
 
 ```{r, message = FALSE}
 vote_df = read_csv("./datasets/president_county_candidate.csv")
@@ -286,7 +286,7 @@ ggplotly(election_result_map, tooltip = "text") %>%
 
 # Conclusion
 
-We can see that most of the results align with the poll anticipation, but Donald Trump, with a small proportion, won North Carolina and Florida. In fact, except for North Carolina and Florida, Joe Biden has won the other battleground states: Arizona, Georgia,Michigan, Minnesota, Nevada, New Hampshire,  Pennsylvania, and Wisconsin. Among these battleground states,  Florida, Michigan, Pennsylvania, and Wisconsin are regarded as "Big Four" which are most likely to decide the electoral college. Among the "Big Four", Joe Biden has won three of the states, which may consider as a key component for him to win the election.
+We can see that most of the results align with the poll anticipation, but Donald Trump, with a small proportion, won North Carolina and Florida. In fact, except for North Carolina and Florida, Joe Biden has won the other battleground states: Arizona, Georgia, Michigan, Minnesota, Nevada, New Hampshire,  Pennsylvania, and Wisconsin. Among these battleground states,  Florida, Michigan, Pennsylvania, and Wisconsin are regarded as "Big Four" which are most likely to decide the electoral college. Among the "Big Four", Joe Biden has won three of the states, which may consider as a key component for him to win the election.
 
 
 ***
