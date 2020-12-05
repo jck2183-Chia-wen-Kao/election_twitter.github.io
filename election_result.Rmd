@@ -47,7 +47,7 @@ election_by_region =
         region_df, 
         by = "state"
     ) %>% 
-  select(-`State Code`) %>% 
+  select(-c(`State Code`, `Division`)) %>% 
   mutate(prop_votes = round(state_votes / state_subtotal,2)) 
 ```
 

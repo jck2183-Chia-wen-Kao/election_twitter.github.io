@@ -119,10 +119,28 @@ An unexpected challenge for this dataset was trying to plot that changes in vote
 ### *2020 Election Visualisation* 
 
 ####  Data Wrangling
-Insert text here 
+The election dataset containing the final county-levelwas downloaded as a .csv file and imported into R. The following variables of interest were selected into our dataframe for merging, exploratory analysis and data visualization:
+
+* `state`. Name of the state
+* `candidate`. Name of the candidates of two major party
+* `total_votes`. Total votes of each county in each state
+* `state_votes`. Sum of the county-level total votes by two major party in each state respectively
+* `state_subtotal`. Sum of the county-level total votes by each states
+* `party_total`. Total votes that two respective party got
+* `Region`. Categorize the states to corresponding region
+* `prop_votes`.	Vote proportion of each candidate.
+* `state_winner`. Logical variable for recogizing who got relatively more votes in each state
+
+
+The `state_votes` and `state_subtotal` variables to indicate Biden or Trump votes in each individual county and summarize these votes by candidate and state-level. The election dataset was merged with US regional dataset on the `state` variable prior to calculating each candidate's raw votes in each state dividing by subtotal votes in each state, producing the proportion of votes by the candidate in each state. To simplify the dataset, we only focus on the two major party candidate and organize the analysis by regions. All other variables were excluded for the election dataset for exploratory analysis.
 
 #### Exploratory Analysis
-Insert text here 
+
+We used the election dataset to understand the total votes by state and region as well as the breakdown of votes by candidate. Total states votes was summarized at the state and US regional level and expected to be compare with the expected voter turnout in Poll dataset. A regional proportion of votes for each candidate was displayed to see who would win the popular vote in each region and contrast it to the poll dataset and twitter data frequency. From the result bar plot, Joe Biden has won the Western and the Northeast by significant lead, while Donald Trump won the Midwest and the South with little proportion ahead. Vote proportions and raw votes at the state-level gave a better understanding of the voting breakdown, especially in the key [battleground states](https://www.cnbc.com/2020/11/02/2020-election-polls-biden-leads-trump-in-six-swing-states.html): Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin.  The interactive map shows the candidate who won the state (by color) including the number of votes and proportion of votes to better visualize the results of 2020 presidential election. 
+
+<image src = "election_result_files/electionresult.jpg" style = "width:75%">
+
+An unexpected challenge for this dataset was trying to plot the votes proportion by state as well as breakdown by regions because the raw data only include county-level votes. We have to search for extra dataset with region information and geographical information to visualize the result on the map, making the map easier to visualize and interpret.  Additionally, we also have limitations on displaying the map as we intended to show the three datasets in layers within one single plot and marked the battleground states, but failed to do so because being limited by current skills and knowledges.
 
 ### *2020 Election Tweet Data & Visualisation* 
 
