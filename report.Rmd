@@ -26,8 +26,6 @@ names(colors) = c("Trump", "Biden")
 
 
 ## Motivation and Related Work
-Questions to consider: Provide an overview of the project goals and motivation; 
-Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.
 
 US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions ([US PresidentialElection Polls Failure](https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/)). 
 Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models. 
@@ -36,35 +34,32 @@ On the other hand, the evolution of social media has been tied to political beha
 
 We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.    
 
-President Trump's huge upset in the 2016 election had the general public quest
-
-
-
 ***
 
 ## Initial questions 
-Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?
 
 In this project, we will:
 
-* Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a choropleth map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 election outcome. We will do the same with the polls. 
+*  Main Question: Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, likes) and election results.
 
-* Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, likes) and election results.
+* Secondary Question: Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 polls and election outcome.
 
-Suggested Plot/Charts at Proposal:  
+* Plot/Charts:  
 
 1) Distribution of #Biden/#Trump tweets by state;  
 2) US polls prediction of winning candidate by state   
 3) Graph of Current Votes by state for US Election Results  
 4) Interactive visualisization of tweets features and content and their distribution by state
 
-Projected Challenges during Proposal: 
+Challenges: 
 
 1) Cleaning up tweets free-text or identifying meaningful variables in free text
 2) Processing the poll data to allow polls/tweets comparison
 2) Identifying proper model for correlation 
 3) Building an interactive visualization embedded into a web site
 4) Handling large volume of data
+
+While we were able to stick to our original plan, we constructed an interactive shinny app to explore frequent words within tweets in the form of a word cloud, which we expand on in our Additional Analysis Section. 
 
 ***
 
@@ -86,7 +81,7 @@ This dataset contains county- and state-level data from 2020 US Election.
 ###  *US Regional Dataset* 
 [US States by Region](https://www.kaggle.com/omer2040/usa-states-to-region)
 
-This dataset contains  region information for each state.
+This dataset contains region information for each state.
 
 ### *2020 US Election Twitter Datasets* 
 [US Election Twitter](https://www.kaggle.com/manchunhui/us-election-2020-tweets)
@@ -371,7 +366,6 @@ leaflet(map_data) %>%
 *** 
 
 ## Additional Analysis
-Things to consider: If you undertake formal statistical analyses, describe these in detail
 
 ### *Tweet Word Clouds*
 
@@ -640,7 +634,6 @@ Users can explore tweet's most frequent words by hashtag, by twitter user accoun
 ***
 
 ## Discussion
-Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?
 
 **Polling**. Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don’t win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key battleground states: Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden’s projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the “Big Four” due to their high number of electoral votes. Ultimately, President Trump’s chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states.
 

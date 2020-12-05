@@ -374,7 +374,7 @@ div.tocify {
   <a href="report.html">Project Report</a>
 </li>
 <li>
-  <a href="link to screencast">
+  <a href="https://youtu.be/ZKCDHL3uTjc">
     <span class="fa fa-youtube-play fa-lg"></span>
      
   </a>
@@ -403,22 +403,19 @@ div.tocify {
 
 <div id="motivation-and-related-work" class="section level2">
 <h2>Motivation and Related Work</h2>
-<p>Questions to consider: Provide an overview of the project goals and motivation; Things to consider: Anything that inspired you, such as a paper, a web site, or something we discussed in class.</p>
 <p>US polls have been the center of attention in recent presidential elections due to the fact that the results have not accurately reflected predictions (<a href="https://news.northeastern.edu/2020/11/04/the-polls-were-still-way-off-in-the-2020-election-even-after-accounting-for-2016s-errors/">US PresidentialElection Polls Failure</a>). Pollsters suggest that the evidence of the 2016 and 2020 elections will improve polling models.</p>
 <p>On the other hand, the evolution of social media has been tied to political behavior such as voting (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0079449">Twitter as Indicator for Political Behavior</a>). Since the public is quickly losing the trust of polls for political elections, researchers are now exploring whether social media activity can be utilized to assess offline political behavior (<a href="https://www.tandfonline.com/doi/full/10.1080/19475683.2020.1829704">Can Twitter Data Forecast Presidential Elections?</a>). We believe that extracting online social networking environments can shed light on communication patterns and political preferences of individuals.</p>
 <p>We hypothesize that social media can be beneficial in identifying electoral behaviors. We want to use Twitter (specifically geocoding tweets referencing presidential candidates) to identify the political affiliation to that region.</p>
-<p>President Trump’s huge upset in the 2016 election had the general public quest</p>
 <hr />
 </div>
 <div id="initial-questions" class="section level2">
 <h2>Initial questions</h2>
-<p>Questions to consider: What questions are you trying to answer? How did these questions evolve over the course of the project? What new questions did you consider in the course of your analysis?</p>
 <p>In this project, we will:</p>
 <ul>
-<li><p>Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a choropleth map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 election outcome. We will do the same with the polls.</p></li>
-<li><p>Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, likes) and election results.</p></li>
+<li><p>Main Question: Explore possible correlations between Twitter election-related post and their features (e.g. tweet share, likes) and election results.</p></li>
+<li><p>Secondary Question: Compare tweets of #Biden/#Trump by county/state and US polls to see if tweets are more accurate of predicting presidential results. We will make a map to visualize states that tweeted #Biden and #Trump and compare it to the 2020 polls and election outcome.</p></li>
+<li><p>Plot/Charts:</p></li>
 </ul>
-<p>Suggested Plot/Charts at Proposal:</p>
 <ol style="list-style-type: decimal">
 <li>Distribution of #Biden/#Trump tweets by state;<br />
 </li>
@@ -428,7 +425,7 @@ div.tocify {
 </li>
 <li>Interactive visualisization of tweets features and content and their distribution by state</li>
 </ol>
-<p>Projected Challenges during Proposal:</p>
+<p>Challenges:</p>
 <ol style="list-style-type: decimal">
 <li>Cleaning up tweets free-text or identifying meaningful variables in free text</li>
 <li>Processing the poll data to allow polls/tweets comparison</li>
@@ -436,6 +433,7 @@ div.tocify {
 <li>Building an interactive visualization embedded into a web site</li>
 <li>Handling large volume of data</li>
 </ol>
+<p>While we were able to stick to our original plan, we constructed an interactive shinny app to explore frequent words within tweets in the form of a word cloud, which we expand on in our Additional Analysis Section.</p>
 <hr />
 </div>
 <div id="data-sources" class="section level2">
@@ -703,7 +701,6 @@ leaflet(map_data) %&gt;%
 </div>
 <div id="additional-analysis" class="section level2">
 <h2>Additional Analysis</h2>
-<p>Things to consider: If you undertake formal statistical analyses, describe these in detail</p>
 <div id="tweet-word-clouds" class="section level3">
 <h3><em>Tweet Word Clouds</em></h3>
 <p>We constructed an interactive shinyapp to display the most frequent words within tweets selected according to user-defined parameters in the form of word clouds. We used the <code>tm</code> package to clean tweet text of non-textual elements as well as stop words (both english and spanish). We developed a custom function <code>wordcount_df</code> that incorporates functions of this package and <em>tidyverse</em> elements to construct dataframes with a <code>word</code> and a <code>freq</code> column. This dataframe is the raw material for the <code>wordcloud2</code> package. It has several functionalities to create word clouds and with the <em>renderwordcloud2</em> function it can be incorporated into a <a href="wc_redirect.html">shinyapp©</a>.</p>
@@ -966,7 +963,6 @@ leaflet(map_data) %&gt;%
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
-<p>Questions to consider: What were your findings? Are they what you expect? What insights into the data can you make?</p>
 <p><strong>Polling</strong>. Due to the contentious nature of the 2020 election, mathematical models and mainstream media predicted voter turnout to shatter record books and be astronomically higher than recent presidential elections. We had two barplots, projected voter turnout by state and region, to compare with actual 2020 election results. While raw votes don’t win an election, Joe Biden was expected to have a higher voter turnout in 3 out of the 4 regions and thus the popular vote. When we observe the proportion of votes by states, President Trump was not expected to win any of the key battleground states: Arizona, Florida, Michigan, North Carolina, Pennsylvania and Wisconsin. However, Joe Biden’s projected margin of victory in North Carolina, Pennsylvannia and Florida were razor thin as seen in the voter margin bar graph. Florida, Michigan, Pennsylvania, and Wisconsin are regarded as the “Big Four” due to their high number of electoral votes. Ultimately, President Trump’s chances for re-election to a second term hinged on his ability to galvinize enough voters in these 6 key states.</p>
 <p><strong>Tweets</strong>. We obeserved in our <em>election tweets</em> exploration an uneven distribution of tweets density across states with California and New York being the most active states.This aligns with our prior expectations that overall, more urban states tend to be more active on discussing candidates. In most states (all but Ohio) Trump gained more attention. This is confirmed with our tweet word cloud exploration tool where independent of user defined parameters, the word <em>Trump</em> ranks top in terms of frequency within tweet text.</p>
 <p>Looking at the distribution of tweets across time, we saw that there is an increase in tweets over time with a peak two days after the election day when the preliminary results were revealed. Biden was mentioned less frequently at each time point except for November 4 (SOME NEWS ABOUT SOMETHING THAT COULD JUSTIFY THAT). Interestingly, we observed several outliers with unusually high rate of tweets with #Trump hashtag on October 16 and October 23 - both after Presidential debates. Also, our findings suggest that the popular users (with a lot of followers) tweeted more about Trump than about Biden. On the other hand, those tweets were not as liked or as re-shared as tweets containing #Biden. Regardless of the number of followers or re-tweets, messages about Trump are significantly less liked. Interestingly enough, we saw that California not only talked about Trump more, but also re-shared and liked tweets with Trump more (regardless of the tone of those tweets). New York, on the other hand, liked and shared tweets primarily about Biden. This supports the idea that social media is tied to political behavior and that twitter can be an important adjunct to better understand communication patterns and political preferences of individuals.</p>
